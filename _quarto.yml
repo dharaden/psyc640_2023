@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "stats_site"
+  title: "PSYC 640 - Grad Stats"
   navbar:
     left:
       - href: index.qmd

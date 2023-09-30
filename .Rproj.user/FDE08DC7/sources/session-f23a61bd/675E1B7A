@@ -3,7 +3,7 @@
     "path": "~/GitHub/dharaden.github.io/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "3999431795",
+    "hash": "3637885297",
     "contents": "",
     "dirty": false,
     "created": 1696090682910.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "15,7",
+        "cursorPosition": "5,31",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1696093470,
+    "lastKnownWriteTime": 1696094635,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1696093470172,
+    "last_content_update": 1696094635782,
     "read_only": false,
     "read_only_alternatives": []
 }
