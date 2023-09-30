@@ -9,7 +9,9 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-
+      - text: "Lectures"
+        menu: 
+          - text: "Week 5"
 format:
   html:
     theme: cosmo
