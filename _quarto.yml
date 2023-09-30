@@ -12,6 +12,7 @@ website:
       - text: "Lectures"
         menu: 
           - text: "Week 5"
+            href: "lectures/05_Pre-Lab.html"
 format:
   html:
     theme: cosmo
