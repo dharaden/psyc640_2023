@@ -11,8 +11,10 @@ website:
       - about.qmd
       - text: "Lectures"
         menu: 
-          - text: "Week 5"
+          - text: "Week 5 - Pre-Lab"
             href: "lectures/05_Pre-Lab.html"
+          - text: "Week 5 - Hypotheses & Power"
+            href: "lectures/05_Hypothesis-Power"
 format:
   html:
     theme: cosmo
