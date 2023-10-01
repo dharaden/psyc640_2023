@@ -33,5 +33,215 @@
     "title": "Wk 5 - Hypothesis & Power",
     "section": "Some Terminology",
     "text": "Some Terminology\n\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\n\\(\\mu\\) (mu) = Population Mean\n\\(\\bar{X}\\) (x bar) = Sample Mean\n\n\n\\(\\sigma\\) (sigma) = Population Standard Deviation\n\\(s\\) = \\(\\hat{\\sigma}\\) = Sample Standard Deviation\n\n\n\\(\\sigma^2\\) (sigma squared) = Population Variance\n\\(s^2\\) = \\(\\hat{\\sigma^2}\\) = Sample Variance"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html",
+    "href": "lectures/05_Hypothesis-Power.html",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(gganimate)\nlibrary(pwr)\nlibrary(ggpubr)\nlibrary(transformr)\n\n\nSample statistics are biased estimates of the population\nCan construct confidence intervals around our sample statistics\n\nWe use (so far) the normal distribution & the t-distribution\n\nUp Next…Hypothesis testing!"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#recap",
+    "href": "lectures/05_Hypothesis-Power.html#recap",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Recap",
+    "text": "Recap\n\nlibrary(tidyverse)\nlibrary(gganimate)\nlibrary(pwr)\nlibrary(ggpubr)\nlibrary(transformr)\n\n\nSample statistics are biased estimates of the population\nCan construct confidence intervals around our sample statistics\n\nWe use (so far) the normal distribution & the t-distribution\n\nUp Next…Hypothesis testing!"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#hypothesis",
+    "href": "lectures/05_Hypothesis-Power.html#hypothesis",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Hypothesis",
+    "text": "Hypothesis\nWhat is a hypothesis?\nIn statistics, a hypothesis is a statement about the population. It is usually a prediction that a parameter describing some characteristic of a variable takes a particular numerical value, or falls into a certain range of values."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#hypothesis-1",
+    "href": "lectures/05_Hypothesis-Power.html#hypothesis-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Hypothesis",
+    "text": "Hypothesis\nFor example, dogs are characterized by their ability to read humans’ social cues, but it is (was) unknown whether that skill is biologically prepared. I might hypothesize that when a human points to a hidden treat, puppies do not understand that social cue and their performance on a related task is at-chance. We would call this a research hypothesis.\nThis could be represented numerically as, as a statistical hypothesis:\n\\[\\text{Proportion}_{\\text{Correct Performance}} = .50\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#the-null-hypothesis",
+    "href": "lectures/05_Hypothesis-Power.html#the-null-hypothesis",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "The null hypothesis",
+    "text": "The null hypothesis\nIn Null Hypothesis Significance Testing, we… test a null hypothesis.\nA null hypothesis ( \\(H_0\\) ) is a statement of no effect. The research hypothesis states that there is no relationship between X and Y, or our intervention has no effect on the outcome.\n\nThe statistical hypothesis is either that the population parameter is a single value, like 0, or that a range, like 0 or smaller."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#the-alternative-hypothesis",
+    "href": "lectures/05_Hypothesis-Power.html#the-alternative-hypothesis",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "The alternative hypothesis",
+    "text": "The alternative hypothesis\nAccording to probability theory, our sample space must cover all possible elementary events. Therefore, we create an alternative hypothesis ( \\(H_1\\) ) that is every possible event not represented by our null hypothesis.\n\n\n\\[H_0: \\mu = 4\\] \\[H_1: \\mu \\neq 4\\]\n\n\\[H_0: \\mu \\leq -7\\] \\[H_1: \\mu &gt; -7\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#the-tortured-logic-of-nhst",
+    "href": "lectures/05_Hypothesis-Power.html#the-tortured-logic-of-nhst",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "The tortured logic of NHST",
+    "text": "The tortured logic of NHST\nWe create two hypotheses, \\(H_0\\) and \\(H_1\\). Usually, we care about \\(H_1\\), not \\(H_0\\). In fact, what we really want to know is how likely \\(H_1\\), given our data.\n\\[P(H_1|Data)\\] Instead, we’re going to test our null hypothesis. Well, not really. We’re going to assume our null hypothesis is true, and test how likely we would be to get these data.\n\\[P(Data|H_0)\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-1",
+    "href": "lectures/05_Hypothesis-Power.html#example-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #1",
+    "text": "Example #1\nConsider the example of puppies’ abilities to read human social cues.\nLet \\(\\Pi\\) be the probability the puppy chooses the correct cup that a person points to.\nIn a task with two choices, an at-chance performance is \\(\\Pi = .5\\). This can be the null hypothesis because if this is true, than puppies would make the correct choice as often as they would make an incorrect choice.\nNote that the null hypothesis changes depending on the situation and research question."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-1---hypotheses",
+    "href": "lectures/05_Hypothesis-Power.html#example-1---hypotheses",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #1 - Hypotheses",
+    "text": "Example #1 - Hypotheses\nAs a dog-lover, you’re skeptical that reading human social cues is purely learned, and you have an alternative hypothesis that puppies will perform well over chance, thus having a probability of success on any given task greater than .5.\n\\[H_0: \\Pi = .5\\] \\[H_1: \\Pi \\neq .5\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-1-1",
+    "href": "lectures/05_Hypothesis-Power.html#example-1-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #1",
+    "text": "Example #1\nTo test the null hypothesis, you a single puppy and test them 12 times on a pointing task. The puppy makes the correct choice 10 times.\nThe question you’re going to ask is:\n\n\n“How likely is it that the puppy is successful 10 times out of 12, if the probability of success is .5?”\n\n\nThis is the essence of NHST.\nYou can already test this using what you know about the binomial distribution."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#complications-with-the-binomial",
+    "href": "lectures/05_Hypothesis-Power.html#complications-with-the-binomial",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Complications with the binomial",
+    "text": "Complications with the binomial\nThe likelihood of the puppy being successful 10 times out of 12 if the true probability of success is .5 is 0.02. That’s pretty low! That’s so low that we might begin to suspect that the true probability is not .5.\nBut there’s a problem with this example. The real study used a sample of many puppies (&gt;300), and the average number of correct trials per puppy was about 8.33. But the binomial won’t allow us to calculate the probability of fractional successes!\nWhat we really want is not to assess 10 out of 12 times, but a proportion, like .694. How many different proportions could result puppy to puppy?"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#our-statistic-is-usually-continuous",
+    "href": "lectures/05_Hypothesis-Power.html#our-statistic-is-usually-continuous",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Our statistic is usually continuous",
+    "text": "Our statistic is usually continuous\nWhen we estimate a statistic for our sample – like the proportion of puppy success, or the average IQ score, or the relationship between age in months and second attending to a new object – that statistic is nearly always continuous. So we have to assess the probability of that statistic using a probability distribution for continuous variables, like the normal distribution. (Or t, or F, or \\(\\chi^2\\) ).\nWhat is the probability of any value in a continuous distribution?"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#quick-recap",
+    "href": "lectures/05_Hypothesis-Power.html#quick-recap",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Quick recap",
+    "text": "Quick recap\nFor any NHST test, we:\n\nIdentify the null hypothesis ( \\(H_0\\) ), which is usually the opposite of what we think to be true.\nCollect data.\nDetermine how likely we are to get these data or more extreme if the null is true."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#enter-sampling-distributions",
+    "href": "lectures/05_Hypothesis-Power.html#enter-sampling-distributions",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Enter sampling distributions",
+    "text": "Enter sampling distributions\n\n\n\n\nCode\ndata.frame(trials = trial, d = dbinom(trial, size = 12, prob = .5), \n           color = ifelse(trial %in% c(0,1,2, 10,11,12), \"1\", \"2\")) %&gt;%\n  ggplot(aes(x = trials, y = d, fill = color)) +\n  geom_bar(stat = \"identity\") + \n  guides(fill = \"none\")+\n  scale_x_continuous(\"Number of successes\", breaks = c(0:12))+\n  scale_y_continuous(\"Probability of X successes\") +\n  theme(text = element_text(size = 20))\n\n\n\n\n\n\nWhen we were analyzing the puppy problem, we built the distribution under the null using the binomial.\nThis is our sampling distribution."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-2",
+    "href": "lectures/05_Hypothesis-Power.html#example-2",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #2",
+    "text": "Example #2\nBray and colleagues (2020) test a sample of 10* puppies on multiple cognitive tasks, including their ability to correctly find a treat hidden under one of two cups based on human pointing. The average success rate was 69.41% (SD = 18.88).\nHow do you generate the sampling distribution around the null?\n\nNull: distribution of successes – you know this population, trying to see if ratings of female applicants come from the same distribution of scores"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#a-p-value-does-not",
+    "href": "lectures/05_Hypothesis-Power.html#a-p-value-does-not",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "A p-value DOES NOT:",
+    "text": "A p-value DOES NOT:\n\nTell you that the probability that the null hypothesis is true.\nProve that the alternative hypothesis is true.\nTell you anything about the size or magnitude of any observed difference in your data."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#p-values",
+    "href": "lectures/05_Hypothesis-Power.html#p-values",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "\\(p\\)-values",
+    "text": "\\(p\\)-values\nFisher established (rather arbitrarily) the sanctity of the .05 and .01 significance levels during his work in agriculture, including work on the effectiveness of fertilizer. A common source of fertilizer is cow manure. Male cattle are called bulls.\nA common misinterpretation of the \\(p\\)-value ( \\(\\alpha\\) ) is that it is the probability of the null hypothesis being wrong.\nAnother common misunderstanding is that \\(1-\\alpha\\) is the probability that results will replicate."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#p-values-1",
+    "href": "lectures/05_Hypothesis-Power.html#p-values-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "\\(p\\)-values",
+    "text": "\\(p\\)-values\n\nIn most research, the probability that the null hypothesis is true is very small.\nIf the null hypothesis is false, then the only mistake to be made is a failure to detect a real effect."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors",
+    "href": "lectures/05_Hypothesis-Power.html#errors",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nFalsely rejecting the null hypothesis is a Type I error. Traditionally, this has been viewed as particularly important to control at a low level (akin to avoiding false conviction of an innocent defendant)."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors-1",
+    "href": "lectures/05_Hypothesis-Power.html#errors-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nFailing to reject the null hypothesis when it is false is a Type II error. This is sometimes viewed as a failure in signal detection."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors-2",
+    "href": "lectures/05_Hypothesis-Power.html#errors-2",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nNull hypothesis testing is designed to make it easy to control Type I errors. We set a minimum proportion of such errors that we would be willing to tolerate in the long run. This is the significance level ( \\(\\alpha\\) ). By tradition this is no greater than .05."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors-3",
+    "href": "lectures/05_Hypothesis-Power.html#errors-3",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nControlling Type II errors is more challenging because it depends on several factors. But, we usually DO want to control these errors. Some argue that the null hypothesis is usually false, so the only error we can make is a Type II error – a failure to detect a signal that is present. Power is the probability of correctly rejecting a false null hypothesis."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-errors",
+    "href": "lectures/05_Hypothesis-Power.html#example-errors",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example Errors",
+    "text": "Example Errors\n\nIn the long run, if psychology samples have a mean of 110 (\\(\\sigma\\) = 20, \\(N\\) = 25), we will correctly reject the null with probability of 0.71 (power; 1 - \\(\\beta\\)). We will incorrectly fail to reject the null with probability of 0.29 ( \\(\\beta\\) )\n\n\n\n\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error \\(\\alpha\\) = 0.05\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error \\(\\beta\\) = 0.29"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#what-if-these-factors-change",
+    "href": "lectures/05_Hypothesis-Power.html#what-if-these-factors-change",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "What if these factors change?",
+    "text": "What if these factors change?\n\n\nSample size ( \\(N\\) )\nEffect size ( Right now it is difference between means )\n\nSignificance level ( \\(\\alpha\\) )\nPower ( \\(\\beta\\) )"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#calculating-power-in-r",
+    "href": "lectures/05_Hypothesis-Power.html#calculating-power-in-r",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Calculating Power in R",
+    "text": "Calculating Power in R\n\n\n\nlibrary(pwr)\n\nWe will use the pwr package and a few tutorials you can look at are as follows:\n\n\nReproducible Medical Research with R\nStat Methods\nVignettes from pwr package\n\n\n\nThe four components are interrelated and by knowing three, we can determine the fourth:\n\n\nSample Size\nEffect Size\nSignificance Level \\(\\alpha\\)\nPower \\(\\beta\\)"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#summary",
+    "href": "lectures/05_Hypothesis-Power.html#summary",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Summary",
+    "text": "Summary\n\nConducting a study we tend to have null \\(H_0\\) and alternative \\(H_1\\) hypotheses\nTested through Null Hypothesis Significance Testing\n\\(p-values\\) are the probability of getting this score or higher if the null distribution were true\nImportant to consider power in all studies we do"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#reminders",
+    "href": "lectures/05_Hypothesis-Power.html#reminders",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Reminders",
+    "text": "Reminders\n\nLab 2 is due at 11:59pm on Sunday (10/1)"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#additional-slides",
+    "href": "lectures/05_Hypothesis-Power.html#additional-slides",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Additional Slides",
+    "text": "Additional Slides"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#alpha",
+    "href": "lectures/05_Hypothesis-Power.html#alpha",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "alpha",
+    "text": "alpha\nHistorically, psychologists have chosen to set their \\(\\alpha\\) level at .05, meaning any p-value less than .05 is considered “statistically significant” or the null is rejected.\nThis means that, among the times we examine a relationship that is truly null, we will reject the null 1 in 20 times.\nSome have argued that this is not conservative enough and we should use \\(\\alpha &lt; .005\\) (Benjamin et al., 2018)."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#check-in-and-review",
+    "href": "lectures/05_Hypothesis-Power.html#check-in-and-review",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Check-in and Review",
+    "text": "Check-in and Review\n\nThe null hypothesis ( \\(H_0\\) ) is a claim about the particular value that a population parameter takes.\nThe alternative hypothesis ( \\(H_1\\) ) states an alternative range of values for the population parameter.\nWe test the null hypothesis by determining if we have sufficient evidence that contradicts or nullifies it.\nWe reject the null hypothesis if the data in hand are rare, unusual, or atypical if the null were true. The alternative hypothesis gains support when the null is rejected, but \\(H_1\\) is not proven."
   }
 ]
