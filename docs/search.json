@@ -243,5 +243,145 @@
     "title": "Wk 5 - Hypothesis & Power",
     "section": "Check-in and Review",
     "text": "Check-in and Review\n\nThe null hypothesis ( \\(H_0\\) ) is a claim about the particular value that a population parameter takes.\nThe alternative hypothesis ( \\(H_1\\) ) states an alternative range of values for the population parameter.\nWe test the null hypothesis by determining if we have sufficient evidence that contradicts or nullifies it.\nWe reject the null hypothesis if the data in hand are rare, unusual, or atypical if the null were true. The alternative hypothesis gains support when the null is rejected, but \\(H_1\\) is not proven."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#last-week",
+    "href": "lectures/6_OneSample.html#last-week",
+    "title": "Categorical & One-Sample",
+    "section": "Last week",
+    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(gganimate)\nlibrary(patchwork)\n\nset.seed(42)"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#this-week",
+    "href": "lectures/6_OneSample.html#this-week",
+    "title": "Categorical & One-Sample",
+    "section": "This Week…",
+    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#what-are-the-steps-of-nhst",
+    "href": "lectures/6_OneSample.html#what-are-the-steps-of-nhst",
+    "title": "Categorical & One-Sample",
+    "section": "What are the steps of NHST?",
+    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#example---coffee-shop",
+    "href": "lectures/6_OneSample.html#example---coffee-shop",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Coffee Shop",
+    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#degrees-of-freedom",
+    "href": "lectures/6_OneSample.html#degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#degrees-of-freedom-1",
+    "href": "lectures/6_OneSample.html#degrees-of-freedom-1",
+    "title": "Categorical & One-Sample",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#calculating-the-chi2-test-statistic",
+    "href": "lectures/6_OneSample.html#calculating-the-chi2-test-statistic",
+    "title": "Categorical & One-Sample",
+    "section": "Calculating the \\(\\chi^2\\) test statistic",
+    "text": "Calculating the \\(\\chi^2\\) test statistic\nLet’s first take a look at the observed data that we have as well as the expected data under the Null\n\nobserved &lt;- df2\nexpected &lt;- df\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMonday\nTuesday\nWednesday\nThursday\nFriday\n\n\nObserved\n\\(O_i\\)\n60.48\n52.74\n56.45\n57.53\n56.62\n\n\nExpected\n\\(E_i\\)\n50\n50\n50\n50\n50\n\n\n\nNow what? We need some way to index differences between these frequencies so that we can sensibly determine how rare or unusual the observed data are compared to the null distribution."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#the-usefulness-of-chi2",
+    "href": "lectures/6_OneSample.html#the-usefulness-of-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "The usefulness of \\(\\chi^2\\)",
+    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#shifting-confidence-intervals",
+    "href": "lectures/6_OneSample.html#shifting-confidence-intervals",
+    "title": "Categorical & One-Sample",
+    "section": "Shifting confidence intervals",
+    "text": "Shifting confidence intervals"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#cohens-d",
+    "href": "lectures/6_OneSample.html#cohens-d",
+    "title": "Categorical & One-Sample",
+    "section": "Cohen’s D",
+    "text": "Cohen’s D\nCohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.\n\\[\\delta = \\frac{\\mu_1 - \\mu_0}{\\sigma} \\approx d = \\frac{\\bar{X}-\\mu}{\\hat{\\sigma}}\\]\nCohen’s d is in the standard deviation (Z) metric."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#next-time",
+    "href": "lectures/6_OneSample.html#next-time",
+    "title": "Categorical & One-Sample",
+    "section": "Next time…",
+    "text": "Next time…\nComparing two means"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#example---distribution",
+    "href": "lectures/6_OneSample.html#example---distribution",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Distribution",
+    "text": "Example - Distribution\n\n\nCode\ndays &lt;- c(\"M\", \"T\", \"W\", \"R\", \"F\")\nexpected &lt;- rep(50, length(days))\ndf &lt;- data.frame(days, expected)\norder &lt;- c(\"M\", \"T\", \"W\", \"R\", \"F\")\n\nunif &lt;- df %&gt;% \n  ggplot(aes(x = days,\n             y = expected)) + \n  geom_col() + \n  scale_x_discrete(limits = order) + \n  labs(title = \"Uniform - Null\") + \n  ylim(0, 65)\n\nobserved &lt;- round(rnorm(5, mean = 55, sd = 4),2)\ndf2 &lt;- data.frame(days, observed)\n\nrand &lt;- df %&gt;% \n  ggplot(aes(x = days, \n             y = observed)) + \n  geom_col() + \n  scale_x_discrete(limits = order) + \n  labs(title = \"Alternative\") + \n  ylim(0, 65)\n\n(unif + rand)"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#example---set-alpha",
+    "href": "lectures/6_OneSample.html#example---set-alpha",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Set Alpha",
+    "text": "Example - Set Alpha\nAfter determining the Null and Alternative Hypotheses, we set our Alpha level.\nLet’s keep things simple and keep it at convention to set it for \\(\\alpha\\) = 0.05"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#example---distribution-1",
+    "href": "lectures/6_OneSample.html#example---distribution-1",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Distribution",
+    "text": "Example - Distribution\nNow we determine the type of distribution that we will be working with\nIn the past we have used:\n\nNormal Distribution ( \\(z\\)-scores )\nt-distribution ( \\(t\\)-scores )"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#distribution---degrees-of-freedom",
+    "href": "lectures/6_OneSample.html#distribution---degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Distribution - Degrees of freedom",
+    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#recap-of-the-steps",
+    "href": "lectures/6_OneSample.html#recap-of-the-steps",
+    "title": "Categorical & One-Sample",
+    "section": "Recap of the Steps",
+    "text": "Recap of the Steps\n\nDefine null and alternative hypothesis.\n\n\n\\(H_0\\): No difference across days\n\\(H_1\\): Days will be different\n\n\nSet and justify alpha level \\(\\alpha\\) = 0.05\nDetermine which sampling distribution ( \\(\\chi^2\\) )\nCalculate parameters of your sampling distribution under the null.\n\n\nCalculate \\(\\chi^2\\)-critical: 9.487729"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#recap-of-the-steps-1",
+    "href": "lectures/6_OneSample.html#recap-of-the-steps-1",
+    "title": "Categorical & One-Sample",
+    "section": "Recap of the Steps",
+    "text": "Recap of the Steps\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#recap-of-the-steps-cont.",
+    "href": "lectures/6_OneSample.html#recap-of-the-steps-cont.",
+    "title": "Categorical & One-Sample",
+    "section": "Recap of the Steps (con’t.)",
+    "text": "Recap of the Steps (con’t.)\n\nCalculate test statistic under the null.\n\n\n\\(\\chi^2_{df = k-1} = \\sum^k_{i=1}\\frac{(O_i-E_i)^2}{E_i}\\)\n5.189316\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha.\n\npchisq(q = chi_square, df = length(chisq_tab$days)-1, lower.tail = F)\n\n[1] 0.2684182"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#but-what-if",
+    "href": "lectures/6_OneSample.html#but-what-if",
+    "title": "Categorical & One-Sample",
+    "section": "But what if…",
+    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#example-2---schools-super-powers",
+    "href": "lectures/6_OneSample.html#example-2---schools-super-powers",
+    "title": "Categorical & One-Sample",
+    "section": "Example 2 - Schools & Super-powers",
+    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n- The site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\n- The database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
   }
 ]
