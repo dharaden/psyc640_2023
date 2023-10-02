@@ -1,0 +1,13 @@
+---
+title: "Lecture Code"
+---
+
+Here will be a link to the raw code used in class to generate the slides.
+
+***Note:*** The code is in a .qmd file which you can open in R-Studio. It is a file called "Quarto" that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy
+
+[Pre-Lab](https://github.com/dharaden/dharaden.github.io/blob/main/lectures/05_Pre-Lab.qmd)
+
+[Hypothesis & Power](https://github.com/dharaden/dharaden.github.io/blob/main/lectures/05_Hypothesis-Power.qmd)
+
+[Categorical Data](https://github.com/dharaden/dharaden.github.io/blob/main/lectures/06_OneSample.qmd)
