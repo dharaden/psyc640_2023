@@ -9,6 +9,7 @@ format:
     incremental: true
     touch: true
     code-overflow: wrap
+    theme: night
 execute: 
   echo: true
 editor: visual

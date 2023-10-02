@@ -418,5 +418,82 @@
     "title": "Categorical & One-Sample",
     "section": "Write-up Practice",
     "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#last-week",
+    "href": "lectures/06_OneSample.html#last-week",
+    "title": "Categorical & One-Sample",
+    "section": "Last week",
+    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(gganimate)\nlibrary(patchwork)\n\nset.seed(42)"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#this-week",
+    "href": "lectures/06_OneSample.html#this-week",
+    "title": "Categorical & One-Sample",
+    "section": "This Week…",
+    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "href": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "title": "Categorical & One-Sample",
+    "section": "What are the steps of NHST?",
+    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#example---coffee-shop",
+    "href": "lectures/06_OneSample.html#example---coffee-shop",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Coffee Shop",
+    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Distribution - Degrees of freedom",
+    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#but-what-if",
+    "href": "lectures/06_OneSample.html#but-what-if",
+    "title": "Categorical & One-Sample",
+    "section": "But what if…",
+    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "href": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "title": "Categorical & One-Sample",
+    "section": "Example 2 - Schools & Super-powers",
+    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#write-up-practice",
+    "href": "lectures/06_OneSample.html#write-up-practice",
+    "title": "Categorical & One-Sample",
+    "section": "Write-up Practice",
+    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "href": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "The usefulness of \\(\\chi^2\\)",
+    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "href": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "Model Fit with \\(\\chi^2\\)",
+    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
   }
 ]
