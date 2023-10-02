@@ -382,6 +382,41 @@
     "href": "lectures/6_OneSample.html#example-2---schools-super-powers",
     "title": "Categorical & One-Sample",
     "section": "Example 2 - Schools & Super-powers",
-    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n- The site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\n- The database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#calculating-the-chi2-test-statistic-1",
+    "href": "lectures/6_OneSample.html#calculating-the-chi2-test-statistic-1",
+    "title": "Categorical & One-Sample",
+    "section": "Calculating the \\(\\chi^2\\) test statistic",
+    "text": "Calculating the \\(\\chi^2\\) test statistic\nTo compare the New York observed frequencies to the US data, we need to calculate the frequencies that would have been expected if New York was just like all of the other states.\nThe expected frequencies under this null model can be obtained by taking each preference category proportion from the US data (the null expectation) and multiplying it by the sample size for New York:\n\\[E_i = P_iN_{NY}\\]"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#why-might-this-be-a-sensible-or-useful-test",
+    "href": "lectures/6_OneSample.html#why-might-this-be-a-sensible-or-useful-test",
+    "title": "Categorical & One-Sample",
+    "section": "Why might this be a sensible or useful test?",
+    "text": "Why might this be a sensible or useful test?"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#model-fit-with-chi2",
+    "href": "lectures/6_OneSample.html#model-fit-with-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "Model Fit with \\(\\chi^2\\)",
+    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#reporting-results-of-the-test",
+    "href": "lectures/6_OneSample.html#reporting-results-of-the-test",
+    "title": "Categorical & One-Sample",
+    "section": "Reporting results of the test",
+    "text": "Reporting results of the test\n\n\nNow that we know how to do the test using R, we now need to be able to write up the analyses that we just performed.\nIf we wanted to write these results from our example into a paper or something similar (maybe telling our pet who prefers scientific writing), we could do this:\n\n\nAcross all days of the average workweek, we observed, 60.48 patrons on Monday, 52.74 customers on Tuesday, 56.45 on Wednesday, 57.53 for Thursday, and finally 56.62 patrons on Friday. A chi-square goodness of fit test was conducted to test whether these data followed a uniform distribution with 50 visits per day. The results of the tests ( \\(\\chi^2\\)(4) = 5.19, \\(p\\) = 0.27)\n\n\n\nNow that we know how to do the test using R, we now need to be able to write up the analyses that we just performed.\nIf we wanted to write these results from our example into a paper or something similar (maybe telling our pet who prefers scientific writing), we could do this:\n\nAcross all days of the average workweek, we observed, 60.48 patrons on Monday, 52.74 customers on Tuesday, 56.45 on Wednesday, 57.53 for Thursday, and finally 56.62 patrons on Friday. A chi-square goodness of fit test was conducted to test whether these data followed a uniform distribution with 50 visits per day. The results of the tests ( \\(\\chi^2\\)(4) = 5.19, \\(p\\) = 0.27)"
+  },
+  {
+    "objectID": "lectures/6_OneSample.html#write-up-practice",
+    "href": "lectures/6_OneSample.html#write-up-practice",
+    "title": "Categorical & One-Sample",
+    "section": "Write-up Practice",
+    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
   }
 ]

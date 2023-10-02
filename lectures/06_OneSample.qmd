@@ -111,7 +111,7 @@ Let's say we collect data on customers of a coffee shop and we want to see if th
 
 ------------------------------------------------------------------------
 
-## Example - Distribution
+### Example - Distribution
 
 ```{r}
 #| code-fold: true
@@ -144,7 +144,7 @@ rand <- df %>%
 
 ------------------------------------------------------------------------
 
-## Example - Set Alpha
+### Example - Set Alpha
 
 After determining the Null and Alternative Hypotheses, we set our Alpha level.
 
@@ -152,7 +152,7 @@ Let's keep things simple and keep it at convention to set it for $\alpha$ = 0.05
 
 ------------------------------------------------------------------------
 
-## Example - Distribution
+### Example - Distribution
 
 Now we determine the type of distribution that we will be working with
 
@@ -224,7 +224,7 @@ data.frame(x = seq(0,20)) %>%
 
 ------------------------------------------------------------------------
 
-## Calculating the $\chi^2$ test statistic
+### Calculating the $\chi^2$ test statistic
 
 Let's first take a look at the observed data that we have as well as the expected data under the Null
 
@@ -332,7 +332,8 @@ critical_val
 Calculate the probability of getting our sample statistic or greater ***if the null were true***
 
 ```{r}
-pchisq(q = chi_square, df = length(chisq_tab$days)-1, lower.tail = F)
+p_val <- pchisq(q = chi_square, df = length(chisq_tab$days)-1, lower.tail = F)
+p_val
 ```
 
 **What can we conclude?**
@@ -397,7 +398,7 @@ data.frame(x = seq(0,20)) %>%
 
 ------------------------------------------------------------------------
 
-## Recap of the Steps
+### Recap of the Steps
 
 1.  Define null and alternative hypothesis.
 
@@ -413,7 +414,7 @@ data.frame(x = seq(0,20)) %>%
 
 -   Calculate $\chi^2$-critical: `r critical_val`
 
-## Recap of the Steps (con't.)
+### Recap of the Steps (con't.)
 
 5.  Calculate test statistic under the null.
 
@@ -428,6 +429,31 @@ data.frame(x = seq(0,20)) %>%
 
 ------------------------------------------------------------------------
 
+Now that we know how to do the test using R, we now need to be able to ***write up the analyses*** that we just performed.
+
+If we wanted to write these results from our example into a paper or something similar (maybe telling our pet who prefers scientific writing), we could do this:
+
+> Across all days of the average workweek, we observed, `r observed[1,2]` patrons on Monday, `r observed[2,2]` customers on Tuesday, `r observed[3,2]` on Wednesday, `r observed[4,2]` for Thursday, and finally `r observed[5,2]` patrons on Friday. A chi-square goodness of fit test was conducted to test whether these data followed a uniform distribution with 50 visits per day. The results of the test ( $\chi^2$(4) = `r round(chi_square, 2)`, $p$ = `r round(p_val, 2)`) indicate no differences from the uniform distribution.
+
+------------------------------------------------------------------------
+
+> Across all days of the average workweek, we observed, `r observed[1,2]` patrons on Monday, `r observed[2,2]` customers on Tuesday, `r observed[3,2]` on Wednesday, `r observed[4,2]` for Thursday, and finally `r observed[5,2]` patrons on Friday. A chi-square goodness of fit test was conducted to test whether these data followed a uniform distribution with 50 visits per day. The results of the test ( $\chi^2$(4) = `r round(chi_square, 2)`, $p$ = `r round(p_val, 2)`) indicate no differences from the uniform distribution.
+
+A couple things to notice about the write up:
+
+::: columns
+::: {.column width="50%"}
+1.  Before the test, there are some descriptives
+
+2.  Informs you of the null hypothesis
+:::
+
+::: {.column width="50%"}
+3.  Inclusion of a "stats block"
+4.  Results are interpreted
+:::
+:::
+
 ## But what if...
 
 In the example, we had a null distribution that was distributed uniformly
@@ -440,9 +466,11 @@ Instead we may want to compare the proportions in our sample to a larger populat
 
 The data were obtained from [Census at School](https://ww2.amstat.org/censusatschool/), a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.
 
-\- The site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.
+::: nonincremental
+-   The site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.
 
-\- The database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010.
+-   The database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010.
+:::
 
 ------------------------------------------------------------------------
 
@@ -468,10 +496,277 @@ Let's focus on a single question:
 The responses from 250 randomly selected New York students were obtained from the Census at School database.
 
 ```{r}
-#school <- read_csv()
+school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>% 
+  filter(!is.na(Superpower))
 ```
 
 ------------------------------------------------------------------------
+
+::: columns
+::: {.column width="50%"}
+```{r frequency table, results = 'asis'}
+#| code-fold: true
+school %>%
+  group_by(Superpower) %>%
+  summarize(Frequency = n()) %>%
+  mutate(Proportion = Frequency/sum(Frequency)) %>%
+  kable(., 
+        format = "html", 
+        digits = 2) %>% 
+  kable_classic(font_size = 25)
+```
+:::
+
+::: {.column width="50%"}
+Descriptively this is interesting. But, are the responses unusual or atypical in any way? To answer that question, we need some basis for comparison---a null hypothesis <br> One option would be to ask if the New York preferences are different compared to students from the general population.
+:::
+:::
+
+------------------------------------------------------------------------
+
+```{r, message=FALSE, warning = F}
+#| code-fold: true
+school_usa <-  read_csv("https://raw.githubusercontent.com/uopsych/psy611/master/data/census_at_school_usa.csv")
+
+school_usa$Region = "USA"
+school %>%
+  full_join(select(school_usa, Region, Superpower)) %>%
+  filter(!is.na(Superpower)) %>%
+  group_by(Region, Superpower) %>%
+  summarize(Frequency = n()) %>%
+  mutate(Proportion = Frequency/sum(Frequency)) %>%
+  ggplot(aes(x = Region, y = Proportion, fill = Region)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  labs(
+    x = NULL,
+    title = "Category Proportion as a function of Source") +
+  guides(fill = "none") +
+  facet_wrap(~Superpower) +
+  theme_bw(base_size = 20) + 
+  theme(plot.title.position = "plot")
+```
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="50%"}
+$H_0$: New York student superpower preferences are similar to the preferences of typical students in the United States.
+
+$H_1$: New York student superpower preferences are different from the preferences of typical students in the United States.
+:::
+
+::: {.column width="50%"}
+```{r, results = 'asis', message=F}
+#| code-fold: true
+school %>%
+  full_join(select(school_usa, Region, Superpower)) %>%
+  mutate(Region = ifelse(Region == "NY", "NY", "USA")) %>%
+  filter(!is.na(Superpower)) %>%
+  group_by(Region, Superpower) %>%
+  summarize(Frequency = n()) %>%
+  mutate(Proportion = Frequency/sum(Frequency)) %>%
+  select(-Frequency) %>%
+  spread(Region, Proportion) %>%
+  kable(., 
+        col.names = c("Superpower", "NY Observed\nProportion", 
+                      "USA\nProportion"), 
+        format = "html", 
+        digits = 2)%>% 
+  kable_classic(font_size = 25)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+### Calculating the $\chi^2$ test statistic
+
+To compare the New York observed frequencies to the US data, we need to calculate the frequencies that would have been expected if New York was just like all of the other states.
+
+The expected frequencies under this null model can be obtained by taking each preference category proportion from the US data (the null expectation) and multiplying it by the sample size for New York:
+
+$$E_i = P_iN_{NY}$$
+
+------------------------------------------------------------------------
+
+```{r, echo = F}
+usa_freq = table(school_usa$Superpower)
+usa_prop = usa_freq/sum(usa_freq)
+
+school %>%
+  filter(!is.na(Superpower)) %>%
+  group_by(Superpower) %>%
+  summarize(Frequency = n()) %>%
+  mutate(Expected = usa_prop*200,
+         Expected = round(Expected, 2)) %>%
+  kable(., format = "html", digits = 2, align = c("l", "c", "c"),
+        col.names = c("Superpower", "Observed\nFreq", "Expected Freq"))
+```
+
+Now what? We need some way to index differences between these frequencies, preferably one that translates easily into a sampling distribution so that we can sensibly determine how rare or unusual the New York data are compared to the US (null) distribution.
+
+------------------------------------------------------------------------
+
+$$\chi^2_{df = k-1} = \sum^k_{i=1}\frac{(O_i-E_i)^2}{E_i}$$
+
+The chi-square goodness of fit (GOF) statistic compares observed and expected frequencies. It is small when the observed frequencies closely match the expected frequencies under the null hypothesis. The chi-square distribution can be used to determine the particular $\chi^2$ value that corresponds to a rare or unusual profile of observed frequencies.
+
+------------------------------------------------------------------------
+
+```{r create obs, echo = 3:4}
+ny_observed = table(school$Superpower)
+ny_expected = (table(school_usa$Superpower)/sum(table(school_usa$Superpower)))*200
+ny_observed
+ny_expected
+```
+
+------------------------------------------------------------------------
+
+```{r, ref.label="create obs", echo=3:4}
+
+```
+
+```{r}
+(chi_square = sum((ny_observed - ny_expected)^2/ny_expected))
+```
+
+------------------------------------------------------------------------
+
+```{r, ref.label="create obs", echo=3:4}
+
+```
+
+```{r, highlight=2}
+(chi_square = sum((ny_observed - ny_expected)^2/ny_expected))
+(critical_val = qchisq(p = 0.95, df = length(ny_expected)-1))
+```
+
+------------------------------------------------------------------------
+
+```{r, ref.label="create obs", echo=3:4}
+
+```
+
+```{r, highlight=2}
+(chi_square = sum((ny_observed - ny_expected)^2/ny_expected))
+(critical_val = qchisq(p = 0.95, df = length(ny_expected)-1))
+(p_val = pchisq(q = chi_square, df = length(ny_expected)-1, lower.tail = F))
+```
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="30%"}
+[The degrees of freedom are the number of categories (k) minus 1. Given that the category frequencies must sum to the total sample size, k-1 category frequencies are free to vary; the last is determined.]{style="font-size:30px;"}
+:::
+
+::: {.column width="70%"}
+```{r}
+#| code-fold: true
+#| 
+data.frame(x = seq(0,20)) %>%
+  ggplot(aes(x = x)) +
+  stat_function(fun = function(x) dchisq(x, df = length(ny_expected)-1), geom = "line") +
+  stat_function(fun = function(x) dchisq(x, df = length(ny_expected)-1), geom = "area", fill = "purple", 
+                xlim =c(critical_val, 20)) +
+  geom_vline(aes(xintercept = critical_val), linetype = 2, color = "purple")+
+    geom_vline(aes(xintercept = chi_square), linetype = 2, color = "black")+
+  geom_text(aes(x = critical_val+2, y = dchisq(critical_val, length(ny_expected)-1) + .05, 
+                label = paste("Critical Value =", round (critical_val,2))), angle = 90)+
+    geom_text(aes(x = chi_square+2, y = dchisq(critical_val, length(ny_expected)-1) + .05, 
+                label = paste("Test statistic =", round (chi_square,2))), angle = 90)+
+  labs(x = "Chi-Square", y = "Density", title = "Area under the curve") +
+  theme_pubr(base_size = 20)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="30%"}
+[The degrees of freedom are the number of categories (k) minus 1. Given that the category frequencies must sum to the total sample size, k-1 category frequencies are free to vary; the last is determined.]{style="font-size:30px;"}
+:::
+
+::: {.column width="70%"}
+```{r}
+#| code-fold: true
+#| 
+data.frame(x = seq(0,20)) %>%
+  ggplot(aes(x = x)) +
+  stat_function(fun = function(x) dchisq(x, df = length(ny_expected)-1), geom = "line") +
+  stat_function(fun = function(x) dchisq(x, df = length(ny_expected)-1), geom = "area", fill = "purple", 
+                xlim =c(chi_square, 20)) +
+  geom_vline(aes(xintercept = critical_val), linetype = 2, color = "black")+
+  geom_vline(aes(xintercept = chi_square), linetype = 2, color = "purple")+
+  geom_text(aes(x = critical_val+2, y = dchisq(critical_val, length(ny_expected)-1) + .05, 
+                label = paste("Critical Value =", round (critical_val,2))), angle = 90)+
+  geom_text(aes(x = chi_square+2, y = dchisq(critical_val, length(ny_expected)-1) + .05, 
+                label = paste("Test statistic =", round (chi_square,2))), angle = 90)+
+  labs(x = "Chi-Square", y = "Density", title = "Area under the curve") +
+  theme_pubr(base_size = 20)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+```{r}
+p.usa = (table(school_usa$Superpower)/sum(table(school_usa$Superpower)))
+p.usa
+chisq.test(x = ny_observed, p = p.usa)
+```
+
+The New York student preferences are unusual under the null hypothesis (USA preferences).
+
+Note that the `chisq.test` function takes for x a vector of the counts. In other words, to use this function, you need to calculate the summary statisttic of counts and feed that into the function.
+
+------------------------------------------------------------------------
+
+```{r}
+c.test = chisq.test(x = ny_observed, p = p.usa)
+str(c.test)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+c.test$residuals
+```
+
+------------------------------------------------------------------------
+
+```{r, echo = 2}
+p.usa = as.data.frame(p.usa)[,"Freq"]
+lsr::goodnessOfFitTest(x = as.factor(school$Superpower), p = p.usa)
+```
+
+(Note that this function, `goodnessOfFitTest`, takes the raw data, not the vector of counts.)
+
+------------------------------------------------------------------------
+
+What if we had used the equal proportions null hypothesis?
+
+```{r}
+lsr::goodnessOfFitTest(x = as.factor(school$Superpower))
+```
+
+Why might this be a sensible or useful test?
+
+## Write-up Practice
+
+Open up a word document and provide a 2-6 sentence write up of the analyses that we just completed
+
+Don't forget:
+
+1.  Before the test, there are some descriptives
+
+2.  Information about the the null hypothesis
+
+3.  Including a "stats block"
+
+4.  Brief interpretation of the results
 
 ## The usefulness of $\chi^2$
 
@@ -487,23 +782,27 @@ The goodness of fit test is used to statistically test the how well a model fits
 
 ------------------------------------------------------------------------
 
+## Model Fit with $\chi^2$
+
 To calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.
 
 ::: nonincremental
--   example: literacy \~ age + parental involvement
+-   example: depression \~ age + parental history of depression
 :::
 
-Then you estimate each subject's predicted value based on your model.
+-   Then you estimate each subject's predicted/expected value based on your model.
 
-You compare each subject's predicted value to their actual value -- the difference is called the **residual** ( $\varepsilon$ ).
+-   You compare each subject's predicted value to their actual value -- the difference is called the **residual** ( $\varepsilon$ ).
 
 ------------------------------------------------------------------------
 
 If your model is a good fit, then
 
-$$\Sigma_1^N\varepsilon^2 = \chi^2$$ which we compare to the distribution of $\chi^2_{N-p}$ .
+$$\Sigma_1^N\varepsilon^2 = \chi^2$$
 
-Significant chi-square tests suggest the model does not fit -- the data have values that are far away from "expected."
+-   We would then compare that to the distribution of the Null: $\chi^2_{N-p}$ .
+
+-   Significant chi-square tests suggest the model does not fit -- the data have values that are far away from "expected."
 
 ------------------------------------------------------------------------
 
@@ -516,3 +815,9 @@ $$t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}$$
 The heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample.
 
 ------------------------------------------------------------------------
+
+# Next up...
+
+Further dive into categorical data analysis
+
+Starting with t-tests
