@@ -35,7 +35,6 @@ library(psychTools)
 library(knitr)
 library(kableExtra)
 library(ggpubr)
-library(gganimate)
 library(patchwork)
 
 set.seed(42)
@@ -496,7 +495,7 @@ Let's focus on a single question:
 
 The responses from 250 randomly selected New York students were obtained from the Census at School database.
 
-```{r}
+```{r, message=FALSE, warning = F}
 school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>% 
   filter(!is.na(Superpower))
 ```
