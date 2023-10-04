@@ -40,6 +40,8 @@ library(knitr)
 library(kableExtra)
 # Making things look nice
 library(ggpubr)
+# animate things
+library(gganimate)
 
 ```
 
@@ -53,7 +55,7 @@ library(ggpubr)
 
 ------------------------------------------------------------------------
 
-## Pop Quiz...jk  {.center}
+## Pop Quiz...jk {.center}
 
 -   What do we mean when we say a study was powered to an effect of 0.34?
 
@@ -65,11 +67,15 @@ library(ggpubr)
 
 # $\chi^2$ test of independence or association
 
-The previous tests that we
+The previous tests that we conducted last class, we were focused on the way our data (NY Students Superpower Preferences) "fit" to the data of an expected distribution (US Student Superpower Preferences)
+
+Although this could be interesting, sometimes we have two categorical variables that we want to compare to one another
+
+-   How do types of traffic stops differ by the gender identity of the police officer?
 
 ------------------------------------------------------------------------
 
-## 
+# Comparing Means
 
 When we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the *t*-test, of which there are several forms.
 
@@ -81,7 +87,7 @@ The heavier tails of the t-distribution, especially for small N, are the penalty
 
 ------------------------------------------------------------------------
 
-### One-sample *t*-tests
+## One-sample *t*-tests
 
 *t*-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)
 
@@ -92,6 +98,17 @@ The heavier tails of the t-distribution, especially for small N, are the penalty
     -   Probably had input from Karl Pearson and Ronald Fisher
 
 -   Published this as "Student" because Guinness didn't want these tests tied to the production of beer.
+
+------------------------------------------------------------------------
+
+### Load in the dataset from last class
+
+```{r}
+school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>% 
+  mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))
+school <- school %>% 
+  filter(!is.na(Score_in_memory_game))
+```
 
 ------------------------------------------------------------------------
 
@@ -123,7 +140,7 @@ The heavier tails of the t-distribution, especially for small N, are the penalty
 
 ### A brief example
 
-Using the same Census at School data, we find that Oregon students who participated in a memory game ( $N = 227$ ) completed the game in an average time of 49.1 seconds ( $s = 13.4$ ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?
+Using the same Census at School data, we find that New York students who participated in a memory game ( $N = 227$ ) completed the game in an average time of 49.1 seconds ( $s = 13.4$ ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?
 
 **Hypotheses**
 
