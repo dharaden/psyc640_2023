@@ -1,5 +1,7 @@
 ---
 title: "Categorical Data & Comparing Means"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
 format: 
   revealjs:
     multiplex: true
@@ -7,7 +9,7 @@ format:
     incremental: true
     touch: true
     code-overflow: wrap
-    theme: night
+    theme: dark
 execute: 
   echo: true
 editor: visual
@@ -17,13 +19,11 @@ editor: visual
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
-# Last week
+## Last week
 
 ::: nonincremental
 -   Review of the NHST
-
 -   Categorical Data analysis with the $\chi^2$ distribution
-
     -   Goodness of Fit test
 :::
 
@@ -65,7 +65,7 @@ library(gganimate)
 
 ------------------------------------------------------------------------
 
-# $\chi^2$ test of independence or association
+### $\chi^2$ test of independence or association
 
 The previous tests that we conducted last class, we were focused on the way our data (NY Students Superpower Preferences) "fit" to the data of an expected distribution (US Student Superpower Preferences)
 
@@ -75,7 +75,229 @@ Although this could be interesting, sometimes we have two categorical variables 
 
 ------------------------------------------------------------------------
 
-# Comparing Means
+Let's take a look at a scenario:
+
+We are part of a delivery company called Planet Express
+
+![](/images/Planet_express.webp){fig-align="center" width="192"}
+
+------------------------------------------------------------------------
+
+Let's take a look at a scenario:
+
+We are part of a delivery company called Planet Express
+
+We have been tasked to deliver a package to Chapek 9
+
+![](/images/Chapek_9.webp){fig-align="center" width="192"}
+
+------------------------------------------------------------------------
+
+Let's take a look at a scenario:
+
+We are part of a delivery company called Planet Express
+
+We have been tasked to deliver a package to Chapek 9
+
+Unfortunately, the planet is inhabited completely by robots and humans are not allowed
+
+In order to deliver the package, we have to go through the guard gate and prove that we are able to gain access
+
+------------------------------------------------------------------------
+
+### At the guard gate
+
+> *(Robot Voice)*
+>
+> WHICH OF THE FOLLOWING WOULD YOU MOST PREFER?
+>
+> A: A Puppy
+>
+> B: A pretty flower from your sweetie
+>
+> C: A large properly-formatted data file
+>
+> CHOOSE NOW!
+
+-   Clearly an ingenious test that will catch any imposters!
+-   ***But what if humans and robots have similar preferences?***
+
+------------------------------------------------------------------------
+
+Luckily, I have connections with Chapek 9 and we can see if there are any similarities between the responses.
+
+Let's work through how to do a $\chi^2$ test of independence (or association)
+
+First, we have to load in the data:
+
+```{r}
+chapek9 <- read.csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/chapek9.csv") %>% 
+  mutate(choice = as.factor(choice), 
+         species = as.factor(species))
+```
+
+------------------------------------------------------------------------
+
+## Chapek 9 Data
+
+Take a peek at the data:
+
+```{r}
+head(chapek9)
+# or 
+#glimpse(chapek9)
+```
+
+------------------------------------------------------------------------
+
+### Chapek 9 Data
+
+Look at the summary stats for the data:
+
+```{r}
+summary(chapek9) 
+```
+
+------------------------------------------------------------------------
+
+### Chapek 9 Data - Cross Tabs
+
+There are a few different ways to look at these tables. We can use `xtabs()`
+
+```{r}
+chapekFreq <- xtabs( ~ choice + species, data = chapek9)
+chapekFreq
+```
+
+------------------------------------------------------------------------
+
+## Constructing Hypotheses
+
+Research hypothesis states that "humans and robots answer the question in different ways"
+
+Now our notation has two subscript values?? What torture is this??
+
+![](/images/Greek_breakdown.PNG){fig-align="center"}
+
+------------------------------------------------------------------------
+
+## Constructing Hypotheses
+
+Once we have this established, we can take a look at the null
+
+![](/images/Null_prob.PNG){fig-align="center"}
+
+-   Claiming now that the true choice probabilities don't depend on the species making the choice ( $P_i$ )
+
+-   However, we don't know what the ***expected*** probability would be for each answer choice
+
+    -   We have to calculate the totals of each row/column
+
+------------------------------------------------------------------------
+
+### Chapek 9 Data - Cross Tabs
+
+::: columns
+::: {.column width="50%"}
+Let's use R to make the table look fancy and calculate the totals for us!
+
+We will use the library `sjPlot` ([link](https://strengejacke.github.io/sjPlot/reference/index.html#descriptive-statistics-tables))
+
+**Note:** Will need to knit the document to get this table
+
+```{r, results='asis', message=FALSE, eval = FALSE}
+#| codefold: TRUE
+
+library(sjPlot)
+
+tab_xtab(var.row = chapek9$choice, 
+          var.col = chapek9$species, 
+         title = "Chapek 9 Frequencies")
+
+```
+:::
+
+::: {.column width="50%"}
+```{r, results='asis', message=FALSE, echo=FALSE}
+
+library(sjPlot)
+
+tab_xtab(var.row = chapek9$choice, 
+          var.col = chapek9$species, 
+         title = "Chapek 9 Frequencies")
+
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+### Note about degrees of freedom
+
+Degrees of freedom comes from the number of data points that you have, minus the number of constraints
+
+-   Using contingency tables (or cross-tabs), the data points we have are $rows * columns$
+
+-   There will be two constraints and $df = (rows-1) * (columns-1)$
+
+------------------------------------------------------------------------
+
+We now have all the pieces for a $classic$ Null Hypothesis Significance Test
+
+But we have these computers, so why not use them?
+
+Using the `associationTest()` from the `lsr` library
+
+```{r}
+lsr::associationTest(formula = ~choice+species,
+                data = chapek9)
+```
+
+------------------------------------------------------------------------
+
+Maybe we want to keep it traditional and use `chisq.test()` will there be a difference?
+
+[Book Ch 12.6 - The most typical way to do a chi-square test in R](https://learningstatisticswithr.com/book/chisquare.html#chisq.test)
+
+```{r}
+chi <- chisq.test(table(chapek9$choice, chapek9$species))
+chi
+```
+
+------------------------------------------------------------------------
+
+But what if we want to visualize it? Use `sjPlot` again
+
+```{r}
+plot_xtab(chapek9$choice, 
+          chapek9$species)
+```
+
+------------------------------------------------------------------------
+
+Let's clean that up a little bit more
+
+```{r}
+plot_xtab(chapek9$choice, chapek9$species, margin = "row", bar.pos = "stack", coord.flip = TRUE)
+```
+
+------------------------------------------------------------------------
+
+## Writing it up
+
+> Pearson\'s $\chi^2$ revealed a significant association between species and choice ( $\chi^2 (2) =$ 10.7, $p$ \< .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data.
+
+------------------------------------------------------------------------
+
+## Assumptions of the test
+
+-   The expected frequencies are rather large
+
+-   Data are independent of one another
+
+------------------------------------------------------------------------
+
+## Comparing Means
 
 When we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the *t*-test, of which there are several forms.
 
@@ -126,11 +348,7 @@ school <- school %>%
 
 ------------------------------------------------------------------------
 
-### When you assume...
-
-...you can run a parametric statistical test!
-
-**Assumptions of the one-sample *t*-test**
+### **Assumptions of the one-sample *t*-test**
 
 **Normality.** We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?
 
@@ -140,7 +358,7 @@ school <- school %>%
 
 ### A brief example
 
-Using the same Census at School data, we find that New York students who participated in a memory game ( $N = 227$ ) completed the game in an average time of 49.1 seconds ( $s = 13.4$ ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?
+Using the same Census at School data, we find that New York students who participated in a memory game ( $N = 224$ ) completed the game in an average time of 44.2 seconds ( $s = 15.3$ ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?
 
 **Hypotheses**
 
@@ -156,9 +374,9 @@ $$\mu = 45.05$$
 
 $$N = 227$$
 
-$$ \bar{X} = 49.1 $$
+$$ \bar{X} = 44.2 $$
 
-$$ s = 13.4 $$
+$$ s = 15.3 $$
 :::
 
 ::: {.column width="50%"}
@@ -179,47 +397,6 @@ lsr::oneSampleTTest(x = school$Score_in_memory_game,
 
 ------------------------------------------------------------------------
 
-## Shifting confidence intervals
-
-```{r, cache = T}
-#| code-fold: true
-mu = 45.05
-xbar = 49.1
-s = 13.4
-N = 227
-sem = s/sqrt(N)
-moe = qt(.975, df = N-1)*sem
-
-plotdata = expand.grid(mean = c(mu,xbar),
-            tscore = seq(-6, 6, by =.01)) %>%
-  mutate(density = map_dbl(tscore, ~dt(.x, df = N-1)),
-         X = map2_dbl(tscore, mean, ~(.x*sem)+.y)) %>%
-  mutate(ci_lower = map_dbl(mean, ~.x-moe),
-         ci_upper = map_dbl(mean, ~.x+moe))
-
-anim = plotdata %>%
-  ggplot(aes(x = X, y = density)) +
-  geom_point(size = .5) +
-  geom_vline(aes(xintercept = mu, color = "H0 mean")) +
-  geom_vline(aes(xintercept = xbar, color = "Sample mean")) +
-  geom_vline(aes(xintercept = ci_lower), linetype = "dashed")+
-  geom_vline(aes(xintercept = ci_upper), linetype = "dashed")+
-  geom_text(aes(x = mu, y = .35, 
-                label = "H0 mean", color = "H0 mean"),
-            hjust = 1) +
-  geom_text(aes(x = xbar, y = .35, 
-                label = "Sample mean", color = "Sample mean"),
-            hjust = 1) +
-  guides(color = "none") +
-  scale_x_continuous(limits = c(42, 55)) +
-  transition_states(mean, transition_length = 2, state_length = 2) +
-  theme_pubr()
-
-anim
-```
-
-------------------------------------------------------------------------
-
 ## Cohen's D
 
 Cohen suggested one of the most common effect size estimates---the standardized mean difference---useful when comparing a group mean to a population mean or two group means to each other.
@@ -230,7 +407,7 @@ Cohen's d is in the standard deviation (Z) metric.
 
 ------------------------------------------------------------------------
 
-Cohens's d for these data is .30. In other words, the sample mean differs from the population mean by .30 standard deviation units.
+Cohens's d for these data is .05. In other words, the sample mean differs from the population mean by .05 standard deviation units.
 
 Cohen (1988) suggests the following guidelines for interpreting the size of d:
 
@@ -243,38 +420,6 @@ Cohen (1988) suggests the following guidelines for interpreting the size of d:
 :::
 
 [Cohen, J. (1988), Statistical power analysis for the behavioral sciences (2nd Ed.). Hillsdale: Lawrence Erlbaum.]{style="font-size:30px;"}
-
-------------------------------------------------------------------------
-
-Another useful metric is the overlap between the two distributions -- the smaller the overlap, the farther apart the distributions
-
-```{r}
-#| code-fold: true
-#| 
-alt = mean(school$Score_in_memory_game, na.rm=T)
-null = 45.05
-se = sd(school$Score_in_memory_game, na.rm=T)/sqrt(length(which(!is.na(school$Score_in_memory_game))))
-
-x = seq(from = 40, to = 55, by = .01)
-d.alt = dnorm(x, mean = alt, sd = se)
-d.nul = dnorm(x, mean = null, sd = se)
-
-loc = min(which(d.alt-d.nul > 0))
-loc = (x[loc] + x[loc-1])/2
-
-area = pnorm(loc, mean = null, sd = se, lower.tail = F) + pnorm(loc, mean = alt, sd = se, lower.tail = T)
-
-ggplot(data.frame(x=x), aes(x)) +
-  stat_function(fun = function(x) dnorm(x, mean = null, sd = se),
-                geom = "area", xlim = c(loc,55), fill = "black") +
-  stat_function(fun = function(x) dnorm(x, mean = alt, sd = se),
-                geom = "area", xlim =c(45, loc), fill = "black") +
-  stat_function(fun = function(x) dnorm(x, mean = null, sd = se), geom = "line", aes(color = "null")) +
-  stat_function(fun = function(x) dnorm(x, mean = alt, sd = se), geom = "line", aes(color = "alternative")) +
-  scale_color_discrete("Model") +
-  ggtitle(paste0("Overlap = ", round(area,3))) +
-  theme_bw(base_size = 20)
-```
 
 ------------------------------------------------------------------------
 
@@ -293,7 +438,9 @@ The one-sample *t*-test is used to test coefficients in a model.
 ------------------------------------------------------------------------
 
 ```{r}
-model = lm(health ~ education, data = spi)
+#Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html
+sleep <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv")
+model = lm(Reaction ~ Days, data = sleep)
 summary(model)
 ```
 
@@ -301,4 +448,12 @@ summary(model)
 
 ## Next time...
 
-Comparing two means
+More comparing means!
+
+# Reminders
+
+No Class 10/9
+
+No Office Hours tomorrow (10/5)
+
+Next lab will likely begin on 10/16

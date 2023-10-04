@@ -19,5 +19,8 @@
   },
   "lecture_code.qmd": {
     "lecture_code.html": "53510301"
+  },
+  "lectures/06_OneSample2.qmd": {
+    "06_OneSample2.html": "69c3d0ce"
   }
 }

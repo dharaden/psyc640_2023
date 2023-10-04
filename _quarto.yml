@@ -16,6 +16,8 @@ website:
             href: "lectures/05_Hypothesis-Power-speaker"
           - text: "Week 6 - Categorical Data"
             href: "lectures/06_OneSample-speaker.html"
+          - text: "Week 6 - Categorical Data pt.2"
+            href: "lectures/06_OneSample2.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

@@ -4,35 +4,84 @@
     "href": "lecture_code.html",
     "title": "Lecture Code",
     "section": "",
-    "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data"
+    "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data\nCategorical Data Part 2"
   },
   {
-    "objectID": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
-    "href": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
-    "title": "Wk 5 - Hypothesis & Power",
-    "section": "Lessons from Lab 1",
-    "text": "Lessons from Lab 1\n\nGetting data into R is surprisingly hard\nThe console doesn’t come with you\nWork together\nProfessor gets too excited about R\n\n\nlibrary(tidyverse) #plotting\nlibrary(ggpubr) #prettier figures"
+    "objectID": "lectures/06_OneSample.html#last-week",
+    "href": "lectures/06_OneSample.html#last-week",
+    "title": "Categorical & One-Sample",
+    "section": "Last week",
+    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(patchwork)\n\nset.seed(42)"
   },
   {
-    "objectID": "lectures/05_Pre-Lab.html#sampling-revisited",
-    "href": "lectures/05_Pre-Lab.html#sampling-revisited",
-    "title": "Wk 5 - Hypothesis & Power",
-    "section": "Sampling Revisited",
-    "text": "Sampling Revisited\nWe use features of the sample (statistics) to inform us about features of the population (parameters). The quality of this information goes up as sample size goes up – the Law of Large Numbers. The quality of this information is easier to defend with random samples.\nAll sample statistics are wrong (they do not match the population parameters exactly) but they become more useful (better matches) as sample size increases."
+    "objectID": "lectures/06_OneSample.html#this-week",
+    "href": "lectures/06_OneSample.html#this-week",
+    "title": "Categorical & One-Sample",
+    "section": "This Week…",
+    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
   },
   {
-    "objectID": "lectures/05_Pre-Lab.html#some-terminology",
-    "href": "lectures/05_Pre-Lab.html#some-terminology",
-    "title": "Wk 5 - Hypothesis & Power",
-    "section": "Some Terminology",
-    "text": "Some Terminology\n\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\n\\(\\mu\\) (mu) = Population Mean\n\\(\\bar{X}\\) (x bar) = Sample Mean\n\n\n\\(\\sigma\\) (sigma) = Population Standard Deviation\n\\(s\\) = \\(\\hat{\\sigma}\\) = Sample Standard Deviation\n\n\n\\(\\sigma^2\\) (sigma squared) = Population Variance\n\\(s^2\\) = \\(\\hat{\\sigma^2}\\) = Sample Variance"
+    "objectID": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "href": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "title": "Categorical & One-Sample",
+    "section": "What are the steps of NHST?",
+    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PSYC 640",
-    "section": "",
-    "text": "This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.\nDr. Haraden is trying to put materials up here to share with everyone."
+    "objectID": "lectures/06_OneSample.html#example---coffee-shop",
+    "href": "lectures/06_OneSample.html#example---coffee-shop",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Coffee Shop",
+    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Distribution - Degrees of freedom",
+    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#but-what-if",
+    "href": "lectures/06_OneSample.html#but-what-if",
+    "title": "Categorical & One-Sample",
+    "section": "But what if…",
+    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "href": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "title": "Categorical & One-Sample",
+    "section": "Example 2 - Schools & Super-powers",
+    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#write-up-practice",
+    "href": "lectures/06_OneSample.html#write-up-practice",
+    "title": "Categorical & One-Sample",
+    "section": "Write-up Practice",
+    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "href": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "The usefulness of \\(\\chi^2\\)",
+    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "href": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "Model Fit with \\(\\chi^2\\)",
+    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
   },
   {
     "objectID": "lectures/05_Hypothesis-Power.html#recap",
@@ -238,80 +287,115 @@
     "text": "Check-in and Review\n\nThe null hypothesis ( \\(H_0\\) ) is a claim about the particular value that a population parameter takes.\nThe alternative hypothesis ( \\(H_1\\) ) states an alternative range of values for the population parameter.\nWe test the null hypothesis by determining if we have sufficient evidence that contradicts or nullifies it.\nWe reject the null hypothesis if the data in hand are rare, unusual, or atypical if the null were true. The alternative hypothesis gains support when the null is rejected, but \\(H_1\\) is not proven."
   },
   {
-    "objectID": "lectures/06_OneSample.html#last-week",
-    "href": "lectures/06_OneSample.html#last-week",
-    "title": "Categorical & One-Sample",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PSYC 640",
+    "section": "",
+    "text": "This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.\nDr. Haraden is trying to put materials up here to share with everyone."
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
+    "href": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Lessons from Lab 1",
+    "text": "Lessons from Lab 1\n\nGetting data into R is surprisingly hard\nThe console doesn’t come with you\nWork together\nProfessor gets too excited about R\n\n\nlibrary(tidyverse) #plotting\nlibrary(ggpubr) #prettier figures"
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#sampling-revisited",
+    "href": "lectures/05_Pre-Lab.html#sampling-revisited",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Sampling Revisited",
+    "text": "Sampling Revisited\nWe use features of the sample (statistics) to inform us about features of the population (parameters). The quality of this information goes up as sample size goes up – the Law of Large Numbers. The quality of this information is easier to defend with random samples.\nAll sample statistics are wrong (they do not match the population parameters exactly) but they become more useful (better matches) as sample size increases."
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#some-terminology",
+    "href": "lectures/05_Pre-Lab.html#some-terminology",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Some Terminology",
+    "text": "Some Terminology\n\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\n\\(\\mu\\) (mu) = Population Mean\n\\(\\bar{X}\\) (x bar) = Sample Mean\n\n\n\\(\\sigma\\) (sigma) = Population Standard Deviation\n\\(s\\) = \\(\\hat{\\sigma}\\) = Sample Standard Deviation\n\n\n\\(\\sigma^2\\) (sigma squared) = Population Variance\n\\(s^2\\) = \\(\\hat{\\sigma^2}\\) = Sample Variance"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#last-week",
+    "href": "lectures/06_OneSample2.html#last-week",
+    "title": "Categorical Data & Comparing Means",
     "section": "Last week",
-    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(patchwork)\n\nset.seed(42)"
+    "text": "Last week\n\n\nReview of the NHST\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nGoodness of Fit test\n\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Descriptives\nlibrary(psych)\n# Making things look nice\nlibrary(knitr)\n# Presenting nice tables\nlibrary(kableExtra)\n# Making things look nice\nlibrary(ggpubr)\n# animate things\nlibrary(gganimate)"
   },
   {
-    "objectID": "lectures/06_OneSample.html#this-week",
-    "href": "lectures/06_OneSample.html#this-week",
-    "title": "Categorical & One-Sample",
-    "section": "This Week…",
-    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
+    "objectID": "lectures/06_OneSample2.html#today",
+    "href": "lectures/06_OneSample2.html#today",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Today…",
+    "text": "Today…\n\nThe chi-square test of independence (Book Chapter 12.2)\nReview Assumptions of chi-square test\nIntroduction to Comparing Means"
   },
   {
-    "objectID": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
-    "href": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
-    "title": "Categorical & One-Sample",
-    "section": "What are the steps of NHST?",
-    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
+    "objectID": "lectures/06_OneSample2.html#pop-quizjk",
+    "href": "lectures/06_OneSample2.html#pop-quizjk",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Pop Quiz…jk",
+    "text": "Pop Quiz…jk\n\nWhat do we mean when we say a study was powered to an effect of 0.34?\nWhat does a p-value tell us?\n\nScientists get it wrong"
   },
   {
-    "objectID": "lectures/06_OneSample.html#example---coffee-shop",
-    "href": "lectures/06_OneSample.html#example---coffee-shop",
-    "title": "Categorical & One-Sample",
-    "section": "Example - Coffee Shop",
-    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
+    "objectID": "lectures/06_OneSample2.html#chapek-9-data",
+    "href": "lectures/06_OneSample2.html#chapek-9-data",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Chapek 9 Data",
+    "text": "Chapek 9 Data\nTake a peek at the data:\n\nhead(chapek9)\n\n  species choice\n1   robot flower\n2   human   data\n3   human   data\n4   human   data\n5   robot   data\n6   human flower\n\n# or \n#glimpse(chapek9)"
   },
   {
-    "objectID": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
-    "href": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
-    "title": "Categorical & One-Sample",
-    "section": "Distribution - Degrees of freedom",
-    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
+    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses",
+    "href": "lectures/06_OneSample2.html#constructing-hypotheses",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Constructing Hypotheses",
+    "text": "Constructing Hypotheses\nResearch hypothesis states that “humans and robots answer the question in different ways”\nNow our notation has two subscript values?? What torture is this??"
   },
   {
-    "objectID": "lectures/06_OneSample.html#degrees-of-freedom",
-    "href": "lectures/06_OneSample.html#degrees-of-freedom",
-    "title": "Categorical & One-Sample",
-    "section": "Degrees of freedom",
-    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses-1",
+    "href": "lectures/06_OneSample2.html#constructing-hypotheses-1",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Constructing Hypotheses",
+    "text": "Constructing Hypotheses\nOnce we have this established, we can take a look at the null\n\n\nClaiming now that the true choice probabilities don’t depend on the species making the choice ( \\(P_i\\) )\nHowever, we don’t know what the expected probability would be for each answer choice\n\nWe have to calculate the totals of each row/column"
   },
   {
-    "objectID": "lectures/06_OneSample.html#but-what-if",
-    "href": "lectures/06_OneSample.html#but-what-if",
-    "title": "Categorical & One-Sample",
-    "section": "But what if…",
-    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
+    "objectID": "lectures/06_OneSample2.html#writing-it-up",
+    "href": "lectures/06_OneSample2.html#writing-it-up",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Writing it up",
+    "text": "Writing it up\n\nPearson's \\(\\chi^2\\) revealed a significant association between species and choice ( \\(\\chi^2 (2) =\\) 10.7, \\(p\\) &lt; .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data."
   },
   {
-    "objectID": "lectures/06_OneSample.html#example-2---schools-super-powers",
-    "href": "lectures/06_OneSample.html#example-2---schools-super-powers",
-    "title": "Categorical & One-Sample",
-    "section": "Example 2 - Schools & Super-powers",
-    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+    "objectID": "lectures/06_OneSample2.html#assumptions-of-the-test",
+    "href": "lectures/06_OneSample2.html#assumptions-of-the-test",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Assumptions of the test",
+    "text": "Assumptions of the test\n\nThe expected frequencies are rather large\nData are independent of one another"
   },
   {
-    "objectID": "lectures/06_OneSample.html#write-up-practice",
-    "href": "lectures/06_OneSample.html#write-up-practice",
-    "title": "Categorical & One-Sample",
-    "section": "Write-up Practice",
-    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
+    "objectID": "lectures/06_OneSample2.html#comparing-means",
+    "href": "lectures/06_OneSample2.html#comparing-means",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Comparing Means",
+    "text": "Comparing Means\nWhen we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the t-test, of which there are several forms.\nThe one-sample t-test is appropriate when a single sample mean is compared to a population mean but the population standard deviation is unknown. A sample estimate of the population standard deviation is used instead. The appropriate sampling distribution is the t-distribution, with N-1 degrees of freedom.\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
   },
   {
-    "objectID": "lectures/06_OneSample.html#the-usefulness-of-chi2",
-    "href": "lectures/06_OneSample.html#the-usefulness-of-chi2",
-    "title": "Categorical & One-Sample",
-    "section": "The usefulness of \\(\\chi^2\\)",
-    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
+    "objectID": "lectures/06_OneSample2.html#one-sample-t-tests",
+    "href": "lectures/06_OneSample2.html#one-sample-t-tests",
+    "title": "Categorical Data & Comparing Means",
+    "section": "One-sample t-tests",
+    "text": "One-sample t-tests\nt-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)\n\nSpecifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.\nHe developed the t-test, to test small samples of beer against a population with an unknown standard deviation.\n\nProbably had input from Karl Pearson and Ronald Fisher\n\nPublished this as “Student” because Guinness didn’t want these tests tied to the production of beer."
   },
   {
-    "objectID": "lectures/06_OneSample.html#model-fit-with-chi2",
-    "href": "lectures/06_OneSample.html#model-fit-with-chi2",
-    "title": "Categorical & One-Sample",
-    "section": "Model Fit with \\(\\chi^2\\)",
-    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
+    "objectID": "lectures/06_OneSample2.html#cohens-d",
+    "href": "lectures/06_OneSample2.html#cohens-d",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Cohen’s D",
+    "text": "Cohen’s D\nCohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.\n\\[\\delta = \\frac{\\mu_1 - \\mu_0}{\\sigma} \\approx d = \\frac{\\bar{X}-\\mu}{\\hat{\\sigma}}\\]\nCohen’s d is in the standard deviation (Z) metric."
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#next-time",
+    "href": "lectures/06_OneSample2.html#next-time",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Next time…",
+    "text": "Next time…\nMore comparing means!"
   }
 ]
