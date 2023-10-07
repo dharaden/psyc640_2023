@@ -1,0 +1,351 @@
+---
+title: "t-tests"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
+format: 
+  revealjs:
+    multiplex: true
+    slide-number: true
+    incremental: true
+    touch: true
+    code-overflow: wrap
+    theme: dark
+execute: 
+  echo: true
+editor: visual
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Last week
+
+::: nonincremental
+-   Categorical Data analysis with the $\chi^2$ distribution
+    -   Test of Independence
+    -   Goodness of Fit test
+-   Single Sample $t$-test
+:::
+
+```{r, results = 'hide', message = F, warning = F}
+# File management
+library(here)
+# for dplyr, ggplot
+library(tidyverse)
+# Making things look nice
+library(ggpubr)
+
+```
+
+------------------------------------------------------------------------
+
+## Today...
+
+-   Comparing Means with the $t$-test
+    -   Independent samples
+    -   Paired Samples
+
+------------------------------------------------------------------------
+
+## Comparing Means
+
+Calculated using a t-test. To calculate the t-statistic, you will use this formula:
+
+$$t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}$$
+
+The heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample.
+
+------------------------------------------------------------------------
+
+## One-sample *t*-tests
+
+*t*-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)
+
+-   Specifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.
+
+-   He developed the *t*-test, to test small samples of beer against a population with an unknown standard deviation.
+
+    -   Probably had input from Karl Pearson and Ronald Fisher
+
+-   Published this as "Student" because Guinness didn't want these tests tied to the production of beer.
+
+------------------------------------------------------------------------
+
+### Load in the dataset from last class
+
+```{r}
+school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>% 
+  mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))
+school <- school %>% 
+  filter(!is.na(Score_in_memory_game))
+```
+
+------------------------------------------------------------------------
+
+### One-sample *t*-tests vs Z-test
+
+|                                             | Z-test                    | *t*-test                        |
+|------------------|---------------------------|---------------------------|
+| $\large{\mu}$                               | known                     | known                           |
+| $\sigma$                                    | known                     | unknown                         |
+| sem or $\sigma_M$                           | $\frac{\sigma}{\sqrt{N}}$ | $\frac{\hat{\sigma}}{\sqrt{N}}$ |
+| Probability distribution                    | standard normal           | $t$                             |
+| DF                                          | none                      | $N-1$                           |
+| Tails                                       | One or two                | One or two                      |
+| Critical value $(\alpha = .05, two-tailed)$ | 1.96                      | Depends on DF                   |
+
+------------------------------------------------------------------------
+
+### **Assumptions of the one-sample *t*-test**
+
+**Normality.** We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?
+
+**Independence.** Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn't tell me anything about what Participant B will say. How can we be safe in this assumption?
+
+------------------------------------------------------------------------
+
+### A brief example
+
+Using the same Census at School data, we find that New York students who participated in a memory game ( $N = 224$ ) completed the game in an average time of 44.2 seconds ( $s = 15.3$ ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?
+
+**Hypotheses**
+
+$H_0: \mu = 45.05$
+
+$H_1: \mu \neq 45.05$
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="50%"}
+$$\mu = 45.05$$
+
+$$N = 227$$
+
+$$ \bar{X} = 44.2 $$
+
+$$ s = 15.3 $$
+:::
+
+::: {.column width="50%"}
+```{r}
+t.test(x = school$Score_in_memory_game, 
+       mu = 45.05,
+       alternative = "two.sided")
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+```{r}
+lsr::oneSampleTTest(x = school$Score_in_memory_game,
+                    mu = 45.05, one.sided = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## Cohen's D
+
+Cohen suggested one of the most common effect size estimates---the standardized mean difference---useful when comparing a group mean to a population mean or two group means to each other.
+
+$$\delta = \frac{\mu_1 - \mu_0}{\sigma} \approx d = \frac{\bar{X}-\mu}{\hat{\sigma}}$$
+
+Cohen's d is in the standard deviation (Z) metric.
+
+------------------------------------------------------------------------
+
+Cohens's d for these data is .05. In other words, the sample mean differs from the population mean by .05 standard deviation units.
+
+Cohen (1988) suggests the following guidelines for interpreting the size of d:
+
+::: nonincremental
+-   .2 = Small
+
+-   .5 = Medium
+
+-   .8 = Large
+:::
+
+[Cohen, J. (1988), Statistical power analysis for the behavioral sciences (2nd Ed.). Hillsdale: Lawrence Erlbaum.]{style="font-size:30px;"}
+
+------------------------------------------------------------------------
+
+### The usefulness of the one-sample *t*-test
+
+How often will you conducted a one-sample *t*-test on raw data?
+
+-   (Probably) never
+
+How often will you come across one-sample *t*-tests?
+
+-   (Probably) a lot!
+
+The one-sample *t*-test is used to test coefficients in a model.
+
+------------------------------------------------------------------------
+
+```{r}
+#Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html
+sleep <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv")
+model = lm(Reaction ~ Days, data = sleep)
+summary(model)
+```
+
+------------------------------------------------------------------------
+
+# Introduction to Comparing Means
+
+- **Definition of Comparing Means**: Comparing means involves assessing whether the means of two or more groups are statistically different from each other.
+
+- **Importance of Comparing Means**: It helps us make informed decisions by identifying differences or similarities in group means, which can be crucial in various fields like medicine, psychology, economics, and more.
+
+- **Common Applications**: Examples include comparing the effectiveness of two drugs, assessing the impact of an intervention program, or examining salary differences between genders.
+
+- **Why Use t-Tests?**: T-tests are used when comparing the means of two groups, and they help us determine if the observed differences are statistically significant.
+
+---
+
+# Types of t-Tests
+
+## Independent Samples t-Test
+
+1. **Assumptions**: 
+   - Random sampling
+   - Independence of observations
+   - Approximately normally distributed data
+   - Homogeneity of variances
+
+2. **Formula**: Explain the mathematical formula for the t-test.
+
+3. **Interpretation of Results**: Discuss how to interpret the t-statistic, degrees of freedom, and p-value.
+
+4. **Practical Example**: Walk through a hypothetical example of comparing test scores of two groups (e.g., a control group and an experimental group) in R.
+
+## Paired Samples t-Test
+
+1. **Assumptions**:
+   - Differences between paired observations are approximately normally distributed
+   - Homogeneity of differences
+
+2. **Formula**: Explain the formula for the paired samples t-test.
+
+3. **Interpretation of Results**: Discuss how to interpret the t-statistic, degrees of freedom, and p-value in the context of paired samples.
+
+4. **Practical Example**: Demonstrate a paired samples t-test using data where each observation is paired with another (e.g., before and after measurements) in R.
+
+---
+
+# Assumptions of t-Tests
+
+## Normality Assumption
+
+1. **How to Check for Normality**: Explain methods like histograms, Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.
+
+2. **Remedies for Violations**: Discuss options like data transformation or non-parametric alternatives when data is not normally distributed.
+
+## Homogeneity of Variance
+
+1. **Levene's Test for Equality of Variances**: Show how to use Levene's test in R to assess if variances are equal between groups.
+
+2. **Remedies for Violations**: Explain techniques like Welch's t-test for unequal variances.
+
+---
+
+# Conducting t-Tests in R
+
+## Data Preparation
+
+1. **Loading Data**: Use the `read.csv()` or similar functions to load datasets in R.
+
+2. **Data Exploration**: Perform summary statistics, explore data distribution, and visualize data using plots (e.g., histograms, boxplots).
+
+3. **Data Visualization**: Use ggplot2 or other packages for data visualization to get a sense of the data.
+
+## Independent Samples t-Test in R
+
+1. **Using `t.test()` Function**: Demonstrate how to use the `t.test()` function in R to conduct an independent samples t-test.
+
+2. **Interpreting Output**: Explain how to interpret the results of the t-test, including the t-statistic, degrees of freedom, and p-value.
+
+3. **Practical Example in R**: Walk through a real example using R, including data preparation, t-test, and result interpretation.
+
+## Paired Samples t-Test in R
+
+1. **Using `t.test()` Function with Paired Data**: Show how to use the `t.test()` function with paired data and explain the `paired` argument.
+
+2. **Interpreting Output**: Discuss how to interpret the results of the paired samples t-test.
+
+3. **Practical Example in R**: Provide a hands-on example with paired data, demonstrating data preparation, t-test, and result interpretation.
+
+---
+
+# Reporting and Interpreting Results
+
+1. **How to Present t-Test Results**: Explain how to report findings, including mean differences, confidence intervals, p-values, and effect size measures like Cohen's d.
+
+2. **Practical Interpretation**: Emphasize the importance of translating statistical results into practical implications. How do the findings impact decision-making?
+
+---
+
+# Common Mistakes and Pitfalls
+
+- **Misinterpreting p-Values**: Discuss the common misconception of p-values as binary indicators of significance.
+
+- **Violations of Assumptions**: Highlight the potential consequences of violating assumptions and how to address them.
+
+- **Sample Size Considerations**: Explain the impact of sample size on t-test results and the importance of power analysis.
+
+- **Multiple Testing Issues**: Discuss the problem of inflated Type I error rates when conducting multiple t-tests and potential solutions (e.g., Bonferroni correction).
+
+---
+
+# Additional Topics and Advanced t-Tests (if time allows)
+
+- **One-Sample t-Test**: Briefly introduce the one-sample t-test for comparing a sample mean to a known or hypothesized population mean.
+
+- **Welch's t-Test**: Explain Welch's t-test as an alternative for unequal variances.
+
+- **ANOVA and Post hoc tests**: Mention ANOVA for comparing means among multiple groups and briefly introduce post hoc tests for pairwise comparisons.
+
+- **Non-parametric alternatives (e.g., Mann-Whitney U test)**: Discuss non-parametric alternatives for situations where t-tests' assumptions are not met.
+
+---
+
+# Practical Exercises (Hands-on)
+
+- Participants will perform t-tests on provided datasets using R.
+- Instruct participants to work in pairs or small groups, analyze data, and interpret results.
+
+---
+
+# Q&A Session
+
+- Encourage participants to ask questions and seek clarification on t-test concepts, calculations, and practical applications.
+
+---
+
+# Conclusion
+
+1. **Recap of Key Takeaways**: Summarize the key concepts covered in the lecture, including t-test types, assumptions, and interpretation.
+
+2. **Emphasize the Importance**: Reiterate the significance of using t-tests correctly and making informed decisions based on statistical analysis.
+
+---
+
+# Additional Resources
+
+- Provide references, books, websites, and further reading material for participants interested in delving deeper into t-tests and statistics.
+
+---
+
+# Closing Remarks
+
+1. **Thank the Participants**: Express gratitude for their active participation and engagement during the lecture.
+
+2. **Encourage Further Exploration**: Encourage participants to practice t-tests, explore real-world data, and continue their statistical learning journey.
+
+
+
+## Next time...

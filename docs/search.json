@@ -397,5 +397,96 @@
     "title": "Categorical Data & Comparing Means",
     "section": "Next time…",
     "text": "Next time…\nMore comparing means!"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#last-week",
+    "href": "lectures/07_ComparingMeans.html#last-week",
+    "title": "t-tests",
+    "section": "Last week",
+    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence\nGoodness of Fit test\n\nSingle Sample \\(t\\)-test\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#today",
+    "href": "lectures/07_ComparingMeans.html#today",
+    "title": "t-tests",
+    "section": "Today…",
+    "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#comparing-means",
+    "href": "lectures/07_ComparingMeans.html#comparing-means",
+    "title": "t-tests",
+    "section": "Comparing Means",
+    "text": "Comparing Means\nCalculated using a t-test. To calculate the t-statistic, you will use this formula:\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#one-sample-t-tests",
+    "href": "lectures/07_ComparingMeans.html#one-sample-t-tests",
+    "title": "t-tests",
+    "section": "One-sample t-tests",
+    "text": "One-sample t-tests\nt-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)\n\nSpecifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.\nHe developed the t-test, to test small samples of beer against a population with an unknown standard deviation.\n\nProbably had input from Karl Pearson and Ronald Fisher\n\nPublished this as “Student” because Guinness didn’t want these tests tied to the production of beer."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#cohens-d",
+    "href": "lectures/07_ComparingMeans.html#cohens-d",
+    "title": "t-tests",
+    "section": "Cohen’s D",
+    "text": "Cohen’s D\nCohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.\n\\[\\delta = \\frac{\\mu_1 - \\mu_0}{\\sigma} \\approx d = \\frac{\\bar{X}-\\mu}{\\hat{\\sigma}}\\]\nCohen’s d is in the standard deviation (Z) metric."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#independent-samples-t-test",
+    "href": "lectures/07_ComparingMeans.html#independent-samples-t-test",
+    "title": "t-tests",
+    "section": "Independent Samples t-Test",
+    "text": "Independent Samples t-Test\n\nAssumptions:\n\nRandom sampling\nIndependence of observations\nApproximately normally distributed data\nHomogeneity of variances\n\nFormula: Explain the mathematical formula for the t-test.\nInterpretation of Results: Discuss how to interpret the t-statistic, degrees of freedom, and p-value.\nPractical Example: Walk through a hypothetical example of comparing test scores of two groups (e.g., a control group and an experimental group) in R."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#paired-samples-t-test",
+    "href": "lectures/07_ComparingMeans.html#paired-samples-t-test",
+    "title": "t-tests",
+    "section": "Paired Samples t-Test",
+    "text": "Paired Samples t-Test\n\nAssumptions:\n\nDifferences between paired observations are approximately normally distributed\nHomogeneity of differences\n\nFormula: Explain the formula for the paired samples t-test.\nInterpretation of Results: Discuss how to interpret the t-statistic, degrees of freedom, and p-value in the context of paired samples.\nPractical Example: Demonstrate a paired samples t-test using data where each observation is paired with another (e.g., before and after measurements) in R."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption",
+    "title": "t-tests",
+    "section": "Normality Assumption",
+    "text": "Normality Assumption\n\nHow to Check for Normality: Explain methods like histograms, Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: Discuss options like data transformation or non-parametric alternatives when data is not normally distributed."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
+    "href": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
+    "title": "t-tests",
+    "section": "Homogeneity of Variance",
+    "text": "Homogeneity of Variance\n\nLevene’s Test for Equality of Variances: Show how to use Levene’s test in R to assess if variances are equal between groups.\nRemedies for Violations: Explain techniques like Welch’s t-test for unequal variances."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#data-preparation",
+    "href": "lectures/07_ComparingMeans.html#data-preparation",
+    "title": "t-tests",
+    "section": "Data Preparation",
+    "text": "Data Preparation\n\nLoading Data: Use the read.csv() or similar functions to load datasets in R.\nData Exploration: Perform summary statistics, explore data distribution, and visualize data using plots (e.g., histograms, boxplots).\nData Visualization: Use ggplot2 or other packages for data visualization to get a sense of the data."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#independent-samples-t-test-in-r",
+    "href": "lectures/07_ComparingMeans.html#independent-samples-t-test-in-r",
+    "title": "t-tests",
+    "section": "Independent Samples t-Test in R",
+    "text": "Independent Samples t-Test in R\n\nUsing t.test() Function: Demonstrate how to use the t.test() function in R to conduct an independent samples t-test.\nInterpreting Output: Explain how to interpret the results of the t-test, including the t-statistic, degrees of freedom, and p-value.\nPractical Example in R: Walk through a real example using R, including data preparation, t-test, and result interpretation."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#paired-samples-t-test-in-r",
+    "href": "lectures/07_ComparingMeans.html#paired-samples-t-test-in-r",
+    "title": "t-tests",
+    "section": "Paired Samples t-Test in R",
+    "text": "Paired Samples t-Test in R\n\nUsing t.test() Function with Paired Data: Show how to use the t.test() function with paired data and explain the paired argument.\nInterpreting Output: Discuss how to interpret the results of the paired samples t-test.\nPractical Example in R: Provide a hands-on example with paired data, demonstrating data preparation, t-test, and result interpretation."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#next-time",
+    "href": "lectures/07_ComparingMeans.html#next-time",
+    "title": "t-tests",
+    "section": "Next time…",
+    "text": "Next time…"
   }
 ]
