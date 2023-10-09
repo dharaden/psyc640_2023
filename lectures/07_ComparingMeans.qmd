@@ -42,6 +42,8 @@ library(rio)
 # Assumption Checks
 library(car)
 
+library(lsr)
+
 #Remove Scientific Notation 
 options(scipen=999)
 
@@ -100,7 +102,7 @@ school <- school %>%
 
 ------------------------------------------------------------------------
 
-### A brief example
+### A brief example - REVIEW
 
 Using the same Census at School data, we find that New York students who participated in a memory game ( $N = 224$ ) completed the game in an average time of 44.2 seconds ( $s = 15.3$ ). We know that the average US student completed the game in 45.04 seconds. How do our students compare? <br>
 
@@ -206,7 +208,7 @@ Paired Samples t-test
 
 ------------------------------------------------------------------------
 
-## Assumptions of t-Tests
+## Dataset
 
 Moving forward for today, we will use this dataset
 
@@ -218,7 +220,7 @@ Moving forward for today, we will use this dataset
 
 ```{r}
 
-state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv") 
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
 
 ```
 
@@ -255,11 +257,7 @@ state_school %>%
 
 ### Normality Assumption --- Q-Q Plot
 
-A Q-Q plot is a graphical method for assessing whether a dataset follows
-a normal distribution. It compares the quantiles of your data to the
-quantiles of a theoretical normal distribution. If your data follows a
-normal distribution, the points in the Q-Q plot should form a straight
-line.
+A Q-Q plot is a graphical method for assessing whether a dataset follows a normal distribution. It compares the quantiles of your data to the quantiles of a theoretical normal distribution. If your data follows a normal distribution, the points in the Q-Q plot should form a straight line.
 
 ```{r}
 qqPlot(state_school$Sleep_Hours_Schoolnight)
@@ -277,7 +275,7 @@ shapiro.test(state_school$Sleep_Hours_Schoolnight)
 
 ------------------------------------------------------------------------
 
-### Normality Assumption 
+### Normality Assumption
 
 -   Strict adherence to normality assumptions is not always necessary,
 
@@ -299,9 +297,8 @@ What can we do if our data violate these normality assumptions?
 
     -   **Mann-Whitney U Test (Wilcoxon Rank-Sum Test):** Used for comparing two independent groups
 
-    ```{=html}
     <!-- -->
-    ```
+
     -   **Wilcoxon Signed-Rank Test:** Used for comparing two paired or matched groups
 
 ------------------------------------------------------------------------
@@ -324,11 +321,10 @@ leveneTest(Sleep_Hours_Schoolnight ~ Region,
            data = state_school)
 ```
 
-<br>
-
-### Remedy for Violation
-
--   Welch's t-test (does not assume equal variances)
+::: {style="font-size: 30px"}
+Like other tests of significance, Levene\'s test gets more powerful as sample size increases. So unless your two variances are exactly equal to each other (and if they are, you don\'t need to do a test), your test will be \"significant\" with a large enough sample. Part of the analysis has to be an eyeball test -- is this \"significant\" because they
+are truly different, or because I have many subjects.
+:::
 
 # Independent Samples t-test
 
@@ -339,12 +335,12 @@ Two different types: Student's & Welch's
 -   Start with Student's t-test which assumes equal variances between the groups
 
 $$
-t = \frac{\bar{X_1} - \bar{X_2}}{SE}
+t = \frac{\bar{X_1} - \bar{X_2}}{SE(\bar{X_1} - \bar{X_2})}
 $$
 
 ------------------------------------------------------------------------
 
-## Student's t-test 
+## Student's t-test
 
 $$
 H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
@@ -352,83 +348,173 @@ $$
 
 ![](/images/student_H.png){fig-align="center"}
 
-Stopping right here
+------------------------------------------------------------------------
 
-<https://learningstatisticswithr.com/book/ttest.html#the-same-pooled-estimate-described-differently>
+### Student's t-test: Calculate SE
 
-## Paired Samples t-Test in R
+Are able to use a pooled variance estimate
 
-1.  **Using `t.test()` Function with Paired Data**: Show how to use the `t.test()` function with paired data and explain the `paired` argument.
+Both variances/standard deviations are assumed to be equal
 
-2.  **Interpreting Output**: Discuss how to interpret the results of the paired samples t-test.
+Therefore:
 
-3.  **Practical Example in R**: Provide a hands-on example with paired data, demonstrating data preparation, t-test, and result interpretation.
+$$
+SE(\bar{X_1} - \bar{X_2}) = \hat{\sigma} \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}
+$$
+
+We are calculating the **Standard Error of the Difference between means**
+
+Degrees of Freedom: Total N - 2
 
 ------------------------------------------------------------------------
 
-# Reporting and Interpreting Results
+### Student's t-test: In R
 
-1.  **How to Present t-Test Results**: Explain how to report findings, including mean differences, confidence intervals, p-values, and effect size measures like Cohen's d.
+Using the `independentSamplesTest()` within the `lsr` library (make sure it is installed) we can run the test *very* easily
 
-2.  **Practical Interpretation**: Emphasize the importance of translating statistical results into practical implications. How do the findings impact decision-making?
+Formula is outcome \~ group
+
+```{r}
+independentSamplesTTest(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = TRUE #default is FALSE
+)
+
+```
+
+------------------------------------------------------------------------
+
+### Student's t-test: In R (classic)
+
+Let's then try it out using the traditional `t.test()` function. It doesn't look as nice, but you will likely encounter it when searching for help
+
+```{r}
+t.test(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = TRUE
+)
+```
+
+------------------------------------------------------------------------
+
+### Student's t-test: Write-up
+
+The mean amount of sleep in New Mexico for youth was 6.989 (SD = 1.379), while the mean in New York was 6.994 (SD = 1.512). A Student's independent samples t-test showed that there was not a significant mean difference (*t*(180)=-0.024, *p*=.981, $CI_{95}$=\[-0.43, 0.42\], *d*=.004). This suggests that there is no difference between youth in NM and NY on amount of sleep on school nights.
+
+------------------------------------------------------------------------
+
+```{r}
+#https://indrajeetpatil.github.io/ggstatsplot/
+ggstatsplot::ggbetweenstats(
+  data  = state_school,
+  x     = Region,
+  y     = Sleep_Hours_Schoolnight,
+  title = "Distribution of hours of sleep across Region"
+)
+```
+
+------------------------------------------------------------------------
+
+## Welch's t-test
+
+$$
+H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
+$$
+
+![](/images/welch_H.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+### Welch's t-test: Calculate SE
+
+Since the variances are not equal, we have to estimate the SE differently
+
+$$ SE(\bar{X_1} - \bar{X_2}) = \sqrt{\frac{\hat{\sigma_1^2}}{N_1} + \frac{\hat{\sigma_2^2}}{N_2}} $$
+
+Degrees of Freedom is also very different:
+
+![](/images/welch_df.png){fig-align="center" width="380"}
+
+------------------------------------------------------------------------
+
+### Welch's t-test: In R
+
+We use the same function as before, but specify that the variances are not equal
+
+```{r}
+independentSamplesTTest(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = FALSE
+)
+```
+
+------------------------------------------------------------------------
+
+### Welch's t-test: In R (classic)
+
+Let's then try it out using the traditional `t.test()` function...turns out it is pretty straightforward
+
+```{r}
+t.test(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = FALSE
+)
+```
+
+------------------------------------------------------------------------
+
+## Cool Visualizations
+
+The library [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/) has some wonderful visualizations of various tests
+
+```{r}
+#| code-fold: true
+ggstatsplot::ggbetweenstats(
+  data  = state_school,
+  x     = Region,
+  y     = Sleep_Hours_Schoolnight,
+  title = "Distribution of hours of sleep across Region"
+)
+```
+
+# In-Class Lab
+
+Take a look at the data in `state_school` and identify another Independent Samples t-test that you can perform
+
+::: nonincremental
+-   Be sure to select (1) a grouping variable and (2) a continuous variable to look at differences between the groups
+:::
+
+Conduct the following:
+
+::: nonincremental
+1.  Check for Normality of the variable
+2.  Check for Homogeneity of Variances
+3.  Perform the correct t-test
+:::
+
+Report the results
+
+**Knit the document**
+
+# Paired Samples t-Test in R
 
 ------------------------------------------------------------------------
 
 # Common Mistakes and Pitfalls
 
--   **Misinterpreting p-Values**: Discuss the common misconception of p-values as binary indicators of significance.
+-   **Misinterpreting p-Values**
 
--   **Violations of Assumptions**: Highlight the potential consequences of violating assumptions and how to address them.
+-   **Violations of Assumptions**
 
--   **Sample Size Considerations**: Explain the impact of sample size on t-test results and the importance of power analysis.
+-   **Sample Size Considerations**
 
--   **Multiple Testing Issues**: Discuss the problem of inflated Type I error rates when conducting multiple t-tests and potential solutions (e.g., Bonferroni correction).
-
-------------------------------------------------------------------------
-
-# Additional Topics and Advanced t-Tests (if time allows)
-
--   **One-Sample t-Test**: Briefly introduce the one-sample t-test for comparing a sample mean to a known or hypothesized population mean.
-
--   **Welch's t-Test**: Explain Welch's t-test as an alternative for unequal variances.
-
--   **ANOVA and Post hoc tests**: Mention ANOVA for comparing means among multiple groups and briefly introduce post hoc tests for pairwise comparisons.
-
--   **Non-parametric alternatives (e.g., Mann-Whitney U test)**: Discuss non-parametric alternatives for situations where t-tests' assumptions are not met.
+-   **Multiple Testing Issues**
 
 ------------------------------------------------------------------------
-
-# Practical Exercises (Hands-on)
-
--   Participants will perform t-tests on provided datasets using R.
--   Instruct participants to work in pairs or small groups, analyze data, and interpret results.
-
-------------------------------------------------------------------------
-
-# Q&A Session
-
--   Encourage participants to ask questions and seek clarification on t-test concepts, calculations, and practical applications.
-
-------------------------------------------------------------------------
-
-# Conclusion
-
-1.  **Recap of Key Takeaways**: Summarize the key concepts covered in the lecture, including t-test types, assumptions, and interpretation.
-
-2.  **Emphasize the Importance**: Reiterate the significance of using t-tests correctly and making informed decisions based on statistical analysis.
-
-------------------------------------------------------------------------
-
-# Additional Resources
-
--   Provide references, books, websites, and further reading material for participants interested in delving deeper into t-tests and statistics.
-
-------------------------------------------------------------------------
-
-# Closing Remarks
-
-1.  **Thank the Participants**: Express gratitude for their active participation and engagement during the lecture.
-
-2.  **Encourage Further Exploration**: Encourage participants to practice t-tests, explore real-world data, and continue their statistical learning journey.
 
 ## Next time...

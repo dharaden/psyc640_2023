@@ -426,8 +426,10 @@ Dustin Haraden, PhD
 <span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Assumption Checks</span></span>
 <span id="cb1-10"><a href="#cb1-10"></a><span class="fu">library</span>(car)</span>
 <span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#Remove Scientific Notation </span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="fu">library</span>(lsr)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#Remove Scientific Notation </span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="today" class="slide level2">
@@ -519,7 +521,7 @@ Dustin Haraden, PhD
 </section>
 <section class="slide level2">
 
-<h3 id="a-brief-example">A brief example</h3>
+<h3 id="a-brief-example---review">A brief example - REVIEW</h3>
 <p>Using the same Census at School data, we find that New York students who participated in a memory game ( <span class="math inline">\(N = 224\)</span> ) completed the game in an average time of 44.2 seconds ( <span class="math inline">\(s = 15.3\)</span> ). We know that the average US student completed the game in 45.04 seconds. How do our students compare? <br></p>
 <p><br></p>
 <p><strong>Hypotheses</strong></p>
@@ -657,8 +659,8 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 0.000000000000009894</code></pre>
 <li class="fragment"><p>Homogeneity of variances</p></li>
 </ul>
 </section>
-<section id="assumptions-of-t-tests" class="slide level2">
-<h2>Assumptions of t-Tests</h2>
+<section id="dataset" class="slide level2">
+<h2>Dataset</h2>
 <p>Moving forward for today, we will use this dataset</p>
 <div>
 <ul>
@@ -667,7 +669,7 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 0.000000000000009894</code></pre>
 </ul>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="normality-assumption" class="slide level2">
@@ -774,11 +776,9 @@ group   1  0.5937  0.442
       180               </code></pre>
 </div>
 </div>
-<p><br></p>
-<h3 id="remedy-for-violation">Remedy for Violation</h3>
-<ul>
-<li class="fragment">Welch’s t-test (does not assume equal variances)</li>
-</ul>
+<div style="font-size: 30px">
+<p>Like other tests of significance, Levene's test gets more powerful as sample size increases. So unless your two variances are exactly equal to each other (and if they are, you don't need to do a test), your test will be "significant" with a large enough sample. Part of the analysis has to be an eyeball test – is this "significant" because they are truly different, or because I have many subjects.</p>
+</div>
 </section>
 <section>
 <section id="independent-samples-t-test" class="title-slide slide level1 center">
@@ -789,7 +789,7 @@ group   1  0.5937  0.442
 <li class="fragment">Start with Student’s t-test which assumes equal variances between the groups</li>
 </ul>
 <p><span class="math display">\[
-t = \frac{\bar{X_1} - \bar{X_2}}{SE}
+t = \frac{\bar{X_1} - \bar{X_2}}{SE(\bar{X_1} - \bar{X_2})}
 \]</span></p>
 </section>
 <section id="students-t-test" class="slide level2">
@@ -799,24 +799,212 @@ H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
 \]</span></p>
 
 <img data-src="..\images/student_H.png" class="r-stretch quarto-figure-center"></section>
-<section id="paired-samples-t-test-in-r" class="slide level2">
-<h2>Paired Samples t-Test in R</h2>
-<ol type="1">
-<li class="fragment"><p><strong>Using <code>t.test()</code> Function with Paired Data</strong>: Show how to use the <code>t.test()</code> function with paired data and explain the <code>paired</code> argument.</p></li>
-<li class="fragment"><p><strong>Interpreting Output</strong>: Discuss how to interpret the results of the paired samples t-test.</p></li>
-<li class="fragment"><p><strong>Practical Example in R</strong>: Provide a hands-on example with paired data, demonstrating data preparation, t-test, and result interpretation.</p></li>
-</ol>
+<section class="slide level2">
+
+<h3 id="students-t-test-calculate-se">Student’s t-test: Calculate SE</h3>
+<p>Are able to use a pooled variance estimate</p>
+<p>Both variances/standard deviations are assumed to be equal</p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+SE(\bar{X_1} - \bar{X_2}) = \hat{\sigma} \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}
+\]</span></p>
+<p>We are calculating the <strong>Standard Error of the Difference between means</strong></p>
+<p>Degrees of Freedom: Total N - 2</p>
 </section>
 <section class="slide level2">
 
-</section></section>
-<section>
-<section id="reporting-and-interpreting-results" class="title-slide slide level1 center">
-<h1>Reporting and Interpreting Results</h1>
+<h3 id="students-t-test-in-r">Student’s t-test: In R</h3>
+<p>Using the <code>independentSamplesTest()</code> within the <code>lsr</code> library (make sure it is installed) we can run the test <em>very</em> easily</p>
+<p>Formula is outcome ~ group</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">independentSamplesTTest</span>(</span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb18-4"><a href="#cb18-4"></a>  <span class="at">var.equal =</span> <span class="cn">TRUE</span> <span class="co">#default is FALSE</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Student's independent samples t-test 
+
+Outcome variable:   Sleep_Hours_Schoolnight 
+Grouping variable:  Region 
+
+Descriptive statistics: 
+               NM    NY
+   mean     6.989 6.994
+   std dev. 1.379 1.512
+
+Hypotheses: 
+   null:        population means equal for both groups
+   alternative: different population means in each group
+
+Test results: 
+   t-statistic:  -0.024 
+   degrees of freedom:  180 
+   p-value:  0.981 
+
+Other information: 
+   two-sided 95% confidence interval:  [-0.428, 0.418] 
+   estimated effect size (Cohen's d):  0.004 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="students-t-test-in-r-classic">Student’s t-test: In R (classic)</h3>
+<p>Let’s then try it out using the traditional <code>t.test()</code> function. It doesn’t look as nice, but you will likely encounter it when searching for help</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">t.test</span>(</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb20-4"><a href="#cb20-4"></a>  <span class="at">var.equal =</span> <span class="cn">TRUE</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  Sleep_Hours_Schoolnight by Region
+t = -0.023951, df = 180, p-value = 0.9809
+alternative hypothesis: true difference in means between group NM and group NY is not equal to 0
+95 percent confidence interval:
+ -0.4281648  0.4178954
+sample estimates:
+mean in group NM mean in group NY 
+        6.989247         6.994382 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="students-t-test-write-up">Student’s t-test: Write-up</h3>
+<p>The mean amount of sleep in New Mexico for youth was 6.989 (SD = 1.379), while the mean in New York was 6.994 (SD = 1.512). A Student’s independent samples t-test showed that there was not a significant mean difference (<em>t</em>(180)=-0.024, <em>p</em>=.981, <span class="math inline">\(CI_{95}\)</span>=[-0.43, 0.42], <em>d</em>=.004). This suggests that there is no difference between youth in NM and NY on amount of sleep on school nights.</p>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">#https://indrajeetpatil.github.io/ggstatsplot/</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>ggstatsplot<span class="sc">::</span><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="at">data  =</span> state_school,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="at">x     =</span> Region,</span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="at">y     =</span> Sleep_Hours_Schoolnight,</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="at">title =</span> <span class="st">"Distribution of hours of sleep across Region"</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="welchs-t-test" class="slide level2">
+<h2>Welch’s t-test</h2>
+<p><span class="math display">\[
+H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
+\]</span></p>
+
+<img data-src="..\images/welch_H.png" class="r-stretch quarto-figure-center"></section>
+<section class="slide level2">
+
+<h3 id="welchs-t-test-calculate-se">Welch’s t-test: Calculate SE</h3>
+<p>Since the variances are not equal, we have to estimate the SE differently</p>
+<p><span class="math display">\[ SE(\bar{X_1} - \bar{X_2}) = \sqrt{\frac{\hat{\sigma_1^2}}{N_1} + \frac{\hat{\sigma_2^2}}{N_2}} \]</span></p>
+<p>Degrees of Freedom is also very different:</p>
+
+<img data-src="..\images/welch_df.png" width="380" class="r-stretch quarto-figure-center"></section>
+<section class="slide level2">
+
+<h3 id="welchs-t-test-in-r">Welch’s t-test: In R</h3>
+<p>We use the same function as before, but specify that the variances are not equal</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">independentSamplesTTest</span>(</span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="at">var.equal =</span> <span class="cn">FALSE</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Welch's independent samples t-test 
+
+Outcome variable:   Sleep_Hours_Schoolnight 
+Grouping variable:  Region 
+
+Descriptive statistics: 
+               NM    NY
+   mean     6.989 6.994
+   std dev. 1.379 1.512
+
+Hypotheses: 
+   null:        population means equal for both groups
+   alternative: different population means in each group
+
+Test results: 
+   t-statistic:  -0.024 
+   degrees of freedom:  176.737 
+   p-value:  0.981 
+
+Other information: 
+   two-sided 95% confidence interval:  [-0.429, 0.419] 
+   estimated effect size (Cohen's d):  0.004 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="welchs-t-test-in-r-classic">Welch’s t-test: In R (classic)</h3>
+<p>Let’s then try it out using the traditional <code>t.test()</code> function…turns out it is pretty straightforward</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">t.test</span>(</span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="at">var.equal =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Sleep_Hours_Schoolnight by Region
+t = -0.023902, df = 176.74, p-value = 0.981
+alternative hypothesis: true difference in means between group NM and group NY is not equal to 0
+95 percent confidence interval:
+ -0.4290776  0.4188082
+sample estimates:
+mean in group NM mean in group NY 
+        6.989247         6.994382 </code></pre>
+</div>
+</div>
+</section>
+<section id="cool-visualizations" class="slide level2">
+<h2>Cool Visualizations</h2>
+<p>The library <a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a> has some wonderful visualizations of various tests</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>ggstatsplot<span class="sc">::</span><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="at">data  =</span> state_school,</span>
+<span id="cb27-3"><a href="#cb27-3"></a>  <span class="at">x     =</span> Region,</span>
+<span id="cb27-4"><a href="#cb27-4"></a>  <span class="at">y     =</span> Sleep_Hours_Schoolnight,</span>
+<span id="cb27-5"><a href="#cb27-5"></a>  <span class="at">title =</span> <span class="st">"Distribution of hours of sleep across Region"</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section></section>
+<section id="in-class-lab" class="title-slide slide level1 center">
+<h1>In-Class Lab</h1>
+<p>Take a look at the data in <code>state_school</code> and identify another Independent Samples t-test that you can perform</p>
+<ul>
+<li class="fragment">Be sure to select (1) a grouping variable and (2) a continuous variable to look at differences between the groups</li>
+</ul>
+<p>Conduct the following:</p>
 <ol type="1">
-<li class="fragment"><p><strong>How to Present t-Test Results</strong>: Explain how to report findings, including mean differences, confidence intervals, p-values, and effect size measures like Cohen’s d.</p></li>
-<li class="fragment"><p><strong>Practical Interpretation</strong>: Emphasize the importance of translating statistical results into practical implications. How do the findings impact decision-making?</p></li>
+<li class="fragment">Check for Normality of the variable</li>
+<li class="fragment">Check for Homogeneity of Variances</li>
+<li class="fragment">Perform the correct t-test</li>
 </ol>
+<p>Report the results</p>
+<p><strong>Knit the document</strong></p>
+</section>
+
+<section>
+<section id="paired-samples-t-test-in-r" class="title-slide slide level1 center">
+<h1>Paired Samples t-Test in R</h1>
+
 </section>
 <section class="slide level2">
 
@@ -825,77 +1013,11 @@ H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
 <section id="common-mistakes-and-pitfalls" class="title-slide slide level1 center">
 <h1>Common Mistakes and Pitfalls</h1>
 <ul>
-<li class="fragment"><p><strong>Misinterpreting p-Values</strong>: Discuss the common misconception of p-values as binary indicators of significance.</p></li>
-<li class="fragment"><p><strong>Violations of Assumptions</strong>: Highlight the potential consequences of violating assumptions and how to address them.</p></li>
-<li class="fragment"><p><strong>Sample Size Considerations</strong>: Explain the impact of sample size on t-test results and the importance of power analysis.</p></li>
-<li class="fragment"><p><strong>Multiple Testing Issues</strong>: Discuss the problem of inflated Type I error rates when conducting multiple t-tests and potential solutions (e.g., Bonferroni correction).</p></li>
+<li class="fragment"><p><strong>Misinterpreting p-Values</strong></p></li>
+<li class="fragment"><p><strong>Violations of Assumptions</strong></p></li>
+<li class="fragment"><p><strong>Sample Size Considerations</strong></p></li>
+<li class="fragment"><p><strong>Multiple Testing Issues</strong></p></li>
 </ul>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="additional-topics-and-advanced-t-tests-if-time-allows" class="title-slide slide level1 center">
-<h1>Additional Topics and Advanced t-Tests (if time allows)</h1>
-<ul>
-<li class="fragment"><p><strong>One-Sample t-Test</strong>: Briefly introduce the one-sample t-test for comparing a sample mean to a known or hypothesized population mean.</p></li>
-<li class="fragment"><p><strong>Welch’s t-Test</strong>: Explain Welch’s t-test as an alternative for unequal variances.</p></li>
-<li class="fragment"><p><strong>ANOVA and Post hoc tests</strong>: Mention ANOVA for comparing means among multiple groups and briefly introduce post hoc tests for pairwise comparisons.</p></li>
-<li class="fragment"><p><strong>Non-parametric alternatives (e.g., Mann-Whitney U test)</strong>: Discuss non-parametric alternatives for situations where t-tests’ assumptions are not met.</p></li>
-</ul>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="practical-exercises-hands-on" class="title-slide slide level1 center">
-<h1>Practical Exercises (Hands-on)</h1>
-<ul>
-<li class="fragment">Participants will perform t-tests on provided datasets using R.</li>
-<li class="fragment">Instruct participants to work in pairs or small groups, analyze data, and interpret results.</li>
-</ul>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="qa-session" class="title-slide slide level1 center">
-<h1>Q&amp;A Session</h1>
-<ul>
-<li class="fragment">Encourage participants to ask questions and seek clarification on t-test concepts, calculations, and practical applications.</li>
-</ul>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="conclusion" class="title-slide slide level1 center">
-<h1>Conclusion</h1>
-<ol type="1">
-<li class="fragment"><p><strong>Recap of Key Takeaways</strong>: Summarize the key concepts covered in the lecture, including t-test types, assumptions, and interpretation.</p></li>
-<li class="fragment"><p><strong>Emphasize the Importance</strong>: Reiterate the significance of using t-tests correctly and making informed decisions based on statistical analysis.</p></li>
-</ol>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="additional-resources" class="title-slide slide level1 center">
-<h1>Additional Resources</h1>
-<ul>
-<li class="fragment">Provide references, books, websites, and further reading material for participants interested in delving deeper into t-tests and statistics.</li>
-</ul>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="closing-remarks" class="title-slide slide level1 center">
-<h1>Closing Remarks</h1>
-<ol type="1">
-<li class="fragment"><p><strong>Thank the Participants</strong>: Express gratitude for their active participation and engagement during the lecture.</p></li>
-<li class="fragment"><p><strong>Encourage Further Exploration</strong>: Encourage participants to practice t-tests, explore real-world data, and continue their statistical learning journey.</p></li>
-</ol>
 </section>
 <section id="next-time" class="slide level2">
 <h2>Next time…</h2>
