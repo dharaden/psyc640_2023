@@ -421,7 +421,13 @@ Dustin Haraden, PhD
 <span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Making things look nice</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(rio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#Loading data</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(rio)</span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Assumption Checks</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#Remove Scientific Notation </span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="today" class="slide level2">
@@ -589,9 +595,7 @@ Other information:
 <blockquote>
 <p>“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”</p>
 </blockquote>
-<ul>
-<li class="fragment">A one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was <span class="math inline">\(M = 44.164\)</span> (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, <span class="math inline">\(t(223) = -0.87\)</span>, <span class="math inline">\(p = 0.388\)</span>.</li>
-</ul>
+<p>A one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was <span class="math inline">\(M = 44.164\)</span> (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, <span class="math inline">\(t(223) = -0.87\)</span>, <span class="math inline">\(p = 0.388\)</span>.</p>
 </section>
 <section class="slide level2">
 
@@ -612,15 +616,15 @@ Residuals:
 -110.848  -27.483    1.546   26.142  139.953 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  251.405      6.610  38.033  &lt; 2e-16 ***
-Days          10.467      1.238   8.454 9.89e-15 ***
+            Estimate Std. Error t value             Pr(&gt;|t|)    
+(Intercept)  251.405      6.610  38.033 &lt; 0.0000000000000002 ***
+Days          10.467      1.238   8.454  0.00000000000000989 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 47.71 on 178 degrees of freedom
 Multiple R-squared:  0.2865,    Adjusted R-squared:  0.2825 
-F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
+F-statistic: 71.46 on 1 and 178 DF,  p-value: 0.000000000000009894</code></pre>
 </div>
 </div>
 </section>
@@ -669,44 +673,132 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 <section id="normality-assumption" class="slide level2">
 <h2>Normality Assumption</h2>
 <ol type="1">
-<li class="fragment"><p><strong>How to Check for Normality</strong>: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.</p></li>
+<li class="fragment"><p><strong>Check for Normality</strong>: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.</p></li>
 <li class="fragment"><p><strong>Remedies for Violations</strong>: data transformation or non-parametric alternatives when data is not normally distributed.</p></li>
-</ol>
-</section>
-<section id="normality-assumption-check" class="slide level2">
-<h2>Normality Assumption Check</h2>
-</section>
-<section id="homogeneity-of-variance" class="slide level2">
-<h2>Homogeneity of Variance</h2>
-<ol type="1">
-<li class="fragment"><p><strong>Levene’s Test for Equality of Variances</strong>: Show how to use Levene’s test in R to assess if variances are equal between groups.</p></li>
-<li class="fragment"><p><strong>Remedies for Violations</strong>: Explain techniques like Welch’s t-test for unequal variances.</p></li>
 </ol>
 </section>
 <section class="slide level2">
 
+<h3 id="normality-assumption---visualizing">Normality Assumption - Visualizing</h3>
+<p>Visualizing Data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">hist</span>(<span class="fu">as.numeric</span>(state_school<span class="sc">$</span>Sleep_Hours_Schoolnight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Let’s make it pretty</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>state_school <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Sleep_Hours_Schoolnight,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>             <span class="at">fill =</span> Region)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="normality-assumption-q-q-plot">Normality Assumption — Q-Q Plot</h3>
+<p>A Q-Q plot is a graphical method for assessing whether a dataset follows a normal distribution. It compares the quantiles of your data to the quantiles of a theoretical normal distribution. If your data follows a normal distribution, the points in the Q-Q plot should form a straight line.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">qqPlot</span>(state_school<span class="sc">$</span>Sleep_Hours_Schoolnight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 131   6</code></pre>
+</div>
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="normality-assumption-shapiro-wilk-test">Normality Assumption — Shapiro-Wilk Test</h3>
+<p>Examines the Null Hypothesis that the data are normally distributed</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">shapiro.test</span>(state_school<span class="sc">$</span>Sleep_Hours_Schoolnight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  state_school$Sleep_Hours_Schoolnight
+W = 0.95501, p-value = 0.00001511</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="normality-assumption-1">Normality Assumption</h3>
+<ul>
+<li class="fragment"><p>Strict adherence to normality assumptions is not always necessary,</p>
+<ul>
+<li class="fragment">Larger samples bring in Central Limit Theorem</li>
+</ul></li>
+<li class="fragment"><p>However, assessing normality is still a valuable step in understanding distributions and potential impacts on your analyses</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="failure-of-normality-assumptions">Failure of Normality Assumptions</h3>
+<p>What can we do if our data violate these normality assumptions?</p>
+<ul>
+<li class="fragment"><p>Logarithmic Transformations</p></li>
+<li class="fragment"><p>Square Root Transformations</p></li>
+<li class="fragment"><p>Non-parametric tests</p>
+<ul>
+<li class="fragment"><strong>Mann-Whitney U Test (Wilcoxon Rank-Sum Test):</strong> Used for comparing two independent groups</li>
+</ul>
+<!-- -->
+<ul>
+<li class="fragment"><strong>Wilcoxon Signed-Rank Test:</strong> Used for comparing two paired or matched groups</li>
+</ul></li>
+</ul>
+</section>
+<section id="homogeneity-of-variance" class="slide level2">
+<h2>Homogeneity of Variance</h2>
+<ol type="1">
+<li class="fragment"><p><strong>Check for Equality of Variances</strong>: Levene’s test to assess if variances are equal between groups</p></li>
+<li class="fragment"><p><strong>Remedies for Violations</strong>: Welch’s t-test for unequal variances.</p></li>
+</ol>
+</section>
+<section class="slide level2">
+
+<h3 id="levenes-test">Levene’s Test</h3>
+<p>This test is used to examine if the variance is equal across groups. The Null Hypothesis is that the variances are equal</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Perform Levene's test for equality of variances</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">leveneTest</span>(Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb16-3"><a href="#cb16-3"></a>           <span class="at">data =</span> state_school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(&gt;F)
+group   1  0.5937  0.442
+      180               </code></pre>
+</div>
+</div>
+<p><br></p>
+<h3 id="remedy-for-violation">Remedy for Violation</h3>
+<ul>
+<li class="fragment">Welch’s t-test (does not assume equal variances)</li>
+</ul>
 </section>
 <section>
-<section id="conducting-t-tests-in-r" class="title-slide slide level1 center">
-<h1>Conducting t-Tests in R</h1>
+<section id="independent-samples-t-test" class="title-slide slide level1 center">
+<h1>Independent Samples t-test</h1>
+<p><a href="https://learningstatisticswithr.com/book/ttest.html#studentttest">Chapter 13.3 in Learning Stats with R</a></p>
+<p>Two different types: Student’s &amp; Welch’s</p>
+<ul>
+<li class="fragment">Start with Student’s t-test which assumes equal variances between the groups</li>
+</ul>
+<p><span class="math display">\[
+t = \frac{\bar{X_1} - \bar{X_2}}{SE}
+\]</span></p>
+</section>
+<section id="students-t-test" class="slide level2">
+<h2>Student’s t-test</h2>
+<p><span class="math display">\[
+H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
+\]</span></p>
 
-</section>
-<section id="data-preparation" class="slide level2">
-<h2>Data Preparation</h2>
-<ol type="1">
-<li class="fragment"><p><strong>Loading Data</strong>: Use the <code>read.csv()</code> or similar functions to load datasets in R.</p></li>
-<li class="fragment"><p><strong>Data Exploration</strong>: Perform summary statistics, explore data distribution, and visualize data using plots (e.g., histograms, boxplots).</p></li>
-<li class="fragment"><p><strong>Data Visualization</strong>: Use ggplot2 or other packages for data visualization to get a sense of the data.</p></li>
-</ol>
-</section>
-<section id="independent-samples-t-test-in-r" class="slide level2">
-<h2>Independent Samples t-Test in R</h2>
-<ol type="1">
-<li class="fragment"><p><strong>Using <code>t.test()</code> Function</strong>: Demonstrate how to use the <code>t.test()</code> function in R to conduct an independent samples t-test.</p></li>
-<li class="fragment"><p><strong>Interpreting Output</strong>: Explain how to interpret the results of the t-test, including the t-statistic, degrees of freedom, and p-value.</p></li>
-<li class="fragment"><p><strong>Practical Example in R</strong>: Walk through a real example using R, including data preparation, t-test, and result interpretation.</p></li>
-</ol>
-</section>
+<img data-src="..\images/student_H.png" class="r-stretch quarto-figure-center"></section>
 <section id="paired-samples-t-test-in-r" class="slide level2">
 <h2>Paired Samples t-Test in R</h2>
 <ol type="1">

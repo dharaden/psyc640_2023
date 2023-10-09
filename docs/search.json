@@ -403,7 +403,7 @@
     "href": "lectures/07_ComparingMeans.html#last-week",
     "title": "Comparing Means: t-tests",
     "section": "Last week",
-    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence\nGoodness of Fit test\n\nSingle Sample \\(t\\)-test\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\nlibrary(rio)"
+    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence\nGoodness of Fit test\n\nSingle Sample \\(t\\)-test\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#today",
@@ -452,14 +452,14 @@
     "href": "lectures/07_ComparingMeans.html#normality-assumption",
     "title": "Comparing Means: t-tests",
     "section": "Normality Assumption",
-    "text": "Normality Assumption\n\nHow to Check for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
+    "text": "Normality Assumption\n\nCheck for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
     "href": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
     "title": "Comparing Means: t-tests",
     "section": "Homogeneity of Variance",
-    "text": "Homogeneity of Variance\n\nLevene’s Test for Equality of Variances: Show how to use Levene’s test in R to assess if variances are equal between groups.\nRemedies for Violations: Explain techniques like Welch’s t-test for unequal variances."
+    "text": "Homogeneity of Variance\n\nCheck for Equality of Variances: Levene’s test to assess if variances are equal between groups\nRemedies for Violations: Welch’s t-test for unequal variances."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#data-preparation",
@@ -494,7 +494,7 @@
     "href": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
     "title": "Comparing Means: t-tests",
     "section": "Writing Up a t-test",
-    "text": "Writing Up a t-test\n\n“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”\n\n\nA one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was \\(M = 44.164\\) (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, \\(t(223) = -0.87\\), \\(p = 0.388\\)."
+    "text": "Writing Up a t-test\n\n“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”\n\nA one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was \\(M = 44.164\\) (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, \\(t(223) = -0.87\\), \\(p = 0.388\\)."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests",
@@ -522,6 +522,62 @@
     "href": "lectures/07_ComparingMeans.html#normality-assumption-check",
     "title": "Comparing Means: t-tests",
     "section": "Normality Assumption Check",
-    "text": "Normality Assumption Check"
+    "text": "Normality Assumption Check\nVisualizing Data\n\nhist(as.numeric(state_school$Sleep_Hours_Schoolnight))"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption---visualizing",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption---visualizing",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption - Visualizing",
+    "text": "Normality Assumption - Visualizing\nVisualizing Data\n\nhist(as.numeric(state_school$Sleep_Hours_Schoolnight))"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption---qq-plot",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption---qq-plot",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption - QQ Plot",
+    "text": "Normality Assumption - QQ Plot\nA Q-Q plot is a graphical method for assessing whether a dataset follows a normal distribution. It compares the quantiles of your data to the quantiles of a theoretical normal distribution. If your data follows a normal distribution, the points in the Q-Q plot should form a straight line.\n\ncar::qqPlot(state_school$Sleep_Hours_Schoolnight)\n\n\n[1] 131   6"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption---q-q-plot",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption---q-q-plot",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption - Q-Q Plot",
+    "text": "Normality Assumption - Q-Q Plot\nA Q-Q plot is a graphical method for assessing whether a dataset follows a normal distribution. It compares the quantiles of your data to the quantiles of a theoretical normal distribution. If your data follows a normal distribution, the points in the Q-Q plot should form a straight line.\n\ncar::qqPlot(state_school$Sleep_Hours_Schoolnight)\n\n\n[1] 131   6"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption-q-q-plot",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption-q-q-plot",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption — Q-Q Plot",
+    "text": "Normality Assumption — Q-Q Plot\nA Q-Q plot is a graphical method for assessing whether a dataset follows a normal distribution. It compares the quantiles of your data to the quantiles of a theoretical normal distribution. If your data follows a normal distribution, the points in the Q-Q plot should form a straight line.\n\ncar::qqPlot(state_school$Sleep_Hours_Schoolnight)\n\n\n[1] 131   6"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption-shapiro-wilk-test",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption-shapiro-wilk-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption — Shapiro-Wilk Test",
+    "text": "Normality Assumption — Shapiro-Wilk Test\nExamines the Null Hypothesis that the data are normally distributed\n\nshapiro.test(state_school$Sleep_Hours_Schoolnight)\n\n\n    Shapiro-Wilk normality test\n\ndata:  state_school$Sleep_Hours_Schoolnight\nW = 0.95501, p-value = 0.00001511"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption-1",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption-1",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption",
+    "text": "Normality Assumption\n\nStrict adherence to normality assumptions is not always necessary,\n\nLarger samples bring in Central Limit Theorem\n\nHowever, assessing normality is still a valuable step in understanding distributions and potential impacts on your analyses"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#failure-of-normality-assumptions",
+    "href": "lectures/07_ComparingMeans.html#failure-of-normality-assumptions",
+    "title": "Comparing Means: t-tests",
+    "section": "Failure of Normality Assumptions",
+    "text": "Failure of Normality Assumptions\nWhat can we do if our data violate these normality assumptions?\n\nLogarithmic Transformations\nSquare Root Transformations\nNon-parametric tests\n\nMann-Whitney U Test (Wilcoxon Rank-Sum Test): Used for comparing two independent groups\n\n\n\nWilcoxon Signed-Rank Test: Used for comparing two paired or matched groups"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#students-t-test",
+    "href": "lectures/07_ComparingMeans.html#students-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Student’s t-test",
+    "text": "Student’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
   }
 ]

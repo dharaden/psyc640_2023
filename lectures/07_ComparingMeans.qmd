@@ -13,6 +13,8 @@ format:
 execute: 
   echo: true
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = F}
@@ -35,7 +37,13 @@ library(here)
 library(tidyverse)
 # Making things look nice
 library(ggpubr)
+#Loading data
 library(rio)
+# Assumption Checks
+library(car)
+
+#Remove Scientific Notation 
+options(scipen=999)
 
 ```
 
@@ -143,7 +151,7 @@ lsr::oneSampleTTest(x = school$Score_in_memory_game,
 
 > "A one-sample t-test was conducted to determine if the mean \[variable name\] differed from a hypothesized population mean of \[population mean\]. The sample mean was M = \[sample mean\], which was significantly \[greater than/less than/different from\] the hypothesized population mean, t(df) = \[t-value\], p = \[p-value\]."
 
--   A one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was $M = 44.164$ (SD = 15.32, CI = \[42.15, 46.18\]), which was not significantly different from the population mean, $t(223) = -0.87$, $p = 0.388$.
+A one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was $M = 44.164$ (SD = 15.32, CI = \[42.15, 46.18\]), which was not significantly different from the population mean, $t(223) = -0.87$, $p = 0.388$.
 
 ------------------------------------------------------------------------
 
@@ -216,46 +224,137 @@ state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.gith
 
 ## Normality Assumption
 
-1.  **How to Check for Normality**: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.
+1.  **Check for Normality**: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.
 
 2.  **Remedies for Violations**: data transformation or non-parametric alternatives when data is not normally distributed.
 
 ------------------------------------------------------------------------
 
-## Normality Assumption Check
+### Normality Assumption - Visualizing
 
 Visualizing Data
 
 ```{r}
-hist(state_school$Sleep_Hours_Schoolnight)
+hist(as.numeric(state_school$Sleep_Hours_Schoolnight))
 
 ```
 
-## Homogeneity of Variance
+------------------------------------------------------------------------
 
-1.  **Levene's Test for Equality of Variances**: Show how to use Levene's test in R to assess if variances are equal between groups.
+Let's make it pretty
 
-2.  **Remedies for Violations**: Explain techniques like Welch's t-test for unequal variances.
+```{r}
+state_school %>% 
+  ggplot(aes(Sleep_Hours_Schoolnight,
+             fill = Region)) +
+  geom_bar(position = "dodge")
+
+```
 
 ------------------------------------------------------------------------
 
-# Conducting t-Tests in R
+### Normality Assumption --- Q-Q Plot
 
-## Data Preparation
+A Q-Q plot is a graphical method for assessing whether a dataset follows
+a normal distribution. It compares the quantiles of your data to the
+quantiles of a theoretical normal distribution. If your data follows a
+normal distribution, the points in the Q-Q plot should form a straight
+line.
 
-1.  **Loading Data**: Use the `read.csv()` or similar functions to load datasets in R.
+```{r}
+qqPlot(state_school$Sleep_Hours_Schoolnight)
+```
 
-2.  **Data Exploration**: Perform summary statistics, explore data distribution, and visualize data using plots (e.g., histograms, boxplots).
+------------------------------------------------------------------------
 
-3.  **Data Visualization**: Use ggplot2 or other packages for data visualization to get a sense of the data.
+### Normality Assumption --- Shapiro-Wilk Test
 
-## Independent Samples t-Test in R
+Examines the Null Hypothesis that the data are normally distributed
 
-1.  **Using `t.test()` Function**: Demonstrate how to use the `t.test()` function in R to conduct an independent samples t-test.
+```{r}
+shapiro.test(state_school$Sleep_Hours_Schoolnight)
+```
 
-2.  **Interpreting Output**: Explain how to interpret the results of the t-test, including the t-statistic, degrees of freedom, and p-value.
+------------------------------------------------------------------------
 
-3.  **Practical Example in R**: Walk through a real example using R, including data preparation, t-test, and result interpretation.
+### Normality Assumption 
+
+-   Strict adherence to normality assumptions is not always necessary,
+
+    -   Larger samples bring in Central Limit Theorem
+
+-   However, assessing normality is still a valuable step in understanding distributions and potential impacts on your analyses
+
+------------------------------------------------------------------------
+
+### Failure of Normality Assumptions
+
+What can we do if our data violate these normality assumptions?
+
+-   Logarithmic Transformations
+
+-   Square Root Transformations
+
+-   Non-parametric tests
+
+    -   **Mann-Whitney U Test (Wilcoxon Rank-Sum Test):** Used for comparing two independent groups
+
+    ```{=html}
+    <!-- -->
+    ```
+    -   **Wilcoxon Signed-Rank Test:** Used for comparing two paired or matched groups
+
+------------------------------------------------------------------------
+
+## Homogeneity of Variance
+
+1.  **Check for Equality of Variances**: Levene's test to assess if variances are equal between groups
+
+2.  **Remedies for Violations**: Welch's t-test for unequal variances.
+
+------------------------------------------------------------------------
+
+### Levene's Test
+
+This test is used to examine if the variance is equal across groups. The Null Hypothesis is that the variances are equal
+
+```{r}
+# Perform Levene's test for equality of variances
+leveneTest(Sleep_Hours_Schoolnight ~ Region, 
+           data = state_school)
+```
+
+<br>
+
+### Remedy for Violation
+
+-   Welch's t-test (does not assume equal variances)
+
+# Independent Samples t-test
+
+[Chapter 13.3 in Learning Stats with R](https://learningstatisticswithr.com/book/ttest.html#studentttest)
+
+Two different types: Student's & Welch's
+
+-   Start with Student's t-test which assumes equal variances between the groups
+
+$$
+t = \frac{\bar{X_1} - \bar{X_2}}{SE}
+$$
+
+------------------------------------------------------------------------
+
+## Student's t-test 
+
+$$
+H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
+$$
+
+![](/images/student_H.png){fig-align="center"}
+
+Stopping right here
+
+<https://learningstatisticswithr.com/book/ttest.html#the-same-pooled-estimate-described-differently>
 
 ## Paired Samples t-Test in R
 
