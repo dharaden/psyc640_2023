@@ -515,7 +515,7 @@
     "href": "lectures/07_ComparingMeans.html#assumptions-of-t-tests",
     "title": "Comparing Means: t-tests",
     "section": "Assumptions of t-Tests",
-    "text": "Assumptions of t-Tests\nMoving forward for today, we will use this dataset\n\nschool &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv\") %&gt;%  \n  mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))"
+    "text": "Assumptions of t-Tests\nMoving forward for today, we will use this dataset\n\n\n100 students from New York\n100 students from New Mexico\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#normality-assumption-check",

@@ -202,10 +202,15 @@ Paired Samples t-test
 
 Moving forward for today, we will use this dataset
 
+::: nonincremental
+-   100 students from New York
+
+-   100 students from New Mexico
+:::
+
 ```{r}
 
-school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>%  
-  mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv") 
 
 ```
 
@@ -219,7 +224,10 @@ school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/
 
 ## Normality Assumption Check
 
+Visualizing Data
+
 ```{r}
+hist(state_school$Sleep_Hours_Schoolnight)
 
 ```
 
