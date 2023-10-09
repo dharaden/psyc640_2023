@@ -401,21 +401,21 @@
   {
     "objectID": "lectures/07_ComparingMeans.html#last-week",
     "href": "lectures/07_ComparingMeans.html#last-week",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Last week",
-    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence\nGoodness of Fit test\n\nSingle Sample \\(t\\)-test\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)"
+    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence\nGoodness of Fit test\n\nSingle Sample \\(t\\)-test\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\nlibrary(rio)"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#today",
     "href": "lectures/07_ComparingMeans.html#today",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Today…",
     "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#comparing-means",
     "href": "lectures/07_ComparingMeans.html#comparing-means",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Comparing Means",
     "text": "Comparing Means\nCalculated using a t-test. To calculate the t-statistic, you will use this formula:\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
   },
@@ -436,57 +436,92 @@
   {
     "objectID": "lectures/07_ComparingMeans.html#independent-samples-t-test",
     "href": "lectures/07_ComparingMeans.html#independent-samples-t-test",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Independent Samples t-Test",
     "text": "Independent Samples t-Test\n\nAssumptions:\n\nRandom sampling\nIndependence of observations\nApproximately normally distributed data\nHomogeneity of variances\n\nFormula: Explain the mathematical formula for the t-test.\nInterpretation of Results: Discuss how to interpret the t-statistic, degrees of freedom, and p-value.\nPractical Example: Walk through a hypothetical example of comparing test scores of two groups (e.g., a control group and an experimental group) in R."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#paired-samples-t-test",
     "href": "lectures/07_ComparingMeans.html#paired-samples-t-test",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Paired Samples t-Test",
     "text": "Paired Samples t-Test\n\nAssumptions:\n\nDifferences between paired observations are approximately normally distributed\nHomogeneity of differences\n\nFormula: Explain the formula for the paired samples t-test.\nInterpretation of Results: Discuss how to interpret the t-statistic, degrees of freedom, and p-value in the context of paired samples.\nPractical Example: Demonstrate a paired samples t-test using data where each observation is paired with another (e.g., before and after measurements) in R."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#normality-assumption",
     "href": "lectures/07_ComparingMeans.html#normality-assumption",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Normality Assumption",
-    "text": "Normality Assumption\n\nHow to Check for Normality: Explain methods like histograms, Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: Discuss options like data transformation or non-parametric alternatives when data is not normally distributed."
+    "text": "Normality Assumption\n\nHow to Check for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
     "href": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Homogeneity of Variance",
     "text": "Homogeneity of Variance\n\nLevene’s Test for Equality of Variances: Show how to use Levene’s test in R to assess if variances are equal between groups.\nRemedies for Violations: Explain techniques like Welch’s t-test for unequal variances."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#data-preparation",
     "href": "lectures/07_ComparingMeans.html#data-preparation",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Data Preparation",
     "text": "Data Preparation\n\nLoading Data: Use the read.csv() or similar functions to load datasets in R.\nData Exploration: Perform summary statistics, explore data distribution, and visualize data using plots (e.g., histograms, boxplots).\nData Visualization: Use ggplot2 or other packages for data visualization to get a sense of the data."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#independent-samples-t-test-in-r",
     "href": "lectures/07_ComparingMeans.html#independent-samples-t-test-in-r",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Independent Samples t-Test in R",
     "text": "Independent Samples t-Test in R\n\nUsing t.test() Function: Demonstrate how to use the t.test() function in R to conduct an independent samples t-test.\nInterpreting Output: Explain how to interpret the results of the t-test, including the t-statistic, degrees of freedom, and p-value.\nPractical Example in R: Walk through a real example using R, including data preparation, t-test, and result interpretation."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#paired-samples-t-test-in-r",
     "href": "lectures/07_ComparingMeans.html#paired-samples-t-test-in-r",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Paired Samples t-Test in R",
     "text": "Paired Samples t-Test in R\n\nUsing t.test() Function with Paired Data: Show how to use the t.test() function with paired data and explain the paired argument.\nInterpreting Output: Discuss how to interpret the results of the paired samples t-test.\nPractical Example in R: Provide a hands-on example with paired data, demonstrating data preparation, t-test, and result interpretation."
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#next-time",
     "href": "lectures/07_ComparingMeans.html#next-time",
-    "title": "t-tests",
+    "title": "Comparing Means: t-tests",
     "section": "Next time…",
     "text": "Next time…"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
+    "href": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Writing Up a t-test",
+    "text": "Writing Up a t-test\n\n“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”\n\n\nA one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was \\(M = 44.164\\) (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, \\(t(223) = -0.87\\), \\(p = 0.388\\)."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests",
+    "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-1",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-1",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests",
+    "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#assumptions-of-t-tests",
+    "href": "lectures/07_ComparingMeans.html#assumptions-of-t-tests",
+    "title": "Comparing Means: t-tests",
+    "section": "Assumptions of t-Tests",
+    "text": "Assumptions of t-Tests\nMoving forward for today, we will use this dataset\n\nschool &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv\") %&gt;%  \n  mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption-check",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption-check",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption Check",
+    "text": "Normality Assumption Check"
   }
 ]

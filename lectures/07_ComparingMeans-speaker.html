@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Dustin Haraden, PhD">
-  <title>PSYC 640 - Grad Stats - t-tests</title>
+  <title>PSYC 640 - Grad Stats - Comparing Means: t-tests</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -390,7 +390,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">t-tests</h1>
+  <h1 class="title">Comparing Means: t-tests</h1>
   <p class="subtitle">PSYC 640 - Fall 2023</p>
 
 <div class="quarto-title-authors">
@@ -420,7 +420,8 @@ Dustin Haraden, PhD
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># for dplyr, ggplot</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Making things look nice</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(ggpubr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(rio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="today" class="slide level2">
@@ -439,23 +440,11 @@ Dustin Haraden, PhD
 <p><span class="math display">\[t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}\]</span></p>
 <p>The heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample.</p>
 </section>
-<section id="one-sample-t-tests" class="slide level2">
-<h2>One-sample <em>t</em>-tests</h2>
-<p><em>t</em>-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)</p>
-<ul>
-<li class="fragment"><p>Specifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.</p></li>
-<li class="fragment"><p>He developed the <em>t</em>-test, to test small samples of beer against a population with an unknown standard deviation.</p>
-<ul>
-<li class="fragment">Probably had input from Karl Pearson and Ronald Fisher</li>
-</ul></li>
-<li class="fragment"><p>Published this as “Student” because Guinness didn’t want these tests tied to the production of beer.</p></li>
-</ul>
-</section>
 <section class="slide level2">
 
 <h3 id="load-in-the-dataset-from-last-class">Load in the dataset from last class</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>school <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span>  </span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">mutate</span>(<span class="at">Score_in_memory_game =</span> <span class="fu">as.numeric</span>(Score_in_memory_game))</span>
 <span id="cb2-3"><a href="#cb2-3"></a>school <span class="ot">&lt;-</span> school <span class="sc">%&gt;%</span> </span>
 <span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Score_in_memory_game))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -525,7 +514,8 @@ Dustin Haraden, PhD
 <section class="slide level2">
 
 <h3 id="a-brief-example">A brief example</h3>
-<p>Using the same Census at School data, we find that New York students who participated in a memory game ( <span class="math inline">\(N = 224\)</span> ) completed the game in an average time of 44.2 seconds ( <span class="math inline">\(s = 15.3\)</span> ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?</p>
+<p>Using the same Census at School data, we find that New York students who participated in a memory game ( <span class="math inline">\(N = 224\)</span> ) completed the game in an average time of 44.2 seconds ( <span class="math inline">\(s = 15.3\)</span> ). We know that the average US student completed the game in 45.04 seconds. How do our students compare? <br></p>
+<p><br></p>
 <p><strong>Hypotheses</strong></p>
 <p><span class="math inline">\(H_0: \mu = 45.05\)</span></p>
 <p><span class="math inline">\(H_1: \mu \neq 45.05\)</span></p>
@@ -538,6 +528,9 @@ Dustin Haraden, PhD
 <p><span class="math display">\[N = 227\]</span></p>
 <p><span class="math display">\[ \bar{X} = 44.2 \]</span></p>
 <p><span class="math display">\[ s = 15.3 \]</span></p>
+<p><span class="math display">\[
+\sigma = Unknown
+\]</span></p>
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> school<span class="sc">$</span>Score_in_memory_game, </span>
@@ -591,40 +584,19 @@ Other information:
 </div>
 </div>
 </section>
-<section id="cohens-d" class="slide level2">
-<h2>Cohen’s D</h2>
-<p>Cohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.</p>
-<p><span class="math display">\[\delta = \frac{\mu_1 - \mu_0}{\sigma} \approx d = \frac{\bar{X}-\mu}{\hat{\sigma}}\]</span></p>
-<p>Cohen’s d is in the standard deviation (Z) metric.</p>
+<section id="writing-up-a-t-test" class="slide level2">
+<h2>Writing Up a t-test</h2>
+<blockquote>
+<p>“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”</p>
+</blockquote>
+<ul>
+<li class="fragment">A one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was <span class="math inline">\(M = 44.164\)</span> (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, <span class="math inline">\(t(223) = -0.87\)</span>, <span class="math inline">\(p = 0.388\)</span>.</li>
+</ul>
 </section>
 <section class="slide level2">
 
-<p>Cohens’s d for these data is .05. In other words, the sample mean differs from the population mean by .05 standard deviation units.</p>
-<p>Cohen (1988) suggests the following guidelines for interpreting the size of d:</p>
-<div>
-<ul>
-<li><p>.2 = Small</p></li>
-<li><p>.5 = Medium</p></li>
-<li><p>.8 = Large</p></li>
-</ul>
-</div>
-<p><span style="font-size:30px;">Cohen, J. (1988), Statistical power analysis for the behavioral sciences (2nd Ed.). Hillsdale: Lawrence Erlbaum.</span></p>
-</section>
-<section class="slide level2">
-
-<h3 id="the-usefulness-of-the-one-sample-t-test">The usefulness of the one-sample <em>t</em>-test</h3>
-<p>How often will you conducted a one-sample <em>t</em>-test on raw data?</p>
-<ul>
-<li class="fragment">(Probably) never</li>
-</ul>
-<p>How often will you come across one-sample <em>t</em>-tests?</p>
-<ul>
-<li class="fragment">(Probably) a lot!</li>
-</ul>
-<p>The one-sample <em>t</em>-test is used to test coefficients in a model.</p>
-</section>
-<section class="slide level2">
-
+<p>Single sample t-tests are not used super often in practice</p>
+<p>You will mainly see them when interpreting effect sizes of coefficients in your model</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv"</span>)</span>
@@ -652,69 +624,52 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="types-of-t-tests" class="slide level2">
+<h2>Types of t-Tests</h2>
+<p>Single Samples t-test</p>
+<p>Independent Samples t-test</p>
+<p>Paired Samples t-test</p>
 </section>
-<section>
-<section id="introduction-to-comparing-means" class="title-slide slide level1 center">
-<h1>Introduction to Comparing Means</h1>
+<section id="types-of-t-tests-1" class="slide level2">
+<h2>Types of t-Tests</h2>
+<p><del>Single Samples t-test</del></p>
+<p>Independent Samples t-test</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li class="fragment"><p><strong>Definition of Comparing Means</strong>: Comparing means involves assessing whether the means of two or more groups are statistically different from each other.</p></li>
-<li class="fragment"><p><strong>Importance of Comparing Means</strong>: It helps us make informed decisions by identifying differences or similarities in group means, which can be crucial in various fields like medicine, psychology, economics, and more.</p></li>
-<li class="fragment"><p><strong>Common Applications</strong>: Examples include comparing the effectiveness of two drugs, assessing the impact of an intervention program, or examining salary differences between genders.</p></li>
-<li class="fragment"><p><strong>Why Use t-Tests?</strong>: T-tests are used when comparing the means of two groups, and they help us determine if the observed differences are statistically significant.</p></li>
+<li class="fragment"><p>Random Sampling</p></li>
+<li class="fragment"><p>Independent observations</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><p>Approximately normal distributions</p></li>
+<li class="fragment"><p>Homogeneity of variances</p></li>
+</ul>
+</div>
+</div>
+<p>Paired Samples t-test</p>
+<ul>
+<li class="fragment"><p>Approximately normal distributions</p></li>
+<li class="fragment"><p>Homogeneity of variances</p></li>
 </ul>
 </section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="types-of-t-tests" class="title-slide slide level1 center">
-<h1>Types of t-Tests</h1>
-
-</section>
-<section id="independent-samples-t-test" class="slide level2">
-<h2>Independent Samples t-Test</h2>
-<ol type="1">
-<li class="fragment"><p><strong>Assumptions</strong>:</p>
-<ul>
-<li class="fragment">Random sampling</li>
-<li class="fragment">Independence of observations</li>
-<li class="fragment">Approximately normally distributed data</li>
-<li class="fragment">Homogeneity of variances</li>
-</ul></li>
-<li class="fragment"><p><strong>Formula</strong>: Explain the mathematical formula for the t-test.</p></li>
-<li class="fragment"><p><strong>Interpretation of Results</strong>: Discuss how to interpret the t-statistic, degrees of freedom, and p-value.</p></li>
-<li class="fragment"><p><strong>Practical Example</strong>: Walk through a hypothetical example of comparing test scores of two groups (e.g., a control group and an experimental group) in R.</p></li>
-</ol>
-</section>
-<section id="paired-samples-t-test" class="slide level2">
-<h2>Paired Samples t-Test</h2>
-<ol type="1">
-<li class="fragment"><p><strong>Assumptions</strong>:</p>
-<ul>
-<li class="fragment">Differences between paired observations are approximately normally distributed</li>
-<li class="fragment">Homogeneity of differences</li>
-</ul></li>
-<li class="fragment"><p><strong>Formula</strong>: Explain the formula for the paired samples t-test.</p></li>
-<li class="fragment"><p><strong>Interpretation of Results</strong>: Discuss how to interpret the t-statistic, degrees of freedom, and p-value in the context of paired samples.</p></li>
-<li class="fragment"><p><strong>Practical Example</strong>: Demonstrate a paired samples t-test using data where each observation is paired with another (e.g., before and after measurements) in R.</p></li>
-</ol>
-</section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="assumptions-of-t-tests" class="title-slide slide level1 center">
-<h1>Assumptions of t-Tests</h1>
-
+<section id="assumptions-of-t-tests" class="slide level2">
+<h2>Assumptions of t-Tests</h2>
+<p>Moving forward for today, we will use this dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">mutate</span>(<span class="at">Score_in_memory_game =</span> <span class="fu">as.numeric</span>(Score_in_memory_game))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="normality-assumption" class="slide level2">
 <h2>Normality Assumption</h2>
 <ol type="1">
-<li class="fragment"><p><strong>How to Check for Normality</strong>: Explain methods like histograms, Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.</p></li>
-<li class="fragment"><p><strong>Remedies for Violations</strong>: Discuss options like data transformation or non-parametric alternatives when data is not normally distributed.</p></li>
+<li class="fragment"><p><strong>How to Check for Normality</strong>: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.</p></li>
+<li class="fragment"><p><strong>Remedies for Violations</strong>: data transformation or non-parametric alternatives when data is not normally distributed.</p></li>
 </ol>
+</section>
+<section id="normality-assumption-check" class="slide level2">
+<h2>Normality Assumption Check</h2>
 </section>
 <section id="homogeneity-of-variance" class="slide level2">
 <h2>Homogeneity of Variance</h2>
@@ -725,7 +680,7 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 </section>
 <section class="slide level2">
 
-</section></section>
+</section>
 <section>
 <section id="conducting-t-tests-in-r" class="title-slide slide level1 center">
 <h1>Conducting t-Tests in R</h1>
