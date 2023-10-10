@@ -83,7 +83,7 @@ school <- school %>%
 ### One-sample *t*-tests vs Z-test
 
 |                                             | Z-test                    | *t*-test                        |
-|------------------|---------------------------|---------------------------|
+|---------------------------------------------|---------------------------|---------------------------------|
 | $\large{\mu}$                               | known                     | known                           |
 | $\sigma$                                    | known                     | unknown                         |
 | sem or $\sigma_M$                           | $\frac{\sigma}{\sqrt{N}}$ | $\frac{\hat{\sigma}}{\sqrt{N}}$ |
@@ -322,8 +322,7 @@ leveneTest(Sleep_Hours_Schoolnight ~ Region,
 ```
 
 ::: {style="font-size: 30px"}
-Like other tests of significance, Levene\'s test gets more powerful as sample size increases. So unless your two variances are exactly equal to each other (and if they are, you don\'t need to do a test), your test will be \"significant\" with a large enough sample. Part of the analysis has to be an eyeball test -- is this \"significant\" because they
-are truly different, or because I have many subjects.
+Like other tests of significance, Levene's test gets more powerful as sample size increases. So unless your two variances are exactly equal to each other (and if they are, you don't need to do a test), your test will be "significant" with a large enough sample. Part of the analysis has to be an eyeball test -- is this "significant" because they are truly different, or because I have many subjects.
 :::
 
 # Independent Samples t-test
