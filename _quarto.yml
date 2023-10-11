@@ -18,6 +18,8 @@ website:
             href: "lectures/06_OneSample-speaker.html"
           - text: "Week 6 - Categorical Data pt.2"
             href: "lectures/06_OneSample2.html"
+          - text: "Week 7 & 8 - Comparing Means"
+            href: "lectures/07_ComparingMeans-speaker.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Dustin Haraden, PhD">
-  <title>PSYC 640 - Grad Stats - Categorical Data &amp; Comparing Means</title>
+  <title>PSYC 640 - Grad Stats - Comparing Means: t-tests</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -390,7 +390,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Categorical Data &amp; Comparing Means</h1>
+  <h1 class="title">Comparing Means: t-tests</h1>
   <p class="subtitle">PSYC 640 - Fall 2023</p>
 
 <div class="quarto-title-authors">
@@ -406,361 +406,54 @@ Dustin Haraden, PhD
 <h2>Last week</h2>
 <div>
 <ul>
-<li>Review of the NHST</li>
 <li>Categorical Data analysis with the <span class="math inline">\(\chi^2\)</span> distribution
 <ul>
-<li>Goodness of Fit test</li>
+<li>Test of Independence &amp; Goodness of Fit Test</li>
 </ul></li>
+<li>Single Sample <span class="math inline">\(t\)</span>-test</li>
 </ul>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># File management</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># for dplyr, ggplot</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Descriptives</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(psych)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Making things look nice</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Presenting nice tables</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># Making things look nice</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># animate things</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">library</span>(gganimate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(lsr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># File management</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># for dplyr, ggplot</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Making things look nice</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#Loading data</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">library</span>(rio)</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># Assumption Checks</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#Remove Scientific Notation </span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="today" class="slide level2">
 <h2>Today…</h2>
 <ul>
-<li class="fragment">The chi-square test of independence (<a href="https://learningstatisticswithr.com/book/chisquare.html#chisqindependence">Book Chapter 12.2</a>)</li>
-<li class="fragment">Review Assumptions of chi-square test</li>
-<li class="fragment">Introduction to Comparing Means</li>
-</ul>
-</section>
-<section id="pop-quizjk" class="slide level2 center">
-<h2>Pop Quiz…jk</h2>
+<li class="fragment">Comparing Means with the <span class="math inline">\(t\)</span>-test
 <ul>
-<li class="fragment"><p>What do we mean when we say a study was powered to an effect of 0.34?</p></li>
-<li class="fragment"><p>What does a p-value tell us?</p>
-<ul>
-<li class="fragment"><a href="https://fivethirtyeight.com/features/not-even-scientists-can-easily-explain-p-values/">Scientists get it wrong</a></li>
+<li class="fragment">Independent samples</li>
+<li class="fragment">Paired Samples (probably next class)</li>
 </ul></li>
-</ul>
-</section>
-<section class="slide level2">
-
-<h3 id="chi2-test-of-independence-or-association"><span class="math inline">\(\chi^2\)</span> test of independence or association</h3>
-<p>The previous tests that we conducted last class, we were focused on the way our data (NY Students Superpower Preferences) “fit” to the data of an expected distribution (US Student Superpower Preferences)</p>
-<p>Although this could be interesting, sometimes we have two categorical variables that we want to compare to one another</p>
-<ul>
-<li class="fragment">How do types of traffic stops differ by the gender identity of the police officer?</li>
-</ul>
-</section>
-<section class="slide level2">
-
-<p>Let’s take a look at a scenario:</p>
-<p>We are part of a delivery company called Planet Express</p>
-
-<img data-src="..\images/Planet_express.webp" width="192" class="r-stretch quarto-figure-center"></section>
-<section class="slide level2">
-
-<p>Let’s take a look at a scenario:</p>
-<p>We are part of a delivery company called Planet Express</p>
-<p>We have been tasked to deliver a package to Chapek 9</p>
-
-<img data-src="..\images/Chapek_9.webp" width="192" class="r-stretch quarto-figure-center"></section>
-<section class="slide level2">
-
-<p>Let’s take a look at a scenario:</p>
-<p>We are part of a delivery company called Planet Express</p>
-<p>We have been tasked to deliver a package to Chapek 9</p>
-<p>Unfortunately, the planet is inhabited completely by robots and humans are not allowed</p>
-<p>In order to deliver the package, we have to go through the guard gate and prove that we are able to gain access</p>
-</section>
-<section class="slide level2">
-
-<h3 id="at-the-guard-gate">At the guard gate</h3>
-<blockquote>
-<p><em>(Robot Voice)</em></p>
-<p>WHICH OF THE FOLLOWING WOULD YOU MOST PREFER?</p>
-<p>A: A Puppy</p>
-<p>B: A pretty flower from your sweetie</p>
-<p>C: A large properly-formatted data file</p>
-<p>CHOOSE NOW!</p>
-</blockquote>
-<ul>
-<li class="fragment">Clearly an ingenious test that will catch any imposters!</li>
-<li class="fragment"><strong><em>But what if humans and robots have similar preferences?</em></strong></li>
-</ul>
-</section>
-<section class="slide level2">
-
-<p>Luckily, I have connections with Chapek 9 and we can see if there are any similarities between the responses.</p>
-<p>Let’s work through how to do a <span class="math inline">\(\chi^2\)</span> test of independence (or association)</p>
-<p>First, we have to load in the data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>chapek9 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/chapek9.csv"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">mutate</span>(<span class="at">choice =</span> <span class="fu">as.factor</span>(choice), </span>
-<span id="cb2-3"><a href="#cb2-3"></a>         <span class="at">species =</span> <span class="fu">as.factor</span>(species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="chapek-9-data" class="slide level2">
-<h2>Chapek 9 Data</h2>
-<p>Take a peek at the data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">head</span>(chapek9)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  species choice
-1   robot flower
-2   human   data
-3   human   data
-4   human   data
-5   robot   data
-6   human flower</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># or </span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#glimpse(chapek9)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="chapek-9-data-1">Chapek 9 Data</h3>
-<p>Look at the summary stats for the data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">summary</span>(chapek9) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  species      choice   
- human:93   data  :109  
- robot:87   flower: 43  
-            puppy : 28  </code></pre>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="chapek-9-data---cross-tabs">Chapek 9 Data - Cross Tabs</h3>
-<p>There are a few different ways to look at these tables. We can use <code>xtabs()</code></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>chapekFreq <span class="ot">&lt;-</span> <span class="fu">xtabs</span>( <span class="sc">~</span> choice <span class="sc">+</span> species, <span class="at">data =</span> chapek9)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>chapekFreq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        species
-choice   human robot
-  data      65    44
-  flower    13    30
-  puppy     15    13</code></pre>
-</div>
-</div>
-</section>
-<section id="constructing-hypotheses" class="slide level2">
-<h2>Constructing Hypotheses</h2>
-<p>Research hypothesis states that “humans and robots answer the question in different ways”</p>
-<p>Now our notation has two subscript values?? What torture is this??</p>
-
-<img data-src="..\images/Greek_breakdown.PNG" class="r-stretch quarto-figure-center"></section>
-<section id="constructing-hypotheses-1" class="slide level2">
-<h2>Constructing Hypotheses</h2>
-<p>Once we have this established, we can take a look at the null</p>
-
-<img data-src="..\images/Null_prob.PNG" class="r-stretch quarto-figure-center"><ul>
-<li class="fragment"><p>Claiming now that the true choice probabilities don’t depend on the species making the choice ( <span class="math inline">\(P_i\)</span> )</p></li>
-<li class="fragment"><p>However, we don’t know what the <strong><em>expected</em></strong> probability would be for each answer choice</p>
-<ul>
-<li class="fragment">We have to calculate the totals of each row/column</li>
-</ul></li>
-</ul>
-</section>
-<section class="slide level2">
-
-<h3 id="chapek-9-data---cross-tabs-1">Chapek 9 Data - Cross Tabs</h3>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Let’s use R to make the table look fancy and calculate the totals for us!</p>
-<p>We will use the library <code>sjPlot</code> (<a href="https://strengejacke.github.io/sjPlot/reference/index.html#descriptive-statistics-tables">link</a>)</p>
-<p><strong>Note:</strong> Will need to knit the document to get this table</p>
-<div class="cell" data-codefold="true">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">library</span>(sjPlot)</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">tab_xtab</span>(<span class="at">var.row =</span> chapek9<span class="sc">$</span>choice, </span>
-<span id="cb10-4"><a href="#cb10-4"></a>          <span class="at">var.col =</span> chapek9<span class="sc">$</span>species, </span>
-<span id="cb10-5"><a href="#cb10-5"></a>         <span class="at">title =</span> <span class="st">"Chapek 9 Frequencies"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="cell-output-display">
-
-<table style="border-collapse:collapse; border:none;">
-<caption style="font-weight: bold; text-align:left;">Chapek 9 Frequencies</caption>
- <tbody><tr>
- <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;" rowspan="2">choice</th>
- <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal;" colspan="2">species</th>
- <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; " rowspan="2">Total</th>
- </tr>
- 
-<tr>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">human</td>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">robot</td>
- </tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">data</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">65</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">44</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">109</span></td> 
-</tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">flower</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">13</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">30</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">43</span></td> 
-</tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">puppy</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">15</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">13</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">28</span></td> 
-</tr>
- 
-<tr> 
-<td style="padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;">Total</td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">93</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">87</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">180</span></td> 
-</tr>
-<tr><td style="text-align:right; font-size:0.9em; font-style:italic; padding:0.2cm;" colspan="4">χ<sup>2</sup>=10.722 · df=2 · Cramer's V=0.244 · p=0.005</td> 
-</tr>
- 
-</tbody></table>
-</div>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="note-about-degrees-of-freedom">Note about degrees of freedom</h3>
-<p>Degrees of freedom comes from the number of data points that you have, minus the number of constraints</p>
-<ul>
-<li class="fragment"><p>Using contingency tables (or cross-tabs), the data points we have are <span class="math inline">\(rows * columns\)</span></p></li>
-<li class="fragment"><p>There will be two constraints and <span class="math inline">\(df = (rows-1) * (columns-1)\)</span></p></li>
-</ul>
-</section>
-<section class="slide level2">
-
-<p>We now have all the pieces for a <span class="math inline">\(classic\)</span> Null Hypothesis Significance Test</p>
-<p>But we have these computers, so why not use them?</p>
-<p>Using the <code>associationTest()</code> from the <code>lsr</code> library</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>lsr<span class="sc">::</span><span class="fu">associationTest</span>(<span class="at">formula =</span> <span class="sc">~</span>choice<span class="sc">+</span>species,</span>
-<span id="cb11-2"><a href="#cb11-2"></a>                <span class="at">data =</span> chapek9)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     Chi-square test of categorical association
-
-Variables:   choice, species 
-
-Hypotheses: 
-   null:        variables are independent of one another
-   alternative: some contingency exists between variables
-
-Observed contingency table:
-        species
-choice   human robot
-  data      65    44
-  flower    13    30
-  puppy     15    13
-
-Expected contingency table under the null hypothesis:
-        species
-choice   human robot
-  data    56.3  52.7
-  flower  22.2  20.8
-  puppy   14.5  13.5
-
-Test results: 
-   X-squared statistic:  10.722 
-   degrees of freedom:  2 
-   p-value:  0.005 
-
-Other information: 
-   estimated effect size (Cramer's v):  0.244 </code></pre>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<p>Maybe we want to keep it traditional and use <code>chisq.test()</code> will there be a difference?</p>
-<p><a href="https://learningstatisticswithr.com/book/chisquare.html#chisq.test">Book Ch 12.6 - The most typical way to do a chi-square test in R</a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>chi <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(<span class="fu">table</span>(chapek9<span class="sc">$</span>choice, chapek9<span class="sc">$</span>species))</span>
-<span id="cb13-2"><a href="#cb13-2"></a>chi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Pearson's Chi-squared test
-
-data:  table(chapek9$choice, chapek9$species)
-X-squared = 10.722, df = 2, p-value = 0.004697</code></pre>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<p>But what if we want to visualize it? Use <code>sjPlot</code> again</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">plot_xtab</span>(chapek9<span class="sc">$</span>choice, </span>
-<span id="cb15-2"><a href="#cb15-2"></a>          chapek9<span class="sc">$</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="06_OneSample2_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
-<section class="slide level2">
-
-<p>Let’s clean that up a little bit more</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">plot_xtab</span>(chapek9<span class="sc">$</span>choice, chapek9<span class="sc">$</span>species, <span class="at">margin =</span> <span class="st">"row"</span>, <span class="at">bar.pos =</span> <span class="st">"stack"</span>, <span class="at">coord.flip =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="06_OneSample2_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
-<section id="writing-it-up" class="slide level2">
-<h2>Writing it up</h2>
-<blockquote>
-<p>Pearson's <span class="math inline">\(\chi^2\)</span> revealed a significant association between species and choice ( <span class="math inline">\(\chi^2 (2) =\)</span> 10.7, <span class="math inline">\(p\)</span> &lt; .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data.</p>
-</blockquote>
-</section>
-<section id="assumptions-of-the-test" class="slide level2">
-<h2>Assumptions of the test</h2>
-<ul>
-<li class="fragment"><p>The expected frequencies are rather large</p></li>
-<li class="fragment"><p>Data are independent of one another</p></li>
 </ul>
 </section>
 <section id="comparing-means" class="slide level2">
 <h2>Comparing Means</h2>
-<p>When we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the <em>t</em>-test, of which there are several forms.</p>
-<p>The one-sample <em>t</em>-test is appropriate when a single sample mean is compared to a population mean but the population standard deviation is unknown. A sample estimate of the population standard deviation is used instead. The appropriate sampling distribution is the t-distribution, with N-1 degrees of freedom.</p>
+<p>Calculated using a t-test. To calculate the t-statistic, you will use this formula:</p>
 <p><span class="math display">\[t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}\]</span></p>
 <p>The heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample.</p>
-</section>
-<section id="one-sample-t-tests" class="slide level2">
-<h2>One-sample <em>t</em>-tests</h2>
-<p><em>t</em>-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)</p>
-<ul>
-<li class="fragment"><p>Specifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.</p></li>
-<li class="fragment"><p>He developed the <em>t</em>-test, to test small samples of beer against a population with an unknown standard deviation.</p>
-<ul>
-<li class="fragment">Probably had input from Karl Pearson and Ronald Fisher</li>
-</ul></li>
-<li class="fragment"><p>Published this as “Student” because Guinness didn’t want these tests tied to the production of beer.</p></li>
-</ul>
 </section>
 <section class="slide level2">
 
 <h3 id="load-in-the-dataset-from-last-class">Load in the dataset from last class</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>school <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">mutate</span>(<span class="at">Score_in_memory_game =</span> <span class="fu">as.numeric</span>(Score_in_memory_game))</span>
-<span id="cb17-3"><a href="#cb17-3"></a>school <span class="ot">&lt;-</span> school <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Score_in_memory_game))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">mutate</span>(<span class="at">Score_in_memory_game =</span> <span class="fu">as.numeric</span>(Score_in_memory_game))</span>
+<span id="cb2-3"><a href="#cb2-3"></a>school <span class="ot">&lt;-</span> school <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Score_in_memory_game))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -768,13 +461,13 @@ X-squared = 10.722, df = 2, p-value = 0.004697</code></pre>
 <h3 id="one-sample-t-tests-vs-z-test">One-sample <em>t</em>-tests vs Z-test</h3>
 <table>
 <colgroup>
+<col style="width: 42%">
 <col style="width: 25%">
-<col style="width: 37%">
-<col style="width: 37%">
+<col style="width: 31%">
 </colgroup>
 <thead>
 <tr class="header">
-<th></th>
+<th>Parameters</th>
 <th>Z-test</th>
 <th><em>t</em>-test</th>
 </tr>
@@ -821,13 +514,16 @@ X-squared = 10.722, df = 2, p-value = 0.004697</code></pre>
 <section class="slide level2">
 
 <h3 id="assumptions-of-the-one-sample-t-test"><strong>Assumptions of the one-sample <em>t</em>-test</strong></h3>
-<p><strong>Normality.</strong> We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?</p>
-<p><strong>Independence.</strong> Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn’t tell me anything about what Participant B will say. How can we be safe in this assumption?</p>
+<ul>
+<li class="fragment"><p><strong>Normality.</strong> We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?</p></li>
+<li class="fragment"><p><strong>Independence.</strong> Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn’t tell me anything about what Participant B will say. How can we be safe in this assumption?</p></li>
+</ul>
 </section>
 <section class="slide level2">
 
-<h3 id="a-brief-example">A brief example</h3>
-<p>Using the same Census at School data, we find that New York students who participated in a memory game ( <span class="math inline">\(N = 224\)</span> ) completed the game in an average time of 44.2 seconds ( <span class="math inline">\(s = 15.3\)</span> ). We know that the average US student completed the game in 45.04 seconds. How do our students compare?</p>
+<h3 id="a-brief-example---review">A brief example - REVIEW</h3>
+<p>Using the same Census at School data, we find that New York students who participated in a memory game ( <span class="math inline">\(N = 224\)</span> ) completed the game in an average time of 44.2 seconds ( <span class="math inline">\(s = 15.3\)</span> ). We know that the average US student completed the game in 45.04 seconds. How do our students compare? <br></p>
+<p><br></p>
 <p><strong>Hypotheses</strong></p>
 <p><span class="math inline">\(H_0: \mu = 45.05\)</span></p>
 <p><span class="math inline">\(H_1: \mu \neq 45.05\)</span></p>
@@ -840,11 +536,14 @@ X-squared = 10.722, df = 2, p-value = 0.004697</code></pre>
 <p><span class="math display">\[N = 227\]</span></p>
 <p><span class="math display">\[ \bar{X} = 44.2 \]</span></p>
 <p><span class="math display">\[ s = 15.3 \]</span></p>
+<p><span class="math display">\[
+\sigma = Unknown
+\]</span></p>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> school<span class="sc">$</span>Score_in_memory_game, </span>
-<span id="cb18-2"><a href="#cb18-2"></a>       <span class="at">mu =</span> <span class="fl">45.05</span>,</span>
-<span id="cb18-3"><a href="#cb18-3"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> school<span class="sc">$</span>Score_in_memory_game, </span>
+<span id="cb3-2"><a href="#cb3-2"></a>       <span class="at">mu =</span> <span class="fl">45.05</span>,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
@@ -865,8 +564,8 @@ mean of x
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>lsr<span class="sc">::</span><span class="fu">oneSampleTTest</span>(<span class="at">x =</span> school<span class="sc">$</span>Score_in_memory_game,</span>
-<span id="cb20-2"><a href="#cb20-2"></a>                    <span class="at">mu =</span> <span class="fl">45.05</span>, <span class="at">one.sided =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>lsr<span class="sc">::</span><span class="fu">oneSampleTTest</span>(<span class="at">x =</span> school<span class="sc">$</span>Score_in_memory_game,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>                    <span class="at">mu =</span> <span class="fl">45.05</span>, <span class="at">one.sided =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    One sample t-test 
@@ -893,45 +592,22 @@ Other information:
 </div>
 </div>
 </section>
-<section id="cohens-d" class="slide level2">
-<h2>Cohen’s D</h2>
-<p>Cohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.</p>
-<p><span class="math display">\[\delta = \frac{\mu_1 - \mu_0}{\sigma} \approx d = \frac{\bar{X}-\mu}{\hat{\sigma}}\]</span></p>
-<p>Cohen’s d is in the standard deviation (Z) metric.</p>
+<section id="writing-up-a-t-test" class="slide level2">
+<h2>Writing Up a t-test</h2>
+<blockquote>
+<p>“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”</p>
+</blockquote>
+<p>A one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was <span class="math inline">\(M = 44.164\)</span> (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, <span class="math inline">\(t(223) = -0.87\)</span>, <span class="math inline">\(p = 0.388\)</span>.</p>
 </section>
 <section class="slide level2">
 
-<p>Cohens’s d for these data is .05. In other words, the sample mean differs from the population mean by .05 standard deviation units.</p>
-<p>Cohen (1988) suggests the following guidelines for interpreting the size of d:</p>
-<div>
-<ul>
-<li><p>.2 = Small</p></li>
-<li><p>.5 = Medium</p></li>
-<li><p>.8 = Large</p></li>
-</ul>
-</div>
-<p><span style="font-size:30px;">Cohen, J. (1988), Statistical power analysis for the behavioral sciences (2nd Ed.). Hillsdale: Lawrence Erlbaum.</span></p>
-</section>
-<section class="slide level2">
-
-<h3 id="the-usefulness-of-the-one-sample-t-test">The usefulness of the one-sample <em>t</em>-test</h3>
-<p>How often will you conducted a one-sample <em>t</em>-test on raw data?</p>
-<ul>
-<li class="fragment">(Probably) never</li>
-</ul>
-<p>How often will you come across one-sample <em>t</em>-tests?</p>
-<ul>
-<li class="fragment">(Probably) a lot!</li>
-</ul>
-<p>The one-sample <em>t</em>-test is used to test coefficients in a model.</p>
-</section>
-<section class="slide level2">
-
+<p>Single sample t-tests are not used super often in practice</p>
+<p>You will mainly see them when interpreting effect sizes of coefficients in your model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">#Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3"></a>model <span class="ot">=</span> <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> sleep)</span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>model <span class="ot">=</span> <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> sleep)</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -942,32 +618,430 @@ Residuals:
 -110.848  -27.483    1.546   26.142  139.953 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  251.405      6.610  38.033  &lt; 2e-16 ***
-Days          10.467      1.238   8.454 9.89e-15 ***
+            Estimate Std. Error t value             Pr(&gt;|t|)    
+(Intercept)  251.405      6.610  38.033 &lt; 0.0000000000000002 ***
+Days          10.467      1.238   8.454  0.00000000000000989 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 47.71 on 178 degrees of freedom
 Multiple R-squared:  0.2865,    Adjusted R-squared:  0.2825 
-F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
+F-statistic: 71.46 on 1 and 178 DF,  p-value: 0.000000000000009894</code></pre>
 </div>
 </div>
+</section>
+<section id="types-of-t-tests" class="slide level2">
+<h2>Types of t-Tests</h2>
+<p>Single Samples t-test</p>
+<p>Independent Samples t-test</p>
+<p>Paired Samples t-test</p>
+</section>
+<section id="types-of-t-tests-assumptions" class="slide level2">
+<h2>Types of t-Tests: Assumptions</h2>
+<p><del>Single Samples t-test</del></p>
+<p>Independent Samples t-test</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><p>Random Sampling</p></li>
+<li class="fragment"><p>Independent observations</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><p>Approximately normal distributions</p></li>
+<li class="fragment"><p>Homogeneity of variances</p></li>
+</ul>
+</div>
+</div>
+<p>Paired Samples t-test</p>
+<ul>
+<li class="fragment"><p>Approximately normal distributions</p></li>
+<li class="fragment"><p>Homogeneity of variances</p></li>
+</ul>
+</section>
+<section id="dataset" class="slide level2">
+<h2>Dataset</h2>
+<p>Moving forward for today, we will use this dataset</p>
+<div>
+<ul>
+<li><p>100 students from New York</p></li>
+<li><p>100 students from New Mexico</p></li>
+</ul>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="normality-assumption" class="slide level2">
+<h2>Normality Assumption</h2>
+<ol type="1">
+<li class="fragment"><p><strong>Check for Normality</strong>: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.</p></li>
+<li class="fragment"><p><strong>Remedies for Violations</strong>: data transformation or non-parametric alternatives when data is not normally distributed.</p></li>
+</ol>
+</section>
+<section class="slide level2">
+
+<h3 id="normality-assumption---visualizing">Normality Assumption - Visualizing</h3>
+<p>Visualizing Data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">hist</span>(<span class="fu">as.numeric</span>(state_school<span class="sc">$</span>Sleep_Hours_Schoolnight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Let’s make it pretty</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>state_school <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Sleep_Hours_Schoolnight,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>             <span class="at">fill =</span> Region)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="normality-assumption-q-q-plot">Normality Assumption — Q-Q Plot</h3>
+<p>A Q-Q plot is a graphical method for assessing whether a dataset follows a normal distribution. It compares the quantiles of your data to the quantiles of a theoretical normal distribution. If your data follows a normal distribution, the points in the Q-Q plot should form a straight line.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">qqPlot</span>(state_school<span class="sc">$</span>Sleep_Hours_Schoolnight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 131   6</code></pre>
+</div>
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="normality-assumption-shapiro-wilk-test">Normality Assumption — Shapiro-Wilk Test</h3>
+<p>Examines the Null Hypothesis that the data are normally distributed</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">shapiro.test</span>(state_school<span class="sc">$</span>Sleep_Hours_Schoolnight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  state_school$Sleep_Hours_Schoolnight
+W = 0.95501, p-value = 0.00001511</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="normality-assumption-1">Normality Assumption</h3>
+<ul>
+<li class="fragment"><p>Strict adherence to normality assumptions is not always necessary,</p>
+<ul>
+<li class="fragment">Larger samples bring in Central Limit Theorem</li>
+</ul></li>
+<li class="fragment"><p>However, assessing normality is still a valuable step in understanding distributions and potential impacts on your analyses</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="failure-of-normality-assumptions">Failure of Normality Assumptions</h3>
+<p>What can we do if our data violate these normality assumptions?</p>
+<ul>
+<li class="fragment"><p>Logarithmic Transformations</p></li>
+<li class="fragment"><p>Square Root Transformations</p></li>
+<li class="fragment"><p>Non-parametric tests</p>
+<ul>
+<li class="fragment"><strong>Mann-Whitney U Test (Wilcoxon Rank-Sum Test):</strong> Used for comparing two independent groups</li>
+</ul>
+<!-- -->
+<ul>
+<li class="fragment"><strong>Wilcoxon Signed-Rank Test:</strong> Used for comparing two paired or matched groups</li>
+</ul></li>
+</ul>
+</section>
+<section id="homogeneity-of-variance" class="slide level2">
+<h2>Homogeneity of Variance</h2>
+<ol type="1">
+<li class="fragment"><p><strong>Check for Equality of Variances</strong>: Levene’s test to assess if variances are equal between groups</p></li>
+<li class="fragment"><p><strong>Remedies for Violations</strong>: Welch’s t-test for unequal variances.</p></li>
+</ol>
+</section>
+<section class="slide level2">
+
+<h3 id="levenes-test">Levene’s Test</h3>
+<p>This test is used to examine if the variance is equal across groups. The Null Hypothesis is that the variances are equal</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Perform Levene's test for equality of variances</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">leveneTest</span>(Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb16-3"><a href="#cb16-3"></a>           <span class="at">data =</span> state_school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(&gt;F)
+group   1  0.5937  0.442
+      180               </code></pre>
+</div>
+</div>
+<div style="font-size: 30px">
+<p>Like other tests of significance, Levene’s test gets more powerful as sample size increases. So unless your two variances are exactly equal to each other (and if they are, you don’t need to do a test), your test will be “significant” with a large enough sample. Part of the analysis has to be an eyeball test – is this “significant” because they are truly different, or because I have many subjects.</p>
+</div>
+</section>
+<section>
+<section id="independent-samples-t-test" class="title-slide slide level1 center">
+<h1>Independent Samples t-test</h1>
+<p><a href="https://learningstatisticswithr.com/book/ttest.html#studentttest">Chapter 13.3 in Learning Stats with R</a></p>
+<p>Two different types: Student’s &amp; Welch’s</p>
+<ul>
+<li class="fragment">Start with Student’s t-test which assumes equal variances between the groups</li>
+</ul>
+<p><span class="math display">\[
+t = \frac{\bar{X_1} - \bar{X_2}}{SE(\bar{X_1} - \bar{X_2})}
+\]</span></p>
+</section>
+<section id="students-t-test" class="slide level2">
+<h2>Student’s t-test</h2>
+<p><span class="math display">\[
+H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
+\]</span></p>
+
+<img data-src="..\images/student_H.png" class="r-stretch quarto-figure-center"></section>
+<section class="slide level2">
+
+<h3 id="students-t-test-calculate-se">Student’s t-test: Calculate SE</h3>
+<p>Are able to use a pooled variance estimate</p>
+<p>Both variances/standard deviations are assumed to be equal</p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+SE(\bar{X_1} - \bar{X_2}) = \hat{\sigma} \sqrt{\frac{1}{N_1} + \frac{1}{N_2}}
+\]</span></p>
+<p>We are calculating the <strong>Standard Error of the Difference between means</strong></p>
+<p>Degrees of Freedom: Total N - 2</p>
+</section>
+<section class="slide level2">
+
+<h3 id="students-t-test-in-r">Student’s t-test: In R</h3>
+<p>Using the <code>independentSamplesTest()</code> within the <code>lsr</code> library (make sure it is installed) we can run the test <em>very</em> easily</p>
+<p>Formula is outcome ~ group</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">independentSamplesTTest</span>(</span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb18-4"><a href="#cb18-4"></a>  <span class="at">var.equal =</span> <span class="cn">TRUE</span> <span class="co">#default is FALSE</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Student's independent samples t-test 
+
+Outcome variable:   Sleep_Hours_Schoolnight 
+Grouping variable:  Region 
+
+Descriptive statistics: 
+               NM    NY
+   mean     6.989 6.994
+   std dev. 1.379 1.512
+
+Hypotheses: 
+   null:        population means equal for both groups
+   alternative: different population means in each group
+
+Test results: 
+   t-statistic:  -0.024 
+   degrees of freedom:  180 
+   p-value:  0.981 
+
+Other information: 
+   two-sided 95% confidence interval:  [-0.428, 0.418] 
+   estimated effect size (Cohen's d):  0.004 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="students-t-test-in-r-classic">Student’s t-test: In R (classic)</h3>
+<p>Let’s then try it out using the traditional <code>t.test()</code> function. It doesn’t look as nice, but you will likely encounter it when searching for help</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">t.test</span>(</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb20-4"><a href="#cb20-4"></a>  <span class="at">var.equal =</span> <span class="cn">TRUE</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  Sleep_Hours_Schoolnight by Region
+t = -0.023951, df = 180, p-value = 0.9809
+alternative hypothesis: true difference in means between group NM and group NY is not equal to 0
+95 percent confidence interval:
+ -0.4281648  0.4178954
+sample estimates:
+mean in group NM mean in group NY 
+        6.989247         6.994382 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="students-t-test-write-up">Student’s t-test: Write-up</h3>
+<p>The mean amount of sleep in New Mexico for youth was 6.989 (SD = 1.379), while the mean in New York was 6.994 (SD = 1.512). A Student’s independent samples t-test showed that there was not a significant mean difference (<em>t</em>(180)=-0.024, <em>p</em>=.981, <span class="math inline">\(CI_{95}\)</span>=[-0.43, 0.42], <em>d</em>=.004). This suggests that there is no difference between youth in NM and NY on amount of sleep on school nights.</p>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">#https://indrajeetpatil.github.io/ggstatsplot/</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>ggstatsplot<span class="sc">::</span><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="at">data  =</span> state_school,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="at">x     =</span> Region,</span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="at">y     =</span> Sleep_Hours_Schoolnight,</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="at">title =</span> <span class="st">"Distribution of hours of sleep across Region"</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="welchs-t-test" class="slide level2">
+<h2>Welch’s t-test</h2>
+<p><span class="math display">\[
+H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
+\]</span></p>
+
+<img data-src="..\images/welch_H.png" class="r-stretch quarto-figure-center"></section>
+<section class="slide level2">
+
+<h3 id="welchs-t-test-calculate-se">Welch’s t-test: Calculate SE</h3>
+<p>Since the variances are not equal, we have to estimate the SE differently</p>
+<p><span class="math display">\[ SE(\bar{X_1} - \bar{X_2}) = \sqrt{\frac{\hat{\sigma_1^2}}{N_1} + \frac{\hat{\sigma_2^2}}{N_2}} \]</span></p>
+<p>Degrees of Freedom is also very different:</p>
+
+<img data-src="..\images/welch_df.png" width="380" class="r-stretch quarto-figure-center"></section>
+<section class="slide level2">
+
+<h3 id="welchs-t-test-in-r">Welch’s t-test: In R</h3>
+<p>We use the same function as before, but specify that the variances are not equal</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">independentSamplesTTest</span>(</span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="at">var.equal =</span> <span class="cn">FALSE</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Welch's independent samples t-test 
+
+Outcome variable:   Sleep_Hours_Schoolnight 
+Grouping variable:  Region 
+
+Descriptive statistics: 
+               NM    NY
+   mean     6.989 6.994
+   std dev. 1.379 1.512
+
+Hypotheses: 
+   null:        population means equal for both groups
+   alternative: different population means in each group
+
+Test results: 
+   t-statistic:  -0.024 
+   degrees of freedom:  176.737 
+   p-value:  0.981 
+
+Other information: 
+   two-sided 95% confidence interval:  [-0.429, 0.419] 
+   estimated effect size (Cohen's d):  0.004 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="welchs-t-test-in-r-classic">Welch’s t-test: In R (classic)</h3>
+<p>Let’s then try it out using the traditional <code>t.test()</code> function…turns out it is pretty straightforward</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">t.test</span>(</span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="at">formula =</span> Sleep_Hours_Schoolnight <span class="sc">~</span> Region, </span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="at">data =</span> state_school, </span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="at">var.equal =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Sleep_Hours_Schoolnight by Region
+t = -0.023902, df = 176.74, p-value = 0.981
+alternative hypothesis: true difference in means between group NM and group NY is not equal to 0
+95 percent confidence interval:
+ -0.4290776  0.4188082
+sample estimates:
+mean in group NM mean in group NY 
+        6.989247         6.994382 </code></pre>
+</div>
+</div>
+</section>
+<section id="cool-visualizations" class="slide level2">
+<h2>Cool Visualizations</h2>
+<p>The library <a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a> has some wonderful visualizations of various tests</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>ggstatsplot<span class="sc">::</span><span class="fu">ggbetweenstats</span>(</span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="at">data  =</span> state_school,</span>
+<span id="cb27-3"><a href="#cb27-3"></a>  <span class="at">x     =</span> Region,</span>
+<span id="cb27-4"><a href="#cb27-4"></a>  <span class="at">y     =</span> Sleep_Hours_Schoolnight,</span>
+<span id="cb27-5"><a href="#cb27-5"></a>  <span class="at">title =</span> <span class="st">"Distribution of hours of sleep across Region"</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="in-class-lab" class="title-slide slide level1 center">
+<h1>In-Class Lab</h1>
+<p>Take a look at the data in <code>state_school</code> and identify another Independent Samples t-test that you can perform</p>
+<div>
+<ul>
+<li>Be sure to select (1) a grouping variable and (2) a continuous variable to look at differences between the groups</li>
+</ul>
+</div>
+<p>Follow the steps that we went through today:</p>
+<div>
+<ol type="1">
+<li>Check for Normality of the variable</li>
+<li>Check for Homogeneity of Variances</li>
+<li>Perform the appropriate t-test</li>
+<li>Report Results</li>
+</ol>
+</div>
+<p><strong>Knit the document</strong></p>
 </section>
 <section id="next-time" class="slide level2">
-<h2>Next time…</h2>
-<p>More comparing means!</p>
+<h2>Next Time…</h2>
+<p>Paired Samples t-test</p>
+</section></section>
+<section>
+<section id="paired-samples-t-test-in-r" class="title-slide slide level1 center">
+<h1>Paired Samples t-Test in R</h1>
+<p><a href="https://learningstatisticswithr.com/book/ttest.html#pairedsamplesttest">Chapter 13.5 - Learning Stats with R</a></p>
+<p>Also called “Dependent Samples t-test”</p>
+<ul>
+<li class="fragment"><p>We have been testing means between two <em>independent</em> samples. Participants may be randomly assigned to the separate groups</p>
+<ul>
+<li class="fragment">This is limited to those types of study designs, but what if we have repeated measures?</li>
+</ul></li>
+<li class="fragment"><p>We will then need to compare scores across people…the samples we are comparing now <em>depend</em> on one another and are <em>paired</em></p></li>
+</ul>
 </section>
-<section id="reminders" class="title-slide slide level1 center">
-<h1>Reminders</h1>
-<p>No Class 10/9</p>
-<p>No Office Hours tomorrow (10/5)</p>
-<p>Next lab will likely begin on 10/16</p>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="common-mistakes-and-pitfalls" class="title-slide slide level1 center">
+<h1>Common Mistakes and Pitfalls</h1>
+<ul>
+<li class="fragment"><p><strong>Misinterpreting p-Values</strong></p></li>
+<li class="fragment"><p><strong>Violations of Assumptions</strong></p></li>
+<li class="fragment"><p><strong>Sample Size Considerations</strong></p></li>
+<li class="fragment"><p><strong>Multiple Testing Issues</strong></p></li>
+</ul>
+</section>
+<section id="next-time-1" class="slide level2">
+<h2>Next time…</h2>
 
 <div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -1002,7 +1076,7 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'multiplex': {"secret":"1696436901440373104","id":"c85c23eb67a4c7b4","url":"https://reveal-multiplex.glitch.me/"},
+'multiplex': {"secret":"16967104364026194102","id":"733b9b2f7bd1a806","url":"https://reveal-multiplex.glitch.me/"},
 'smaller': false,
  
         // Display controls in the bottom right corner

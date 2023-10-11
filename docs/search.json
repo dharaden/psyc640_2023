@@ -4,7 +4,7 @@
     "href": "lecture_code.html",
     "title": "Lecture Code",
     "section": "",
-    "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data\nCategorical Data Part 2"
+    "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data\nCategorical Data Part 2\nComparing Means"
   },
   {
     "objectID": "lectures/06_OneSample2.html#last-week",
@@ -434,11 +434,11 @@
     "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test"
   },
   {
-    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-1",
-    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-1",
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
     "title": "Comparing Means: t-tests",
-    "section": "Types of t-Tests",
-    "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
+    "section": "Types of t-Tests: Assumptions",
+    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#dataset",
@@ -495,12 +495,5 @@
     "title": "Comparing Means: t-tests",
     "section": "Next time…",
     "text": "Next time…"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
-    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
-    "title": "Comparing Means: t-tests",
-    "section": "Types of t-Tests: Assumptions",
-    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
   }
 ]
