@@ -25,12 +25,12 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 ::: nonincremental
 -   Categorical Data analysis with the $\chi^2$ distribution
-    -   Test of Independence
-    -   Goodness of Fit test
+    -   Test of Independence & Goodness of Fit Test
 -   Single Sample $t$-test
 :::
 
 ```{r, results = 'hide', message = F, warning = F}
+library(lsr)
 # File management
 library(here)
 # for dplyr, ggplot
@@ -41,8 +41,6 @@ library(ggpubr)
 library(rio)
 # Assumption Checks
 library(car)
-
-library(lsr)
 
 #Remove Scientific Notation 
 options(scipen=999)
@@ -55,7 +53,7 @@ options(scipen=999)
 
 -   Comparing Means with the $t$-test
     -   Independent samples
-    -   Paired Samples
+    -   Paired Samples (probably next class)
 
 ------------------------------------------------------------------------
 
@@ -82,7 +80,7 @@ school <- school %>%
 
 ### One-sample *t*-tests vs Z-test
 
-|                                             | Z-test                    | *t*-test                        |
+| Parameters                                  | Z-test                    | *t*-test                        |
 |---------------------------------------------|---------------------------|---------------------------------|
 | $\large{\mu}$                               | known                     | known                           |
 | $\sigma$                                    | known                     | unknown                         |
@@ -96,9 +94,9 @@ school <- school %>%
 
 ### **Assumptions of the one-sample *t*-test**
 
-**Normality.** We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?
+-   **Normality.** We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?
 
-**Independence.** Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn't tell me anything about what Participant B will say. How can we be safe in this assumption?
+-   **Independence.** Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn't tell me anything about what Participant B will say. How can we be safe in this assumption?
 
 ------------------------------------------------------------------------
 
@@ -180,7 +178,7 @@ Paired Samples t-test
 
 ------------------------------------------------------------------------
 
-## Types of t-Tests
+## Types of t-Tests: Assumptions
 
 ~~Single Samples t-test~~
 
@@ -488,19 +486,34 @@ Take a look at the data in `state_school` and identify another Independent Sampl
 -   Be sure to select (1) a grouping variable and (2) a continuous variable to look at differences between the groups
 :::
 
-Conduct the following:
+Follow the steps that we went through today:
 
 ::: nonincremental
 1.  Check for Normality of the variable
 2.  Check for Homogeneity of Variances
-3.  Perform the correct t-test
+3.  Perform the appropriate t-test
+4.  Report Results
 :::
-
-Report the results
 
 **Knit the document**
 
+------------------------------------------------------------------------
+
+## Next Time...
+
+Paired Samples t-test
+
 # Paired Samples t-Test in R
+
+[Chapter 13.5 - Learning Stats with R](https://learningstatisticswithr.com/book/ttest.html#pairedsamplesttest)
+
+Also called "Dependent Samples t-test"
+
+-   We have been testing means between two *independent* samples. Participants may be randomly assigned to the separate groups
+
+    -   This is limited to those types of study designs, but what if we have repeated measures?
+
+-   We will then need to compare scores across people...the samples we are comparing now *depend* on one another and are *paired*
 
 ------------------------------------------------------------------------
 

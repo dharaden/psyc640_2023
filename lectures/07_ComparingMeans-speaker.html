@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Dustin Haraden, PhD">
   <title>PSYC 640 - Grad Stats - Comparing Means: t-tests</title>
@@ -408,28 +408,26 @@ Dustin Haraden, PhD
 <ul>
 <li>Categorical Data analysis with the <span class="math inline">\(\chi^2\)</span> distribution
 <ul>
-<li>Test of Independence</li>
-<li>Goodness of Fit test</li>
+<li>Test of Independence &amp; Goodness of Fit Test</li>
 </ul></li>
 <li>Single Sample <span class="math inline">\(t\)</span>-test</li>
 </ul>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># File management</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># for dplyr, ggplot</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Making things look nice</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#Loading data</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(rio)</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Assumption Checks</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">library</span>(car)</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="fu">library</span>(lsr)</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#Remove Scientific Notation </span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(lsr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># File management</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># for dplyr, ggplot</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Making things look nice</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#Loading data</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">library</span>(rio)</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># Assumption Checks</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#Remove Scientific Notation </span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="today" class="slide level2">
@@ -438,7 +436,7 @@ Dustin Haraden, PhD
 <li class="fragment">Comparing Means with the <span class="math inline">\(t\)</span>-test
 <ul>
 <li class="fragment">Independent samples</li>
-<li class="fragment">Paired Samples</li>
+<li class="fragment">Paired Samples (probably next class)</li>
 </ul></li>
 </ul>
 </section>
@@ -469,7 +467,7 @@ Dustin Haraden, PhD
 </colgroup>
 <thead>
 <tr class="header">
-<th></th>
+<th>Parameters</th>
 <th>Z-test</th>
 <th><em>t</em>-test</th>
 </tr>
@@ -516,8 +514,10 @@ Dustin Haraden, PhD
 <section class="slide level2">
 
 <h3 id="assumptions-of-the-one-sample-t-test"><strong>Assumptions of the one-sample <em>t</em>-test</strong></h3>
-<p><strong>Normality.</strong> We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?</p>
-<p><strong>Independence.</strong> Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn’t tell me anything about what Participant B will say. How can we be safe in this assumption?</p>
+<ul>
+<li class="fragment"><p><strong>Normality.</strong> We assume the sampling distribution of the mean is normally distributed. Under what two conditions can we be assured that this is true?</p></li>
+<li class="fragment"><p><strong>Independence.</strong> Observations in the dataset are not associated with one another. Put another way, collecting a score from Participant A doesn’t tell me anything about what Participant B will say. How can we be safe in this assumption?</p></li>
+</ul>
 </section>
 <section class="slide level2">
 
@@ -636,8 +636,8 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 0.000000000000009894</code></pre>
 <p>Independent Samples t-test</p>
 <p>Paired Samples t-test</p>
 </section>
-<section id="types-of-t-tests-1" class="slide level2">
-<h2>Types of t-Tests</h2>
+<section id="types-of-t-tests-assumptions" class="slide level2">
+<h2>Types of t-Tests: Assumptions</h2>
 <p><del>Single Samples t-test</del></p>
 <p>Independent Samples t-test</p>
 <div class="columns">
@@ -985,6 +985,7 @@ mean in group NM mean in group NY
 
 </div>
 <img data-src="07_ComparingMeans_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section></section>
+<section>
 <section id="in-class-lab" class="title-slide slide level1 center">
 <h1>In-Class Lab</h1>
 <p>Take a look at the data in <code>state_school</code> and identify another Independent Samples t-test that you can perform</p>
@@ -993,22 +994,33 @@ mean in group NM mean in group NY
 <li>Be sure to select (1) a grouping variable and (2) a continuous variable to look at differences between the groups</li>
 </ul>
 </div>
-<p>Conduct the following:</p>
+<p>Follow the steps that we went through today:</p>
 <div>
 <ol type="1">
 <li>Check for Normality of the variable</li>
 <li>Check for Homogeneity of Variances</li>
-<li>Perform the correct t-test</li>
+<li>Perform the appropriate t-test</li>
+<li>Report Results</li>
 </ol>
 </div>
-<p>Report the results</p>
 <p><strong>Knit the document</strong></p>
 </section>
-
+<section id="next-time" class="slide level2">
+<h2>Next Time…</h2>
+<p>Paired Samples t-test</p>
+</section></section>
 <section>
 <section id="paired-samples-t-test-in-r" class="title-slide slide level1 center">
 <h1>Paired Samples t-Test in R</h1>
-
+<p><a href="https://learningstatisticswithr.com/book/ttest.html#pairedsamplesttest">Chapter 13.5 - Learning Stats with R</a></p>
+<p>Also called “Dependent Samples t-test”</p>
+<ul>
+<li class="fragment"><p>We have been testing means between two <em>independent</em> samples. Participants may be randomly assigned to the separate groups</p>
+<ul>
+<li class="fragment">This is limited to those types of study designs, but what if we have repeated measures?</li>
+</ul></li>
+<li class="fragment"><p>We will then need to compare scores across people…the samples we are comparing now <em>depend</em> on one another and are <em>paired</em></p></li>
+</ul>
 </section>
 <section class="slide level2">
 
@@ -1023,7 +1035,7 @@ mean in group NM mean in group NY
 <li class="fragment"><p><strong>Multiple Testing Issues</strong></p></li>
 </ul>
 </section>
-<section id="next-time" class="slide level2">
+<section id="next-time-1" class="slide level2">
 <h2>Next time…</h2>
 
 <div class="footer footer-default">

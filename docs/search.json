@@ -403,14 +403,14 @@
     "href": "lectures/07_ComparingMeans.html#last-week",
     "title": "Comparing Means: t-tests",
     "section": "Last week",
-    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence\nGoodness of Fit test\n\nSingle Sample \\(t\\)-test\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\nlibrary(lsr)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence & Goodness of Fit Test\n\nSingle Sample \\(t\\)-test\n\n\n\nlibrary(lsr)\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#today",
     "href": "lectures/07_ComparingMeans.html#today",
     "title": "Comparing Means: t-tests",
     "section": "Today…",
-    "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples"
+    "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples (probably next class)"
   },
   {
     "objectID": "lectures/07_ComparingMeans.html#comparing-means",
@@ -486,7 +486,21 @@
     "objectID": "lectures/07_ComparingMeans.html#next-time",
     "href": "lectures/07_ComparingMeans.html#next-time",
     "title": "Comparing Means: t-tests",
+    "section": "Next Time…",
+    "text": "Next Time…\nPaired Samples t-test"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#next-time-1",
+    "href": "lectures/07_ComparingMeans.html#next-time-1",
+    "title": "Comparing Means: t-tests",
     "section": "Next time…",
     "text": "Next time…"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests: Assumptions",
+    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
   }
 ]
