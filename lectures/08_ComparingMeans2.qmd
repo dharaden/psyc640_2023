@@ -1,0 +1,247 @@
+---
+title: "Comparing Means: Paired t-tests"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
+format: 
+  revealjs:
+    multiplex: true
+    slide-number: true
+    incremental: true
+    touch: true
+    code-overflow: wrap
+    theme: dark
+execute: 
+  echo: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Last week
+
+::: nonincremental
+-   Comparing Means: $t$-test
+    -   Independent Samples $t$-test
+:::
+
+```{r, results = 'hide', message = F, warning = F}
+library(lsr)
+# File management
+library(here)
+# for dplyr, ggplot
+library(tidyverse)
+#Loading data
+library(rio)
+# Assumption Checks
+library(car)
+
+#Remove Scientific Notation 
+options(scipen=999)
+
+```
+
+------------------------------------------------------------------------
+
+## Today...
+
+::: nonincremental
+-   Comparing Means with the $t$-test
+
+    ::: nonincremental
+    -   Paired Samples
+    :::
+:::
+
+```{r}
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
+```
+
+# Review: Independent $t$-test
+
+## Independent Samples $t$-test
+
+[Chapter 13.3 in Learning Stats with R](https://learningstatisticswithr.com/book/ttest.html#studentttest)
+
+::: columns
+::: {.column width="50%"}
+Two different types: Student's & Welch's
+
+::: nonincremental
+-   Student's $t$-test
+-   Welch's $t$-test
+:::
+:::
+
+::: {.column width="50%"}
+$$
+t = \frac{\bar{X_1} - \bar{X_2}}{SE(\bar{X_1} - \bar{X_2})}
+$$
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Types of t-Tests: Assumptions
+
+~~Single Samples t-test~~
+
+~~Independent Samples t-test~~
+
+***Paired Samples t-test***
+
+-   Approximately normal distributions
+
+-   Homogeneity of variances
+
+-   ***Spoiler Alert! The same as a one-sample*** $t$***-test***
+
+------------------------------------------------------------------------
+
+## Steps for $t$-test
+
+1.  Check for normality of variables
+    -   Visualizing, Q-Q plots, Statistical Tests
+2.  Homogeneity of Variance
+    -   Levene's test --\> Welch's $t$-test
+
+------------------------------------------------------------------------
+
+### Student's t-test: In R
+
+::: columns
+::: {.column width="50%"}
+`independentSamplesTest()`
+
+```{r}
+independentSamplesTTest(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = TRUE #default is FALSE
+)
+```
+:::
+
+::: {.column width="50%"}
+`t.test()`
+
+```{r}
+t.test(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = TRUE
+)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+### Welch's t-test: In R
+
+::: columns
+::: {.column width="50%"}
+`independentSamplesTest()`
+
+```{r}
+independentSamplesTTest(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = FALSE #This is what is different!
+)
+```
+:::
+
+::: {.column width="50%"}
+`t.test()`
+
+```{r}
+t.test(
+  formula = Sleep_Hours_Schoolnight ~ Region, 
+  data = state_school, 
+  var.equal = FALSE #This is what is different!
+)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+### Interpreting and writing up an independent samples t-test
+
+::: {style="font-size: 30px"}
+The first sentence usually conveys some descriptive information about the two groups you were comparing. Then you identify the type of test you conducted and what was determined (be sure to include the "stat block" here as well with the t-statistic, df, p-value, CI and Effect size). Finish it up by putting that into person words and saying what that means.
+:::
+
+> ::: {style="font-size: 30px"}
+> The mean amount of sleep in New Mexico for youth was 6.989 (SD = 1.379), while the mean in New York was 6.994 (SD = 1.512). A Student's independent samples t-test showed that there was not a significant mean difference (*t*(180)=-0.024, *p*=.981, $CI_{95}$=\[-0.43, 0.42\], *d*=.004). This suggests that there is no difference between youth in NM and NY on amount of sleep on school nights.
+> :::
+
+# Today: Paired Samples
+
+## Paired Samples $t$-Test
+
+[Chapter 13.5 - Learning Stats with R](https://learningstatisticswithr.com/book/ttest.html#pairedsamplesttest)
+
+Also called "Dependent Samples t-test"
+
+-   We have been testing means between two *independent* samples. Participants may be randomly assigned to the separate groups
+
+    -   This is limited to those types of study designs, but what if we have repeated measures?
+
+-   We will then need to compare scores across people...the samples we are comparing now *depend* on one another and are *paired*
+
+------------------------------------------------------------------------
+
+## Paired Samples $t$-test
+
+Each of the repeated measures (or pairs) can be viewed as a *difference score*
+
+This reduces the analysis to a one-sample t-test of the *difference score*
+
+-   We are comparing the sample (i.e., difference scores) to a population $\mu$ = 0
+
+We will use the same dataset that we have in the last few classes
+
+```{r, eval=FALSE}
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
+```
+
+------------------------------------------------------------------------
+
+## Assumptions: Paired Samples
+
+The variable of interest is continuous (*difference score*) and is normally distributed
+
+*Check this out*
+
+------------------------------------------------------------------------
+
+## calculate and visualize difference score
+
+## go through the steps with equations
+
+## do the test in R with LSR
+
+## Do the test in R with t.test()
+
+## Reporting the t-test
+
+## visualizations?? or parameterization??
+
+# Common Mistakes and Pitfalls
+
+-   **Misinterpreting p-Values**
+
+-   **Violations of Assumptions**
+
+-   **Sample Size Considerations**
+
+-   **Multiple Testing Issues**
+
+------------------------------------------------------------------------
+
+## Next time...

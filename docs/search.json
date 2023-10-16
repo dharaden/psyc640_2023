@@ -495,5 +495,110 @@
     "title": "Comparing Means: t-tests",
     "section": "Next time…",
     "text": "Next time…"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#last-week",
+    "href": "lectures/08_ComparingMeans2.html#last-week",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Last week",
+    "text": "Last week\n\n\nComparing Means: \\(t\\)-test\n\nIndependent Samples \\(t\\)-test\n\n\n\n\nlibrary(lsr)\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#today",
+    "href": "lectures/08_ComparingMeans2.html#today",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Today…",
+    "text": "Today…\n\n\nComparing Means with the \\(t\\)-test\n\n\nPaired Samples\n\n\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#types-of-t-tests-assumptions",
+    "href": "lectures/08_ComparingMeans2.html#types-of-t-tests-assumptions",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Types of t-Tests: Assumptions",
+    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances\nSpoiler Alert! The same as a one-sample \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#dataset",
+    "href": "lectures/08_ComparingMeans2.html#dataset",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Dataset",
+    "text": "Dataset\nMoving forward for today, we will use this dataset\n\n\n100 students from New York\n100 students from New Mexico\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#normality-assumption",
+    "href": "lectures/08_ComparingMeans2.html#normality-assumption",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Normality Assumption",
+    "text": "Normality Assumption\n\nCheck for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#homogeneity-of-variance",
+    "href": "lectures/08_ComparingMeans2.html#homogeneity-of-variance",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Homogeneity of Variance",
+    "text": "Homogeneity of Variance\n\nCheck for Equality of Variances: Levene’s test to assess if variances are equal between groups\nRemedies for Violations: Welch’s t-test for unequal variances."
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#students-t-test",
+    "href": "lectures/08_ComparingMeans2.html#students-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Student’s t-test",
+    "text": "Student’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#welchs-t-test",
+    "href": "lectures/08_ComparingMeans2.html#welchs-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Welch’s t-test",
+    "text": "Welch’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#cool-visualizations",
+    "href": "lectures/08_ComparingMeans2.html#cool-visualizations",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Cool Visualizations",
+    "text": "Cool Visualizations\nThe library ggstatsplot has some wonderful visualizations of various tests\n\n\nCode\nggstatsplot::ggbetweenstats(\n  data  = state_school,\n  x     = Region,\n  y     = Sleep_Hours_Schoolnight,\n  title = \"Distribution of hours of sleep across Region\"\n)"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#next-time",
+    "href": "lectures/08_ComparingMeans2.html#next-time",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Next time…",
+    "text": "Next time…"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#next-time-1",
+    "href": "lectures/08_ComparingMeans2.html#next-time-1",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Next time…",
+    "text": "Next time…"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#steps-for-t-test",
+    "href": "lectures/08_ComparingMeans2.html#steps-for-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Steps for \\(t\\)-test",
+    "text": "Steps for \\(t\\)-test\n\nCheck for normality of variables\n\nVisualizing, Q-Q plots, Statistical Tests\n\nHomogeneity of Variance\n\nLevene’s test –&gt; Welch’s \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
+    "href": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Independent Samples \\(t\\)-test",
+    "text": "Independent Samples \\(t\\)-test\nChapter 13.3 in Learning Stats with R\n\n\nTwo different types: Student’s & Welch’s\n\n\nStudent’s \\(t\\)-test\nWelch’s \\(t\\)-test\n\n\n\n\\[\nt = \\frac{\\bar{X_1} - \\bar{X_2}}{SE(\\bar{X_1} - \\bar{X_2})}\n\\]"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#paired-samples-t-test",
+    "href": "lectures/08_ComparingMeans2.html#paired-samples-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Paired Samples \\(t\\)-Test",
+    "text": "Paired Samples \\(t\\)-Test\nChapter 13.5 - Learning Stats with R\nAlso called “Dependent Samples t-test”\n\nWe have been testing means between two independent samples. Participants may be randomly assigned to the separate groups\n\nThis is limited to those types of study designs, but what if we have repeated measures?\n\nWe will then need to compare scores across people…the samples we are comparing now depend on one another and are paired"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#data",
+    "href": "lectures/08_ComparingMeans2.html#data",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Data",
+    "text": "Data\nWe will use the same dataset that we have in the last few classes\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
   }
 ]
