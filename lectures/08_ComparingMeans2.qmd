@@ -196,7 +196,7 @@ Also called "Dependent Samples t-test"
 
 ------------------------------------------------------------------------
 
-## Paired Samples $t$-test
+### Paired Samples $t$-test
 
 Each of the repeated measures (or pairs) can be viewed as a *difference score*
 
@@ -204,33 +204,258 @@ This reduces the analysis to a one-sample t-test of the *difference score*
 
 -   We are comparing the sample (i.e., difference scores) to a population $\mu$ = 0
 
+------------------------------------------------------------------------
+
+### Assumptions: Paired Samples
+
+The variable of interest (*difference scores*):
+
+-   Continuous (Interval/Ratio)
+
+-   Have 2 groups (and only two groups) that are matched
+
+-   Normally Distributed
+
+------------------------------------------------------------------------
+
+### Why paired samples??
+
+Previously, we looked at independent samples $t$-tests, which we *could* do here as well (nobody will yell at you)
+
+-   However, this would violate the assumption that the data points are independent of one another!
+
+-   Within vs. Between-subjects
+
+------------------------------------------------------------------------
+
+### Within vs. Between Subjects
+
+![](/images/between-subjects-design.avif){fig-align="center"}
+
+------------------------------------------------------------------------
+
+### Paired Samples: Single Sample
+
+Instead of focusing on these variables as being separate/independent, we need to be able to account for their dependency on one another
+
+This is done by calculating a *difference* or *change* score for each participant
+
+$$ D_i = X_{i1} - X_{i2} $$
+
+Notice: The equation is set up as `variable1` minus `variable2`. This will be important when we interpret the results
+
+------------------------------------------------------------------------
+
+### Paired Samples: Hypotheses & $t$-statistic
+
+The hypotheses would then be:
+
+$$ H_0:  \mu_D = 0; H_1: \mu_D \neq 0 $$
+
+And to calculate our t-statistic:       $t_{df=n-1} = \frac{\bar{D}}{SE(D)}$
+
+where the Standard Error of the difference score is:        $\frac{\hat{\sigma_D}}{\sqrt{N}}$
+
+------------------------------------------------------------------------
+
+## Review of the t-test process
+
+1.  Collect Sample and define hypotheses
+
+2.  Set alpha level
+
+3.  Determine the sampling distribution ($t$ distribution for now)
+
+4.  Identify the critical value that corresponds to alpha and *df*
+
+5.  Calculate test statistic for sample collected
+
+6.  Inspect & compare statistic to critical value; Calculate probability
+
+# Example 1: Simple
+
+Participants are placed in two differently colored rooms and are asked to rate overall happiness levels after each
+
+Hypotheses:
+
+-   $H_0:$ There is no difference in ratings of happiness between the rooms ( $\mu = 0$ )
+
+-   $H_1:$ There is a difference in ratings of happiness between the rooms ( $\mu \neq 0$ )
+
+------------------------------------------------------------------------
+
+| Participant | Blue Room Score | Orange Room Score | Difference ($X_{iB} - X_{iO}$) |
+|:-----------:|:---------------:|:-----------------:|:------------------------------:|
+|      1      |        3        |         6         |               -3               |
+|      2      |        9        |         9         |               0                |
+|      3      |        2        |        10         |               -8               |
+|      4      |        9        |         6         |               3                |
+|      5      |        5        |         2         |               3                |
+|      6      |        5        |         7         |               -2               |
+
+```{r}
+#| code-fold: true
+ex1 <- data.frame(
+  id = c(1,2,3,4,5,6),
+  blue = c(3,9,2,9,5,5), 
+  orange = c(6,9,10,6,2,7),
+  diff_score = c(-3, 0, -8, 3, 3, -2))
+```
+
+------------------------------------------------------------------------
+
+## Determining $t$-crit
+
+Can look things up using a [t-table](https://www.tdistributiontable.com/) where you need the degrees of freedom and the alpha
+
+But we have R to do those things for us:
+
+```{r}
+#the qt() function is for a 1 tailed test, so we are having to divide it in half to get both tails
+alpha <- 0.05
+n <- nrow(ex1)
+t_crit <- qt(alpha/2, n-1)
+t_crit
+```
+
+## Calculating t
+
+Let's get all of the information for the sample we are focusing on (difference scores):
+
+```{r}
+d <- mean(ex1$diff_score)
+d
+sd_diff <- sd(ex1$diff_score)
+sd_diff
+```
+
+## Calculating t
+
+Now we can calculate our $t$-statistic: $$t_{df=n-1} = \frac{\bar{D}}{\frac{sd_{diff}}{\sqrt{n}}}$$
+
+```{r}
+t_stat <- d/(sd_diff/(sqrt(n)))
+t_stat
+
+#Probability of this t-statistic 
+p_val <- pt(t_stat, n-1)*2
+p_val
+```
+
+## Make a decision
+
+Hypotheses:
+
+::: nonincremental
+-   $H_0:$ There is no difference in ratings of happiness between the rooms ( $\mu = 0$ )
+
+-   $H_1:$ There is a difference in ratings of happiness between the rooms ( $\mu \neq 0$ )
+:::
+
+| $alpha$ |          $t-crit$          |    $t-statistic$     |      $p-value$      |
+|:-------:|:--------------------------:|:--------------------:|:-------------------:|
+|  0.05   | $\pm$ `r round(t_crit, 2)` | `r round(t_stat, 2)` | `r round(p_val, 2)` |
+
+**What can we conclude??**
+
+# Example 2: Data in R
+
 We will use the same dataset that we have in the last few classes
 
 ```{r, eval=FALSE}
 state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
 ```
 
+## Let's Look at the data
+
+Research Question: Is there a difference between school nights and weekend nights for amount of time slept?
+
+Only looking at the variables that we are potentially interested in:
+
+```{r}
+state_school %>% 
+  select(Gender, Ageyears, Sleep_Hours_Schoolnight, Sleep_Hours_Non_Schoolnight) %>% 
+  head() #look at first few observations
+```
+
 ------------------------------------------------------------------------
 
-## Assumptions: Paired Samples
+### Difference Score
 
-The variable of interest is continuous (*difference score*) and is normally distributed
+::: {style="font-size: 30px"}
+This can be done in a couple different ways and sometimes you will see things computed this way:
+:::
 
-*Check this out*
+```{r, eval = FALSE}
+state_school$sleep_diff <- state_school$Sleep_Hours_Schoolnight - state_school$Sleep_Hours_Non_Schoolnight
+```
+
+::: {style="font-size: 30px"}
+However, we like the `tidyverse` so why don't we use the `mutate()` function
+
+And I always overdo things, so I am going to make a new dataset that only has the variables that I'm interested in (`sleep_state_school`)
+:::
+
+```{r}
+#| code-fold: true
+sleep_state_school <- state_school %>% 
+  mutate(sleep_diff = Sleep_Hours_Schoolnight - Sleep_Hours_Non_Schoolnight) %>%
+  select(Gender, Ageyears, Sleep_Hours_Schoolnight,
+         Sleep_Hours_Non_Schoolnight, sleep_diff)
+
+head(sleep_state_school)
+```
 
 ------------------------------------------------------------------------
 
-## calculate and visualize difference score
+### Visualizing
 
-## go through the steps with equations
+Now that we have our variable of interest, let's take a look at it!
 
-## do the test in R with LSR
+```{r}
+sleep_state_school %>%
+  ggplot(aes(sleep_diff)) + 
+  geom_histogram()
+```
 
-## Do the test in R with t.test()
+## Doing the test in R: One Sample
 
-## Reporting the t-test
+Since we have calculated the difference scores, we can basically just do a one-sample t-test with the `lsr` library
 
-## visualizations?? or parameterization??
+```{r}
+oneSampleTTest(sleep_state_school$sleep_diff, mu = 0)
+```
+
+## Doing the test in R: Paired Sample
+
+Maybe we want to keep things separate and don't want to calculate separate values. We can use `pairedSamplesTTest()` instead!
+
+```{r}
+pairedSamplesTTest(
+  formula = ~ Sleep_Hours_Schoolnight + Sleep_Hours_Non_Schoolnight, 
+  data = sleep_state_school
+)
+```
+
+## Doing the test in R: Classic Edition
+
+As you Google around to figure things out, you will likely see folks using \`t.test()
+
+```{r}
+t.test(
+  x = sleep_state_school$Sleep_Hours_Schoolnight, 
+  y = sleep_state_school$Sleep_Hours_Non_Schoolnight, 
+  paired = TRUE
+)
+```
+
+## Reporting $t$-test
+
+The first sentence usually conveys some descriptive information about the sample you were comparing (e.g., pre & post test).
+
+Then you identify the type of test you conducted and what was determined (be sure to include the "stat block" here as well with the t-statistic, df, p-value, CI and Effect size).
+
+Finish it up by putting that into person words and saying what that means.
 
 # Common Mistakes and Pitfalls
 
@@ -244,4 +469,12 @@ The variable of interest is continuous (*difference score*) and is normally dist
 
 ------------------------------------------------------------------------
 
-## Next time...
+## If we have time: Example 3 - Dog Training
+
+A dog trainer wants to know if dogs are faster at an agility course if a jump is early in the course or later. She has a sample of dogs from her classes run both courses and measures their finish times. Half the class runs the early barrier version on Tuesday, half the class runs the early barrier version on Thursday. Is there a significant difference between course types (alpha = 0.05)?
+
+# Next time...
+
+-   Visualizing with ggplot
+
+-   Parameterization of reports (not using "magic numbers")

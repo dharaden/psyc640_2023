@@ -21,7 +21,7 @@ website:
           - text: "Week 7 - Comparing Means: t-test"
             href: "lectures/07_ComparingMeans-speaker.html"
           - text: "Week 8 - Dependent/Paired Samples t-test"
-            href: "lectures/08_08_ComparingMeans2"
+            href: "lectures/08_ComparingMeans2.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

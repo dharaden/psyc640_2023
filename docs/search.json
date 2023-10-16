@@ -7,116 +7,179 @@
     "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data\nCategorical Data Part 2\nComparing Means"
   },
   {
-    "objectID": "lectures/06_OneSample2.html#last-week",
-    "href": "lectures/06_OneSample2.html#last-week",
-    "title": "Categorical Data & Comparing Means",
+    "objectID": "lectures/07_ComparingMeans.html#last-week",
+    "href": "lectures/07_ComparingMeans.html#last-week",
+    "title": "Comparing Means: t-tests",
     "section": "Last week",
-    "text": "Last week\n\n\nReview of the NHST\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nGoodness of Fit test\n\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Descriptives\nlibrary(psych)\n# Making things look nice\nlibrary(knitr)\n# Presenting nice tables\nlibrary(kableExtra)\n# Making things look nice\nlibrary(ggpubr)\n# animate things\nlibrary(gganimate)"
+    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence & Goodness of Fit Test\n\nSingle Sample \\(t\\)-test\n\n\n\nlibrary(lsr)\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
   },
   {
-    "objectID": "lectures/06_OneSample2.html#today",
-    "href": "lectures/06_OneSample2.html#today",
-    "title": "Categorical Data & Comparing Means",
+    "objectID": "lectures/07_ComparingMeans.html#today",
+    "href": "lectures/07_ComparingMeans.html#today",
+    "title": "Comparing Means: t-tests",
     "section": "Today…",
-    "text": "Today…\n\nThe chi-square test of independence (Book Chapter 12.2)\nReview Assumptions of chi-square test\nIntroduction to Comparing Means"
+    "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples (probably next class)"
   },
   {
-    "objectID": "lectures/06_OneSample2.html#pop-quizjk",
-    "href": "lectures/06_OneSample2.html#pop-quizjk",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Pop Quiz…jk",
-    "text": "Pop Quiz…jk\n\nWhat do we mean when we say a study was powered to an effect of 0.34?\nWhat does a p-value tell us?\n\nScientists get it wrong"
-  },
-  {
-    "objectID": "lectures/06_OneSample2.html#chapek-9-data",
-    "href": "lectures/06_OneSample2.html#chapek-9-data",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Chapek 9 Data",
-    "text": "Chapek 9 Data\nTake a peek at the data:\n\nhead(chapek9)\n\n  species choice\n1   robot flower\n2   human   data\n3   human   data\n4   human   data\n5   robot   data\n6   human flower\n\n# or \n#glimpse(chapek9)"
-  },
-  {
-    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses",
-    "href": "lectures/06_OneSample2.html#constructing-hypotheses",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Constructing Hypotheses",
-    "text": "Constructing Hypotheses\nResearch hypothesis states that “humans and robots answer the question in different ways”\nNow our notation has two subscript values?? What torture is this??"
-  },
-  {
-    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses-1",
-    "href": "lectures/06_OneSample2.html#constructing-hypotheses-1",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Constructing Hypotheses",
-    "text": "Constructing Hypotheses\nOnce we have this established, we can take a look at the null\n\n\nClaiming now that the true choice probabilities don’t depend on the species making the choice ( \\(P_i\\) )\nHowever, we don’t know what the expected probability would be for each answer choice\n\nWe have to calculate the totals of each row/column"
-  },
-  {
-    "objectID": "lectures/06_OneSample2.html#writing-it-up",
-    "href": "lectures/06_OneSample2.html#writing-it-up",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Writing it up",
-    "text": "Writing it up\n\nPearson's \\(\\chi^2\\) revealed a significant association between species and choice ( \\(\\chi^2 (2) =\\) 10.7, \\(p\\) &lt; .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data."
-  },
-  {
-    "objectID": "lectures/06_OneSample2.html#assumptions-of-the-test",
-    "href": "lectures/06_OneSample2.html#assumptions-of-the-test",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Assumptions of the test",
-    "text": "Assumptions of the test\n\nThe expected frequencies are rather large\nData are independent of one another"
-  },
-  {
-    "objectID": "lectures/06_OneSample2.html#comparing-means",
-    "href": "lectures/06_OneSample2.html#comparing-means",
-    "title": "Categorical Data & Comparing Means",
+    "objectID": "lectures/07_ComparingMeans.html#comparing-means",
+    "href": "lectures/07_ComparingMeans.html#comparing-means",
+    "title": "Comparing Means: t-tests",
     "section": "Comparing Means",
-    "text": "Comparing Means\nWhen we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the t-test, of which there are several forms.\nThe one-sample t-test is appropriate when a single sample mean is compared to a population mean but the population standard deviation is unknown. A sample estimate of the population standard deviation is used instead. The appropriate sampling distribution is the t-distribution, with N-1 degrees of freedom.\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
+    "text": "Comparing Means\nCalculated using a t-test. To calculate the t-statistic, you will use this formula:\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
   },
   {
-    "objectID": "lectures/06_OneSample2.html#one-sample-t-tests",
-    "href": "lectures/06_OneSample2.html#one-sample-t-tests",
-    "title": "Categorical Data & Comparing Means",
-    "section": "One-sample t-tests",
-    "text": "One-sample t-tests\nt-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)\n\nSpecifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.\nHe developed the t-test, to test small samples of beer against a population with an unknown standard deviation.\n\nProbably had input from Karl Pearson and Ronald Fisher\n\nPublished this as “Student” because Guinness didn’t want these tests tied to the production of beer."
+    "objectID": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
+    "href": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Writing Up a t-test",
+    "text": "Writing Up a t-test\n\n“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”\n\nA one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was \\(M = 44.164\\) (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, \\(t(223) = -0.87\\), \\(p = 0.388\\)."
   },
   {
-    "objectID": "lectures/06_OneSample2.html#cohens-d",
-    "href": "lectures/06_OneSample2.html#cohens-d",
-    "title": "Categorical Data & Comparing Means",
-    "section": "Cohen’s D",
-    "text": "Cohen’s D\nCohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.\n\\[\\delta = \\frac{\\mu_1 - \\mu_0}{\\sigma} \\approx d = \\frac{\\bar{X}-\\mu}{\\hat{\\sigma}}\\]\nCohen’s d is in the standard deviation (Z) metric."
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests",
+    "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test"
   },
   {
-    "objectID": "lectures/06_OneSample2.html#next-time",
-    "href": "lectures/06_OneSample2.html#next-time",
-    "title": "Categorical Data & Comparing Means",
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests: Assumptions",
+    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#dataset",
+    "href": "lectures/07_ComparingMeans.html#dataset",
+    "title": "Comparing Means: t-tests",
+    "section": "Dataset",
+    "text": "Dataset\nMoving forward for today, we will use this dataset\n\n\n100 students from New York\n100 students from New Mexico\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption",
+    "text": "Normality Assumption\n\nCheck for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
+    "href": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
+    "title": "Comparing Means: t-tests",
+    "section": "Homogeneity of Variance",
+    "text": "Homogeneity of Variance\n\nCheck for Equality of Variances: Levene’s test to assess if variances are equal between groups\nRemedies for Violations: Welch’s t-test for unequal variances."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#students-t-test",
+    "href": "lectures/07_ComparingMeans.html#students-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Student’s t-test",
+    "text": "Student’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#welchs-t-test",
+    "href": "lectures/07_ComparingMeans.html#welchs-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Welch’s t-test",
+    "text": "Welch’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#cool-visualizations",
+    "href": "lectures/07_ComparingMeans.html#cool-visualizations",
+    "title": "Comparing Means: t-tests",
+    "section": "Cool Visualizations",
+    "text": "Cool Visualizations\nThe library ggstatsplot has some wonderful visualizations of various tests\n\n\nCode\nggstatsplot::ggbetweenstats(\n  data  = state_school,\n  x     = Region,\n  y     = Sleep_Hours_Schoolnight,\n  title = \"Distribution of hours of sleep across Region\"\n)"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#next-time",
+    "href": "lectures/07_ComparingMeans.html#next-time",
+    "title": "Comparing Means: t-tests",
+    "section": "Next Time…",
+    "text": "Next Time…\nPaired Samples t-test"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#next-time-1",
+    "href": "lectures/07_ComparingMeans.html#next-time-1",
+    "title": "Comparing Means: t-tests",
     "section": "Next time…",
-    "text": "Next time…\nMore comparing means!"
+    "text": "Next time…"
   },
   {
-    "objectID": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
-    "href": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
-    "title": "Wk 5 - Hypothesis & Power",
-    "section": "Lessons from Lab 1",
-    "text": "Lessons from Lab 1\n\nGetting data into R is surprisingly hard\nThe console doesn’t come with you\nWork together\nProfessor gets too excited about R\n\n\nlibrary(tidyverse) #plotting\nlibrary(ggpubr) #prettier figures"
+    "objectID": "lectures/06_OneSample.html#last-week",
+    "href": "lectures/06_OneSample.html#last-week",
+    "title": "Categorical & One-Sample",
+    "section": "Last week",
+    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(patchwork)\n\nset.seed(42)"
   },
   {
-    "objectID": "lectures/05_Pre-Lab.html#sampling-revisited",
-    "href": "lectures/05_Pre-Lab.html#sampling-revisited",
-    "title": "Wk 5 - Hypothesis & Power",
-    "section": "Sampling Revisited",
-    "text": "Sampling Revisited\nWe use features of the sample (statistics) to inform us about features of the population (parameters). The quality of this information goes up as sample size goes up – the Law of Large Numbers. The quality of this information is easier to defend with random samples.\nAll sample statistics are wrong (they do not match the population parameters exactly) but they become more useful (better matches) as sample size increases."
+    "objectID": "lectures/06_OneSample.html#this-week",
+    "href": "lectures/06_OneSample.html#this-week",
+    "title": "Categorical & One-Sample",
+    "section": "This Week…",
+    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
   },
   {
-    "objectID": "lectures/05_Pre-Lab.html#some-terminology",
-    "href": "lectures/05_Pre-Lab.html#some-terminology",
-    "title": "Wk 5 - Hypothesis & Power",
-    "section": "Some Terminology",
-    "text": "Some Terminology\n\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\n\\(\\mu\\) (mu) = Population Mean\n\\(\\bar{X}\\) (x bar) = Sample Mean\n\n\n\\(\\sigma\\) (sigma) = Population Standard Deviation\n\\(s\\) = \\(\\hat{\\sigma}\\) = Sample Standard Deviation\n\n\n\\(\\sigma^2\\) (sigma squared) = Population Variance\n\\(s^2\\) = \\(\\hat{\\sigma^2}\\) = Sample Variance"
+    "objectID": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "href": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "title": "Categorical & One-Sample",
+    "section": "What are the steps of NHST?",
+    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PSYC 640",
-    "section": "",
-    "text": "This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.\nDr. Haraden is trying to put materials up here to share with everyone."
+    "objectID": "lectures/06_OneSample.html#example---coffee-shop",
+    "href": "lectures/06_OneSample.html#example---coffee-shop",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Coffee Shop",
+    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Distribution - Degrees of freedom",
+    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#but-what-if",
+    "href": "lectures/06_OneSample.html#but-what-if",
+    "title": "Categorical & One-Sample",
+    "section": "But what if…",
+    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "href": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "title": "Categorical & One-Sample",
+    "section": "Example 2 - Schools & Super-powers",
+    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#write-up-practice",
+    "href": "lectures/06_OneSample.html#write-up-practice",
+    "title": "Categorical & One-Sample",
+    "section": "Write-up Practice",
+    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "href": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "The usefulness of \\(\\chi^2\\)",
+    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "href": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "Model Fit with \\(\\chi^2\\)",
+    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
   },
   {
     "objectID": "lectures/05_Hypothesis-Power.html#recap",
@@ -322,179 +385,116 @@
     "text": "Check-in and Review\n\nThe null hypothesis ( \\(H_0\\) ) is a claim about the particular value that a population parameter takes.\nThe alternative hypothesis ( \\(H_1\\) ) states an alternative range of values for the population parameter.\nWe test the null hypothesis by determining if we have sufficient evidence that contradicts or nullifies it.\nWe reject the null hypothesis if the data in hand are rare, unusual, or atypical if the null were true. The alternative hypothesis gains support when the null is rejected, but \\(H_1\\) is not proven."
   },
   {
-    "objectID": "lectures/06_OneSample.html#last-week",
-    "href": "lectures/06_OneSample.html#last-week",
-    "title": "Categorical & One-Sample",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PSYC 640",
+    "section": "",
+    "text": "This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.\nDr. Haraden is trying to put materials up here to share with everyone."
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
+    "href": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Lessons from Lab 1",
+    "text": "Lessons from Lab 1\n\nGetting data into R is surprisingly hard\nThe console doesn’t come with you\nWork together\nProfessor gets too excited about R\n\n\nlibrary(tidyverse) #plotting\nlibrary(ggpubr) #prettier figures"
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#sampling-revisited",
+    "href": "lectures/05_Pre-Lab.html#sampling-revisited",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Sampling Revisited",
+    "text": "Sampling Revisited\nWe use features of the sample (statistics) to inform us about features of the population (parameters). The quality of this information goes up as sample size goes up – the Law of Large Numbers. The quality of this information is easier to defend with random samples.\nAll sample statistics are wrong (they do not match the population parameters exactly) but they become more useful (better matches) as sample size increases."
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#some-terminology",
+    "href": "lectures/05_Pre-Lab.html#some-terminology",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Some Terminology",
+    "text": "Some Terminology\n\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\n\\(\\mu\\) (mu) = Population Mean\n\\(\\bar{X}\\) (x bar) = Sample Mean\n\n\n\\(\\sigma\\) (sigma) = Population Standard Deviation\n\\(s\\) = \\(\\hat{\\sigma}\\) = Sample Standard Deviation\n\n\n\\(\\sigma^2\\) (sigma squared) = Population Variance\n\\(s^2\\) = \\(\\hat{\\sigma^2}\\) = Sample Variance"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#last-week",
+    "href": "lectures/06_OneSample2.html#last-week",
+    "title": "Categorical Data & Comparing Means",
     "section": "Last week",
-    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(patchwork)\n\nset.seed(42)"
+    "text": "Last week\n\n\nReview of the NHST\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nGoodness of Fit test\n\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Descriptives\nlibrary(psych)\n# Making things look nice\nlibrary(knitr)\n# Presenting nice tables\nlibrary(kableExtra)\n# Making things look nice\nlibrary(ggpubr)\n# animate things\nlibrary(gganimate)"
   },
   {
-    "objectID": "lectures/06_OneSample.html#this-week",
-    "href": "lectures/06_OneSample.html#this-week",
-    "title": "Categorical & One-Sample",
-    "section": "This Week…",
-    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
-    "href": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
-    "title": "Categorical & One-Sample",
-    "section": "What are the steps of NHST?",
-    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#example---coffee-shop",
-    "href": "lectures/06_OneSample.html#example---coffee-shop",
-    "title": "Categorical & One-Sample",
-    "section": "Example - Coffee Shop",
-    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
-    "href": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
-    "title": "Categorical & One-Sample",
-    "section": "Distribution - Degrees of freedom",
-    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#degrees-of-freedom",
-    "href": "lectures/06_OneSample.html#degrees-of-freedom",
-    "title": "Categorical & One-Sample",
-    "section": "Degrees of freedom",
-    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#but-what-if",
-    "href": "lectures/06_OneSample.html#but-what-if",
-    "title": "Categorical & One-Sample",
-    "section": "But what if…",
-    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#example-2---schools-super-powers",
-    "href": "lectures/06_OneSample.html#example-2---schools-super-powers",
-    "title": "Categorical & One-Sample",
-    "section": "Example 2 - Schools & Super-powers",
-    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#write-up-practice",
-    "href": "lectures/06_OneSample.html#write-up-practice",
-    "title": "Categorical & One-Sample",
-    "section": "Write-up Practice",
-    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#the-usefulness-of-chi2",
-    "href": "lectures/06_OneSample.html#the-usefulness-of-chi2",
-    "title": "Categorical & One-Sample",
-    "section": "The usefulness of \\(\\chi^2\\)",
-    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
-  },
-  {
-    "objectID": "lectures/06_OneSample.html#model-fit-with-chi2",
-    "href": "lectures/06_OneSample.html#model-fit-with-chi2",
-    "title": "Categorical & One-Sample",
-    "section": "Model Fit with \\(\\chi^2\\)",
-    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#last-week",
-    "href": "lectures/07_ComparingMeans.html#last-week",
-    "title": "Comparing Means: t-tests",
-    "section": "Last week",
-    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence & Goodness of Fit Test\n\nSingle Sample \\(t\\)-test\n\n\n\nlibrary(lsr)\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#today",
-    "href": "lectures/07_ComparingMeans.html#today",
-    "title": "Comparing Means: t-tests",
+    "objectID": "lectures/06_OneSample2.html#today",
+    "href": "lectures/06_OneSample2.html#today",
+    "title": "Categorical Data & Comparing Means",
     "section": "Today…",
-    "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples (probably next class)"
+    "text": "Today…\n\nThe chi-square test of independence (Book Chapter 12.2)\nReview Assumptions of chi-square test\nIntroduction to Comparing Means"
   },
   {
-    "objectID": "lectures/07_ComparingMeans.html#comparing-means",
-    "href": "lectures/07_ComparingMeans.html#comparing-means",
-    "title": "Comparing Means: t-tests",
+    "objectID": "lectures/06_OneSample2.html#pop-quizjk",
+    "href": "lectures/06_OneSample2.html#pop-quizjk",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Pop Quiz…jk",
+    "text": "Pop Quiz…jk\n\nWhat do we mean when we say a study was powered to an effect of 0.34?\nWhat does a p-value tell us?\n\nScientists get it wrong"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#chapek-9-data",
+    "href": "lectures/06_OneSample2.html#chapek-9-data",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Chapek 9 Data",
+    "text": "Chapek 9 Data\nTake a peek at the data:\n\nhead(chapek9)\n\n  species choice\n1   robot flower\n2   human   data\n3   human   data\n4   human   data\n5   robot   data\n6   human flower\n\n# or \n#glimpse(chapek9)"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses",
+    "href": "lectures/06_OneSample2.html#constructing-hypotheses",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Constructing Hypotheses",
+    "text": "Constructing Hypotheses\nResearch hypothesis states that “humans and robots answer the question in different ways”\nNow our notation has two subscript values?? What torture is this??"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses-1",
+    "href": "lectures/06_OneSample2.html#constructing-hypotheses-1",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Constructing Hypotheses",
+    "text": "Constructing Hypotheses\nOnce we have this established, we can take a look at the null\n\n\nClaiming now that the true choice probabilities don’t depend on the species making the choice ( \\(P_i\\) )\nHowever, we don’t know what the expected probability would be for each answer choice\n\nWe have to calculate the totals of each row/column"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#writing-it-up",
+    "href": "lectures/06_OneSample2.html#writing-it-up",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Writing it up",
+    "text": "Writing it up\n\nPearson's \\(\\chi^2\\) revealed a significant association between species and choice ( \\(\\chi^2 (2) =\\) 10.7, \\(p\\) &lt; .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data."
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#assumptions-of-the-test",
+    "href": "lectures/06_OneSample2.html#assumptions-of-the-test",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Assumptions of the test",
+    "text": "Assumptions of the test\n\nThe expected frequencies are rather large\nData are independent of one another"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#comparing-means",
+    "href": "lectures/06_OneSample2.html#comparing-means",
+    "title": "Categorical Data & Comparing Means",
     "section": "Comparing Means",
-    "text": "Comparing Means\nCalculated using a t-test. To calculate the t-statistic, you will use this formula:\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
+    "text": "Comparing Means\nWhen we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the t-test, of which there are several forms.\nThe one-sample t-test is appropriate when a single sample mean is compared to a population mean but the population standard deviation is unknown. A sample estimate of the population standard deviation is used instead. The appropriate sampling distribution is the t-distribution, with N-1 degrees of freedom.\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
   },
   {
-    "objectID": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
-    "href": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
-    "title": "Comparing Means: t-tests",
-    "section": "Writing Up a t-test",
-    "text": "Writing Up a t-test\n\n“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”\n\nA one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was \\(M = 44.164\\) (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, \\(t(223) = -0.87\\), \\(p = 0.388\\)."
+    "objectID": "lectures/06_OneSample2.html#one-sample-t-tests",
+    "href": "lectures/06_OneSample2.html#one-sample-t-tests",
+    "title": "Categorical Data & Comparing Means",
+    "section": "One-sample t-tests",
+    "text": "One-sample t-tests\nt-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)\n\nSpecifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.\nHe developed the t-test, to test small samples of beer against a population with an unknown standard deviation.\n\nProbably had input from Karl Pearson and Ronald Fisher\n\nPublished this as “Student” because Guinness didn’t want these tests tied to the production of beer."
   },
   {
-    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests",
-    "href": "lectures/07_ComparingMeans.html#types-of-t-tests",
-    "title": "Comparing Means: t-tests",
-    "section": "Types of t-Tests",
-    "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test"
+    "objectID": "lectures/06_OneSample2.html#cohens-d",
+    "href": "lectures/06_OneSample2.html#cohens-d",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Cohen’s D",
+    "text": "Cohen’s D\nCohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.\n\\[\\delta = \\frac{\\mu_1 - \\mu_0}{\\sigma} \\approx d = \\frac{\\bar{X}-\\mu}{\\hat{\\sigma}}\\]\nCohen’s d is in the standard deviation (Z) metric."
   },
   {
-    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
-    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
-    "title": "Comparing Means: t-tests",
-    "section": "Types of t-Tests: Assumptions",
-    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#dataset",
-    "href": "lectures/07_ComparingMeans.html#dataset",
-    "title": "Comparing Means: t-tests",
-    "section": "Dataset",
-    "text": "Dataset\nMoving forward for today, we will use this dataset\n\n\n100 students from New York\n100 students from New Mexico\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#normality-assumption",
-    "href": "lectures/07_ComparingMeans.html#normality-assumption",
-    "title": "Comparing Means: t-tests",
-    "section": "Normality Assumption",
-    "text": "Normality Assumption\n\nCheck for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
-    "href": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
-    "title": "Comparing Means: t-tests",
-    "section": "Homogeneity of Variance",
-    "text": "Homogeneity of Variance\n\nCheck for Equality of Variances: Levene’s test to assess if variances are equal between groups\nRemedies for Violations: Welch’s t-test for unequal variances."
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#students-t-test",
-    "href": "lectures/07_ComparingMeans.html#students-t-test",
-    "title": "Comparing Means: t-tests",
-    "section": "Student’s t-test",
-    "text": "Student’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#welchs-t-test",
-    "href": "lectures/07_ComparingMeans.html#welchs-t-test",
-    "title": "Comparing Means: t-tests",
-    "section": "Welch’s t-test",
-    "text": "Welch’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#cool-visualizations",
-    "href": "lectures/07_ComparingMeans.html#cool-visualizations",
-    "title": "Comparing Means: t-tests",
-    "section": "Cool Visualizations",
-    "text": "Cool Visualizations\nThe library ggstatsplot has some wonderful visualizations of various tests\n\n\nCode\nggstatsplot::ggbetweenstats(\n  data  = state_school,\n  x     = Region,\n  y     = Sleep_Hours_Schoolnight,\n  title = \"Distribution of hours of sleep across Region\"\n)"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#next-time",
-    "href": "lectures/07_ComparingMeans.html#next-time",
-    "title": "Comparing Means: t-tests",
-    "section": "Next Time…",
-    "text": "Next Time…\nPaired Samples t-test"
-  },
-  {
-    "objectID": "lectures/07_ComparingMeans.html#next-time-1",
-    "href": "lectures/07_ComparingMeans.html#next-time-1",
-    "title": "Comparing Means: t-tests",
+    "objectID": "lectures/06_OneSample2.html#next-time",
+    "href": "lectures/06_OneSample2.html#next-time",
+    "title": "Categorical Data & Comparing Means",
     "section": "Next time…",
-    "text": "Next time…"
+    "text": "Next time…\nMore comparing means!"
   },
   {
     "objectID": "lectures/08_ComparingMeans2.html#last-week",
@@ -511,67 +511,18 @@
     "text": "Today…\n\n\nComparing Means with the \\(t\\)-test\n\n\nPaired Samples\n\n\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
   },
   {
+    "objectID": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
+    "href": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Independent Samples \\(t\\)-test",
+    "text": "Independent Samples \\(t\\)-test\nChapter 13.3 in Learning Stats with R\n\n\nTwo different types: Student’s & Welch’s\n\n\nStudent’s \\(t\\)-test\nWelch’s \\(t\\)-test\n\n\n\n\\[\nt = \\frac{\\bar{X_1} - \\bar{X_2}}{SE(\\bar{X_1} - \\bar{X_2})}\n\\]"
+  },
+  {
     "objectID": "lectures/08_ComparingMeans2.html#types-of-t-tests-assumptions",
     "href": "lectures/08_ComparingMeans2.html#types-of-t-tests-assumptions",
     "title": "Comparing Means: Paired t-tests",
     "section": "Types of t-Tests: Assumptions",
     "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances\nSpoiler Alert! The same as a one-sample \\(t\\)-test"
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#dataset",
-    "href": "lectures/08_ComparingMeans2.html#dataset",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Dataset",
-    "text": "Dataset\nMoving forward for today, we will use this dataset\n\n\n100 students from New York\n100 students from New Mexico\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#normality-assumption",
-    "href": "lectures/08_ComparingMeans2.html#normality-assumption",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Normality Assumption",
-    "text": "Normality Assumption\n\nCheck for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#homogeneity-of-variance",
-    "href": "lectures/08_ComparingMeans2.html#homogeneity-of-variance",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Homogeneity of Variance",
-    "text": "Homogeneity of Variance\n\nCheck for Equality of Variances: Levene’s test to assess if variances are equal between groups\nRemedies for Violations: Welch’s t-test for unequal variances."
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#students-t-test",
-    "href": "lectures/08_ComparingMeans2.html#students-t-test",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Student’s t-test",
-    "text": "Student’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#welchs-t-test",
-    "href": "lectures/08_ComparingMeans2.html#welchs-t-test",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Welch’s t-test",
-    "text": "Welch’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#cool-visualizations",
-    "href": "lectures/08_ComparingMeans2.html#cool-visualizations",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Cool Visualizations",
-    "text": "Cool Visualizations\nThe library ggstatsplot has some wonderful visualizations of various tests\n\n\nCode\nggstatsplot::ggbetweenstats(\n  data  = state_school,\n  x     = Region,\n  y     = Sleep_Hours_Schoolnight,\n  title = \"Distribution of hours of sleep across Region\"\n)"
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#next-time",
-    "href": "lectures/08_ComparingMeans2.html#next-time",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Next time…",
-    "text": "Next time…"
-  },
-  {
-    "objectID": "lectures/08_ComparingMeans2.html#next-time-1",
-    "href": "lectures/08_ComparingMeans2.html#next-time-1",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Next time…",
-    "text": "Next time…"
   },
   {
     "objectID": "lectures/08_ComparingMeans2.html#steps-for-t-test",
@@ -581,13 +532,6 @@
     "text": "Steps for \\(t\\)-test\n\nCheck for normality of variables\n\nVisualizing, Q-Q plots, Statistical Tests\n\nHomogeneity of Variance\n\nLevene’s test –&gt; Welch’s \\(t\\)-test"
   },
   {
-    "objectID": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
-    "href": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
-    "title": "Comparing Means: Paired t-tests",
-    "section": "Independent Samples \\(t\\)-test",
-    "text": "Independent Samples \\(t\\)-test\nChapter 13.3 in Learning Stats with R\n\n\nTwo different types: Student’s & Welch’s\n\n\nStudent’s \\(t\\)-test\nWelch’s \\(t\\)-test\n\n\n\n\\[\nt = \\frac{\\bar{X_1} - \\bar{X_2}}{SE(\\bar{X_1} - \\bar{X_2})}\n\\]"
-  },
-  {
     "objectID": "lectures/08_ComparingMeans2.html#paired-samples-t-test",
     "href": "lectures/08_ComparingMeans2.html#paired-samples-t-test",
     "title": "Comparing Means: Paired t-tests",
@@ -595,10 +539,80 @@
     "text": "Paired Samples \\(t\\)-Test\nChapter 13.5 - Learning Stats with R\nAlso called “Dependent Samples t-test”\n\nWe have been testing means between two independent samples. Participants may be randomly assigned to the separate groups\n\nThis is limited to those types of study designs, but what if we have repeated measures?\n\nWe will then need to compare scores across people…the samples we are comparing now depend on one another and are paired"
   },
   {
-    "objectID": "lectures/08_ComparingMeans2.html#data",
-    "href": "lectures/08_ComparingMeans2.html#data",
+    "objectID": "lectures/08_ComparingMeans2.html#review-of-the-t-test-process",
+    "href": "lectures/08_ComparingMeans2.html#review-of-the-t-test-process",
     "title": "Comparing Means: Paired t-tests",
-    "section": "Data",
-    "text": "Data\nWe will use the same dataset that we have in the last few classes\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+    "section": "Review of the t-test process",
+    "text": "Review of the t-test process\n\nCollect Sample and define hypotheses\nSet alpha level\nDetermine the sampling distribution (\\(t\\) distribution for now)\nIdentify the critical value that corresponds to alpha and df\nCalculate test statistic for sample collected\nInspect & compare statistic to critical value; Calculate probability"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#determining-t-crit",
+    "href": "lectures/08_ComparingMeans2.html#determining-t-crit",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Determining \\(t\\)-crit",
+    "text": "Determining \\(t\\)-crit\nCan look things up using a t-table where you need the degrees of freedom and the alpha\nBut we have R to do those things for us:\n\n#the qt() function is for a 1 tailed test, so we are having to divide it in half to get both tails\nalpha &lt;- 0.05\nn &lt;- nrow(ex1)\nt_crit &lt;- qt(alpha/2, n-1)\nt_crit\n\n[1] -2.570582"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#calculating-t",
+    "href": "lectures/08_ComparingMeans2.html#calculating-t",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Calculating t",
+    "text": "Calculating t\nLet’s get all of the information for the sample we are focusing on (difference scores):\n\nd &lt;- mean(ex1$diff_score)\nd\n\n[1] -1.166667\n\nsd_diff &lt;- sd(ex1$diff_score)\nsd_diff\n\n[1] 4.167333"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#calculating-t-1",
+    "href": "lectures/08_ComparingMeans2.html#calculating-t-1",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Calculating t",
+    "text": "Calculating t\nNow we can calculate our \\(t\\)-statistic: \\[t_{df=n-1} = \\frac{\\bar{D}}{\\frac{sd_{diff}}{\\sqrt{n}}}\\]\n\nt_stat &lt;- d/(sd_diff/(sqrt(n)))\nt_stat\n\n[1] -0.6857474\n\n#Probability of this t-statistic \np_val &lt;- pt(t_stat, n-1)*2\np_val\n\n[1] 0.5233677"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#make-a-decision",
+    "href": "lectures/08_ComparingMeans2.html#make-a-decision",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Make a decision",
+    "text": "Make a decision\nHypotheses:\n\n\n\\(H_0:\\) There is no difference in ratings of happiness between the rooms ( \\(\\mu = 0\\) )\n\\(H_1:\\) There is a difference in ratings of happiness between the rooms ( \\(\\mu \\neq 0\\) )\n\n\n\n\n\n\n\n\n\n\n\n\\(alpha\\)\n\\(t-crit\\)\n\\(t-statistic\\)\n\\(p-value\\)\n\n\n\n\n0.05\n\\(\\pm\\) -2.57\n-0.69\n0.52\n\n\n\nWhat can we conclude??"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#lets-look-at-the-data",
+    "href": "lectures/08_ComparingMeans2.html#lets-look-at-the-data",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Let’s Look at the data",
+    "text": "Let’s Look at the data\nResearch Question: Is there a difference between school nights and weekend nights for amount of time slept?\nOnly looking at the variables that we are potentially interested in:\n\nstate_school %&gt;% \n  select(Gender, Ageyears, Sleep_Hours_Schoolnight, Sleep_Hours_Non_Schoolnight) %&gt;% \n  head() #look at first few observations\n\n  Gender Ageyears Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight\n1 Female       16                     8.0                          13\n2   Male       17                     8.0                           9\n3 Female       19                     8.0                           7\n4   Male       17                     8.0                           9\n5   Male       16                     8.5                           5\n6 Female       11                    11.0                          12"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-one-sample",
+    "href": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-one-sample",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Doing the test in R: One Sample",
+    "text": "Doing the test in R: One Sample\nSince we have calculated the difference scores, we can basically just do a one-sample t-test with the lsr library\n\noneSampleTTest(sleep_state_school$sleep_diff, mu = 0)\n\n\n   One sample t-test \n\nData variable:   sleep_state_school$sleep_diff \n\nDescriptive statistics: \n            sleep_diff\n   mean         -1.866\n   std dev.      2.741\n\nHypotheses: \n   null:        population mean equals 0 \n   alternative: population mean not equal to 0 \n\nTest results: \n   t-statistic:  -9.106 \n   degrees of freedom:  178 \n   p-value:  &lt;.001 \n\nOther information: \n   two-sided 95% confidence interval:  [-2.27, -1.462] \n   estimated effect size (Cohen's d):  0.681"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-paired-sample",
+    "href": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-paired-sample",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Doing the test in R: Paired Sample",
+    "text": "Doing the test in R: Paired Sample\nMaybe we want to keep things separate and don’t want to calculate separate values. We can use pairedSamplesTTest() instead!\n\npairedSamplesTTest(\n  formula = ~ Sleep_Hours_Schoolnight + Sleep_Hours_Non_Schoolnight, \n  data = sleep_state_school\n)\n\n\n   Paired samples t-test \n\nVariables:  Sleep_Hours_Schoolnight , Sleep_Hours_Non_Schoolnight \n\nDescriptive statistics: \n            Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight difference\n   mean                       6.992                       8.858     -1.866\n   std dev.                   1.454                       2.412      2.741\n\nHypotheses: \n   null:        population means equal for both measurements\n   alternative: different population means for each measurement\n\nTest results: \n   t-statistic:  -9.106 \n   degrees of freedom:  178 \n   p-value:  &lt;.001 \n\nOther information: \n   two-sided 95% confidence interval:  [-2.27, -1.462] \n   estimated effect size (Cohen's d):  0.681"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-classic-edition",
+    "href": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-classic-edition",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Doing the test in R: Classic Edition",
+    "text": "Doing the test in R: Classic Edition\nAs you Google around to figure things out, you will likely see folks using `t.test()\n\nt.test(\n  x = sleep_state_school$Sleep_Hours_Schoolnight, \n  y = sleep_state_school$Sleep_Hours_Non_Schoolnight, \n  paired = TRUE\n)\n\n\n    Paired t-test\n\ndata:  sleep_state_school$Sleep_Hours_Schoolnight and sleep_state_school$Sleep_Hours_Non_Schoolnight\nt = -9.1062, df = 178, p-value &lt; 0.00000000000000022\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -2.270281 -1.461563\nsample estimates:\nmean difference \n      -1.865922"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#reporting-t-test",
+    "href": "lectures/08_ComparingMeans2.html#reporting-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Reporting \\(t\\)-test",
+    "text": "Reporting \\(t\\)-test\nThe first sentence usually conveys some descriptive information about the sample you were comparing (e.g., pre & post test).\nThen you identify the type of test you conducted and what was determined (be sure to include the “stat block” here as well with the t-statistic, df, p-value, CI and Effect size).\nFinish it up by putting that into person words and saying what that means."
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#if-we-have-time-example-3---dog-training",
+    "href": "lectures/08_ComparingMeans2.html#if-we-have-time-example-3---dog-training",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "If we have time: Example 3 - Dog Training",
+    "text": "If we have time: Example 3 - Dog Training\nA dog trainer wants to know if dogs are faster at an agility course if a jump is early in the course or later. She has a sample of dogs from her classes run both courses and measures their finish times. Half the class runs the early barrier version on Tuesday, half the class runs the early barrier version on Thursday. Is there a significant difference between course types (alpha = 0.05)?"
   }
 ]

@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Dustin Haraden, PhD">
   <title>PSYC 640 - Grad Stats - Comparing Means: Paired t-tests</title>
@@ -646,15 +646,399 @@ mean in group NM mean in group NY
 <li class="fragment"><p>We will then need to compare scores across people…the samples we are comparing now <em>depend</em> on one another and are <em>paired</em></p></li>
 </ul>
 </section>
-<section id="data" class="slide level2">
-<h2>Data</h2>
+<section class="slide level2">
+
+<h3 id="paired-samples-t-test-1">Paired Samples <span class="math inline">\(t\)</span>-test</h3>
+<p>Each of the repeated measures (or pairs) can be viewed as a <em>difference score</em></p>
+<p>This reduces the analysis to a one-sample t-test of the <em>difference score</em></p>
+<ul>
+<li class="fragment">We are comparing the sample (i.e., difference scores) to a population <span class="math inline">\(\mu\)</span> = 0</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="assumptions-paired-samples">Assumptions: Paired Samples</h3>
+<p>The variable of interest (<em>difference scores</em>):</p>
+<ul>
+<li class="fragment"><p>Continuous (Interval/Ratio)</p></li>
+<li class="fragment"><p>Have 2 groups (and only two groups) that are matched</p></li>
+<li class="fragment"><p>Normally Distributed</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="why-paired-samples">Why paired samples??</h3>
+<p>Previously, we looked at independent samples <span class="math inline">\(t\)</span>-tests, which we <em>could</em> do here as well (nobody will yell at you)</p>
+<ul>
+<li class="fragment"><p>However, this would violate the assumption that the data points are independent of one another!</p></li>
+<li class="fragment"><p>Within vs.&nbsp;Between-subjects</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="within-vs.-between-subjects">Within vs.&nbsp;Between Subjects</h3>
+
+<img data-src="..\images/between-subjects-design.avif" class="r-stretch quarto-figure-center"></section>
+<section class="slide level2">
+
+<h3 id="paired-samples-single-sample">Paired Samples: Single Sample</h3>
+<p>Instead of focusing on these variables as being separate/independent, we need to be able to account for their dependency on one another</p>
+<p>This is done by calculating a <em>difference</em> or <em>change</em> score for each participant</p>
+<p><span class="math display">\[ D_i = X_{i1} - X_{i2} \]</span></p>
+<p>Notice: The equation is set up as <code>variable1</code> minus <code>variable2</code>. This will be important when we interpret the results</p>
+</section>
+<section class="slide level2">
+
+<h3 id="paired-samples-hypotheses-t-statistic">Paired Samples: Hypotheses &amp; <span class="math inline">\(t\)</span>-statistic</h3>
+<p>The hypotheses would then be:</p>
+<p><span class="math display">\[ H_0:  \mu_D = 0; H_1: \mu_D \neq 0 \]</span></p>
+<p>And to calculate our t-statistic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="math inline">\(t_{df=n-1} = \frac{\bar{D}}{SE(D)}\)</span></p>
+<p>where the Standard Error of the difference score is: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="math inline">\(\frac{\hat{\sigma_D}}{\sqrt{N}}\)</span></p>
+</section>
+<section id="review-of-the-t-test-process" class="slide level2">
+<h2>Review of the t-test process</h2>
+<ol type="1">
+<li class="fragment"><p>Collect Sample and define hypotheses</p></li>
+<li class="fragment"><p>Set alpha level</p></li>
+<li class="fragment"><p>Determine the sampling distribution (<span class="math inline">\(t\)</span> distribution for now)</p></li>
+<li class="fragment"><p>Identify the critical value that corresponds to alpha and <em>df</em></p></li>
+<li class="fragment"><p>Calculate test statistic for sample collected</p></li>
+<li class="fragment"><p>Inspect &amp; compare statistic to critical value; Calculate probability</p></li>
+</ol>
+</section></section>
+<section>
+<section id="example-1-simple" class="title-slide slide level1 center">
+<h1>Example 1: Simple</h1>
+<p>Participants are placed in two differently colored rooms and are asked to rate overall happiness levels after each</p>
+<p>Hypotheses:</p>
+<ul>
+<li class="fragment"><p><span class="math inline">\(H_0:\)</span> There is no difference in ratings of happiness between the rooms ( <span class="math inline">\(\mu = 0\)</span> )</p></li>
+<li class="fragment"><p><span class="math inline">\(H_1:\)</span> There is a difference in ratings of happiness between the rooms ( <span class="math inline">\(\mu \neq 0\)</span> )</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<table>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Participant</th>
+<th style="text-align: center;">Blue Room Score</th>
+<th style="text-align: center;">Orange Room Score</th>
+<th style="text-align: center;">Difference (<span class="math inline">\(X_{iB} - X_{iO}\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">-3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">-8</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">-2</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>),</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="at">blue =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">5</span>), </span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="at">orange =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">7</span>),</span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="at">diff_score =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="determining-t-crit" class="slide level2">
+<h2>Determining <span class="math inline">\(t\)</span>-crit</h2>
+<p>Can look things up using a <a href="https://www.tdistributiontable.com/">t-table</a> where you need the degrees of freedom and the alpha</p>
+<p>But we have R to do those things for us:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#the qt() function is for a 1 tailed test, so we are having to divide it in half to get both tails</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ex1)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(alpha<span class="sc">/</span><span class="dv">2</span>, n<span class="dv">-1</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>t_crit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.570582</code></pre>
+</div>
+</div>
+</section>
+<section id="calculating-t" class="slide level2">
+<h2>Calculating t</h2>
+<p>Let’s get all of the information for the sample we are focusing on (difference scores):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>d <span class="ot">&lt;-</span> <span class="fu">mean</span>(ex1<span class="sc">$</span>diff_score)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.166667</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>sd_diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(ex1<span class="sc">$</span>diff_score)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>sd_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.167333</code></pre>
+</div>
+</div>
+</section>
+<section id="calculating-t-1" class="slide level2">
+<h2>Calculating t</h2>
+<p>Now we can calculate our <span class="math inline">\(t\)</span>-statistic: <span class="math display">\[t_{df=n-1} = \frac{\bar{D}}{\frac{sd_{diff}}{\sqrt{n}}}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>t_stat <span class="ot">&lt;-</span> d<span class="sc">/</span>(sd_diff<span class="sc">/</span>(<span class="fu">sqrt</span>(n)))</span>
+<span id="cb18-2"><a href="#cb18-2"></a>t_stat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.6857474</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co">#Probability of this t-statistic </span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>p_val <span class="ot">&lt;-</span> <span class="fu">pt</span>(t_stat, n<span class="dv">-1</span>)<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a>p_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5233677</code></pre>
+</div>
+</div>
+</section>
+<section id="make-a-decision" class="slide level2">
+<h2>Make a decision</h2>
+<p>Hypotheses:</p>
+<div>
+<ul>
+<li><p><span class="math inline">\(H_0:\)</span> There is no difference in ratings of happiness between the rooms ( <span class="math inline">\(\mu = 0\)</span> )</p></li>
+<li><p><span class="math inline">\(H_1:\)</span> There is a difference in ratings of happiness between the rooms ( <span class="math inline">\(\mu \neq 0\)</span> )</p></li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 35%">
+<col style="width: 27%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(alpha\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(t-crit\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(t-statistic\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p-value\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;"><span class="math inline">\(\pm\)</span> -2.57</td>
+<td style="text-align: center;">-0.69</td>
+<td style="text-align: center;">0.52</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What can we conclude??</strong></p>
+</section></section>
+<section>
+<section id="example-2-data-in-r" class="title-slide slide level1 center">
+<h1>Example 2: Data in R</h1>
 <p>We will use the same dataset that we have in the last few classes</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lets-look-at-the-data" class="slide level2">
+<h2>Let’s Look at the data</h2>
+<p>Research Question: Is there a difference between school nights and weekend nights for amount of time slept?</p>
+<p>Only looking at the variables that we are potentially interested in:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>state_school <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">select</span>(Gender, Ageyears, Sleep_Hours_Schoolnight, Sleep_Hours_Non_Schoolnight) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="fu">head</span>() <span class="co">#look at first few observations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Gender Ageyears Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight
+1 Female       16                     8.0                          13
+2   Male       17                     8.0                           9
+3 Female       19                     8.0                           7
+4   Male       17                     8.0                           9
+5   Male       16                     8.5                           5
+6 Female       11                    11.0                          12</code></pre>
+</div>
 </div>
 </section>
 <section class="slide level2">
 
+<h3 id="difference-score">Difference Score</h3>
+<div style="font-size: 30px">
+<p>This can be done in a couple different ways and sometimes you will see things computed this way:</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>state_school<span class="sc">$</span>sleep_diff <span class="ot">&lt;-</span> state_school<span class="sc">$</span>Sleep_Hours_Schoolnight <span class="sc">-</span> state_school<span class="sc">$</span>Sleep_Hours_Non_Schoolnight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="font-size: 30px">
+<p>However, we like the <code>tidyverse</code> so why don’t we use the <code>mutate()</code> function</p>
+<p>And I always overdo things, so I am going to make a new dataset that only has the variables that I’m interested in (<code>sleep_state_school</code>)</p>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>sleep_state_school <span class="ot">&lt;-</span> state_school <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">mutate</span>(<span class="at">sleep_diff =</span> Sleep_Hours_Schoolnight <span class="sc">-</span> Sleep_Hours_Non_Schoolnight) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">select</span>(Gender, Ageyears, Sleep_Hours_Schoolnight,</span>
+<span id="cb26-4"><a href="#cb26-4"></a>         Sleep_Hours_Non_Schoolnight, sleep_diff)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="fu">head</span>(sleep_state_school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Gender Ageyears Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight
+1 Female       16                     8.0                          13
+2   Male       17                     8.0                           9
+3 Female       19                     8.0                           7
+4   Male       17                     8.0                           9
+5   Male       16                     8.5                           5
+6 Female       11                    11.0                          12
+  sleep_diff
+1       -5.0
+2       -1.0
+3        1.0
+4       -1.0
+5        3.5
+6       -1.0</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="visualizing">Visualizing</h3>
+<p>Now that we have our variable of interest, let’s take a look at it!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>sleep_state_school <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(sleep_diff)) <span class="sc">+</span> </span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="08_ComparingMeans2_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
+<section id="doing-the-test-in-r-one-sample" class="slide level2">
+<h2>Doing the test in R: One Sample</h2>
+<p>Since we have calculated the difference scores, we can basically just do a one-sample t-test with the <code>lsr</code> library</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">oneSampleTTest</span>(sleep_state_school<span class="sc">$</span>sleep_diff, <span class="at">mu =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   One sample t-test 
+
+Data variable:   sleep_state_school$sleep_diff 
+
+Descriptive statistics: 
+            sleep_diff
+   mean         -1.866
+   std dev.      2.741
+
+Hypotheses: 
+   null:        population mean equals 0 
+   alternative: population mean not equal to 0 
+
+Test results: 
+   t-statistic:  -9.106 
+   degrees of freedom:  178 
+   p-value:  &lt;.001 
+
+Other information: 
+   two-sided 95% confidence interval:  [-2.27, -1.462] 
+   estimated effect size (Cohen's d):  0.681 </code></pre>
+</div>
+</div>
+</section>
+<section id="doing-the-test-in-r-paired-sample" class="slide level2">
+<h2>Doing the test in R: Paired Sample</h2>
+<p>Maybe we want to keep things separate and don’t want to calculate separate values. We can use <code>pairedSamplesTTest()</code> instead!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">pairedSamplesTTest</span>(</span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="at">formula =</span> <span class="sc">~</span> Sleep_Hours_Schoolnight <span class="sc">+</span> Sleep_Hours_Non_Schoolnight, </span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="at">data =</span> sleep_state_school</span>
+<span id="cb31-4"><a href="#cb31-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Paired samples t-test 
+
+Variables:  Sleep_Hours_Schoolnight , Sleep_Hours_Non_Schoolnight 
+
+Descriptive statistics: 
+            Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight difference
+   mean                       6.992                       8.858     -1.866
+   std dev.                   1.454                       2.412      2.741
+
+Hypotheses: 
+   null:        population means equal for both measurements
+   alternative: different population means for each measurement
+
+Test results: 
+   t-statistic:  -9.106 
+   degrees of freedom:  178 
+   p-value:  &lt;.001 
+
+Other information: 
+   two-sided 95% confidence interval:  [-2.27, -1.462] 
+   estimated effect size (Cohen's d):  0.681 </code></pre>
+</div>
+</div>
+</section>
+<section id="doing-the-test-in-r-classic-edition" class="slide level2">
+<h2>Doing the test in R: Classic Edition</h2>
+<p>As you Google around to figure things out, you will likely see folks using `t.test()</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">t.test</span>(</span>
+<span id="cb33-2"><a href="#cb33-2"></a>  <span class="at">x =</span> sleep_state_school<span class="sc">$</span>Sleep_Hours_Schoolnight, </span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="at">y =</span> sleep_state_school<span class="sc">$</span>Sleep_Hours_Non_Schoolnight, </span>
+<span id="cb33-4"><a href="#cb33-4"></a>  <span class="at">paired =</span> <span class="cn">TRUE</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  sleep_state_school$Sleep_Hours_Schoolnight and sleep_state_school$Sleep_Hours_Non_Schoolnight
+t = -9.1062, df = 178, p-value &lt; 0.00000000000000022
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -2.270281 -1.461563
+sample estimates:
+mean difference 
+      -1.865922 </code></pre>
+</div>
+</div>
+</section>
+<section id="reporting-t-test" class="slide level2">
+<h2>Reporting <span class="math inline">\(t\)</span>-test</h2>
+<p>The first sentence usually conveys some descriptive information about the sample you were comparing (e.g., pre &amp; post test).</p>
+<p>Then you identify the type of test you conducted and what was determined (be sure to include the “stat block” here as well with the t-statistic, df, p-value, CI and Effect size).</p>
+<p>Finish it up by putting that into person words and saying what that means.</p>
 </section></section>
 <section>
 <section id="common-mistakes-and-pitfalls" class="title-slide slide level1 center">
@@ -666,13 +1050,21 @@ mean in group NM mean in group NY
 <li class="fragment"><p><strong>Multiple Testing Issues</strong></p></li>
 </ul>
 </section>
-<section id="next-time" class="slide level2">
-<h2>Next time…</h2>
+<section id="if-we-have-time-example-3---dog-training" class="slide level2">
+<h2>If we have time: Example 3 - Dog Training</h2>
+<p>A dog trainer wants to know if dogs are faster at an agility course if a jump is early in the course or later. She has a sample of dogs from her classes run both courses and measures their finish times. Half the class runs the early barrier version on Tuesday, half the class runs the early barrier version on Thursday. Is there a significant difference between course types (alpha = 0.05)?</p>
+</section></section>
+<section id="next-time" class="title-slide slide level1 center">
+<h1>Next time…</h1>
+<ul>
+<li class="fragment"><p>Visualizing with ggplot</p></li>
+<li class="fragment"><p>Parameterization of reports (not using “magic numbers”)</p></li>
+</ul>
 
 <div class="footer footer-default">
 
 </div>
-</section></section>
+</section>
     </div>
   </div>
 
