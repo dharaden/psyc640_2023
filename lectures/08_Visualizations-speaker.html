@@ -649,83 +649,69 @@ What did we move around from the last set of code?</p>
 <section id="the-three-datasets" class="slide level2">
 <h2>The Three Datasets</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a></span>
-<span id="cb14-3"><a href="#cb14-3"></a>data2 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4"></a></span>
-<span id="cb14-5"><a href="#cb14-5"></a>data3 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"data1"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3"></a></span>
+<span id="cb14-4"><a href="#cb14-4"></a>data2 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"data2"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7"></a>data3 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"data3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>We need to combine them together just to make things easier:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>three_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data1, data2, data3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="descriptive-stats-on-the-3" class="slide level2 smaller">
+<section id="descriptive-stats-on-the-3" class="slide level2">
 <h2>Descriptive Stats on the 3</h2>
-<p>Data 1</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>data1 <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb15-3"><a href="#cb15-3"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
-<span id="cb15-4"><a href="#cb15-4"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
-<span id="cb15-5"><a href="#cb15-5"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
-<span id="cb15-6"><a href="#cb15-6"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
-<span id="cb15-7"><a href="#cb15-7"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
-<span id="cb15-8"><a href="#cb15-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>three_data <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">group_by</span>(dataset) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
+<span id="cb16-6"><a href="#cb16-6"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
+<span id="cb16-7"><a href="#cb16-7"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
+<span id="cb16-8"><a href="#cb16-8"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
+<span id="cb16-9"><a href="#cb16-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>   mean_x   mean_y    std_x    std_y      cor_xy
-1 54.2661 47.83472 16.76982 26.93974 -0.06412835</code></pre>
+<pre><code># A tibble: 3 × 6
+  dataset mean_x mean_y std_x std_y  cor_xy
+  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1 data1     54.3   47.8  16.8  26.9 -0.0641
+2 data2     54.3   47.8  16.8  26.9 -0.0683
+3 data3     54.3   47.8  16.8  26.9 -0.0645</code></pre>
 </div>
 </div>
-<p>Data 2</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>data2 <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb17-3"><a href="#cb17-3"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
-<span id="cb17-4"><a href="#cb17-4"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
-<span id="cb17-5"><a href="#cb17-5"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
-<span id="cb17-6"><a href="#cb17-6"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
-<span id="cb17-7"><a href="#cb17-7"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
-<span id="cb17-8"><a href="#cb17-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>    mean_x   mean_y    std_x    std_y      cor_xy
-1 54.26732 47.83772 16.76001 26.93004 -0.06834336</code></pre>
-</div>
-</div>
-<p>Data 3</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>data1 <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb19-3"><a href="#cb19-3"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
-<span id="cb19-4"><a href="#cb19-4"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
-<span id="cb19-5"><a href="#cb19-5"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
-<span id="cb19-6"><a href="#cb19-6"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
-<span id="cb19-7"><a href="#cb19-7"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
-<span id="cb19-8"><a href="#cb19-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>   mean_x   mean_y    std_x    std_y      cor_xy
-1 54.2661 47.83472 16.76982 26.93974 -0.06412835</code></pre>
-</div>
-</div>
+</section>
+<section id="visualize-the-datasets" class="slide level2">
+<h2>Visualize the datasets</h2>
+<p>Create a scatterplot for each of the datasets</p>
+<p>But I didn’t talk about how to do that for multiple datasets…</p>
+<p>Check out <a href="https://chat.openai.com/">ChatGPT</a></p>
 </section>
 <section class="slide level2">
 
-<p>compare on descriptive stats</p>
-<p>then visualize</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section></section>
+<section id="try-it-out-on-data" class="title-slide slide level1 center">
+<h1>Try it out on data</h1>
+<p>Take a look at the data that we have been using and try making various visualizations for two of the variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next time…</h1>
 <ul>
-<li><p>Visualizing with ggplot</p></li>
-<li><p>Parameterization of reports (not using “magic numbers”)</p></li>
+<li>ANOVA!</li>
 </ul>
 
 <div class="footer footer-default">

@@ -10,7 +10,7 @@ format:
     incremental: false
     touch: true
     code-overflow: wrap
-    theme: blood
+    theme: dark
 execute: 
   echo: true
 editor: visual
