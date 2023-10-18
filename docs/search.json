@@ -614,5 +614,110 @@
     "title": "Comparing Means: Paired t-tests",
     "section": "If we have time: Example 3 - Dog Training",
     "text": "If we have time: Example 3 - Dog Training\nA dog trainer wants to know if dogs are faster at an agility course if a jump is early in the course or later. She has a sample of dogs from her classes run both courses and measures their finish times. Half the class runs the early barrier version on Tuesday, half the class runs the early barrier version on Thursday. Is there a significant difference between course types (alpha = 0.05)?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#last-class",
+    "href": "lectures/08_Visualizations.html#last-class",
+    "title": "Figures: Using ggplot2",
+    "section": "Last Class",
+    "text": "Last Class\n\n\nComparing Means: \\(t\\)-test\n\nIndependent Samples \\(t\\)-test Review\nPaired Samples \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#looking-ahead",
+    "href": "lectures/08_Visualizations.html#looking-ahead",
+    "title": "Figures: Using ggplot2",
+    "section": "Looking Ahead",
+    "text": "Looking Ahead\n\nPlan to have 2 more labs that will be similar to the last lab\n\nLikely take place on 10/25 and sometime the week of 11/13\n\nOutside of these labs, I am going to plan on having additional mini-labs\n\nLikely to take place on 11/1, 11/22 and 11/29 (will update based on how things are going in class)"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#today",
+    "href": "lectures/08_Visualizations.html#today",
+    "title": "Figures: Using ggplot2",
+    "section": "Today…",
+    "text": "Today…\nWorking with ggplot2 to get some really fancy visualizations!\nMaybe integrating some generative AI (ChatGPT) to help us out too\n\n# File management\nlibrary(here)\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n\n#for the penguins dataset\n#install.packages('palmerpenguins')\nlibrary(palmerpenguins)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-1",
+    "href": "lectures/08_Visualizations.html#ggplot2-1",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2",
+    "text": "ggplot2\nPart of the larger tidyverse\nSince we have already installed and loaded the library, we don’t have to do anything else at this point!\nggplot2 follows the “grammar of graphics”\n\nTheoretical framework for creating data visualizations\nBreaks the process down into separate components\n\n\n\n\nData\nAesthetics (aes)\nGeometric Objects (geoms)\n\n\n\nFaceting\nThemes"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#grammar-of-graphics",
+    "href": "lectures/08_Visualizations.html#grammar-of-graphics",
+    "title": "Figures: Using ggplot2",
+    "section": "Grammar of Graphics",
+    "text": "Grammar of Graphics"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-from-the-tidyverse",
+    "href": "lectures/08_Visualizations.html#ggplot2-from-the-tidyverse",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2 from the tidyverse",
+    "text": "ggplot2 from the tidyverse\nSince we have already installed and loaded the library, we don’t have to do anything else at this point!\nggplot2 follows the “grammar of graphics”\n\nTheoretical framework for creating data visualizations\nBreaks the process down into separate components:\n\n\n\nData\nAesthetics (aes)\nGeometric Objects (geoms)\n\nFaceting\nThemes"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-syntax",
+    "href": "lectures/08_Visualizations.html#ggplot2-syntax",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2 syntax",
+    "text": "ggplot2 syntax\nThere is a basic structure to create a plot within ggplot2, and consists of at least these three things:\n\nA Data Set\nCoordinate System\nGeoms - visual marks to represent the data points\n\nIn R it looks like this:\n\nggplot(data = &lt;DATA&gt;) + \n  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))\n\n#or how I like to do it\n&lt;DATA&gt; %&gt;% \n  ggplot(aes(&lt;MAPPINGS&gt;)) + \n  &lt;GEOM_FUNCTION&gt;()"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-syntax-1",
+    "href": "lectures/08_Visualizations.html#ggplot2-syntax-1",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2 syntax",
+    "text": "ggplot2 syntax\nLet’s start with a basic figure that pulls data from a dataset from palmerpenguins which is a dataset about…penguins\nFirst we will define the data that we are using and the variables we are visualizing\n\n#the dataset is called penguins\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g))\n\nWhat happens?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#adding-in-color",
+    "href": "lectures/08_Visualizations.html#adding-in-color",
+    "title": "Figures: Using ggplot2",
+    "section": "Adding in Color",
+    "text": "Adding in Color\nMaybe we would like to have each of the points colored by their respective species\nThis information will be added to the aes() within the geom_point() layer\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species))"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#including-a-fit-line",
+    "href": "lectures/08_Visualizations.html#including-a-fit-line",
+    "title": "Figures: Using ggplot2",
+    "section": "Including a fit line",
+    "text": "Including a fit line\nWhy don’t we put in a line that represents the relationship between these variables?\nWe will want to add another layer/geom\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species)) + \n  geom_smooth()\n\n\nThat looks a little wonky…why is that? Did you get a note in the console?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#including-a-fit-line---method-lm",
+    "href": "lectures/08_Visualizations.html#including-a-fit-line---method-lm",
+    "title": "Figures: Using ggplot2",
+    "section": "Including a fit line - method = lm",
+    "text": "Including a fit line - method = lm\nThe geom_smooth() defaults to using a loess line to fit to the data\nIn order to update that, we need to change some of the defaults for that layer and specify that we want a “linear model” or lm function to the data\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species)) + \n  geom_smooth(method = 'lm')\n\nthree datasets\ncompare on descriptive stats\nthen visualize\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#including-a-fit-line-1",
+    "href": "lectures/08_Visualizations.html#including-a-fit-line-1",
+    "title": "Figures: Using ggplot2",
+    "section": "Including a fit line",
+    "text": "Including a fit line\nThe geom_smooth() defaults to using a loess line to fit to the data\nIn order to update that, we need to change some of the defaults for that layer and specify that we want a “linear model” or lm function to the data\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species)) + \n  geom_smooth(method = 'lm')\n\n\nDid that look a little better?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#individual-fit-lines",
+    "href": "lectures/08_Visualizations.html#individual-fit-lines",
+    "title": "Figures: Using ggplot2",
+    "section": "Individual fit lines",
+    "text": "Individual fit lines\nIt might make more sense to have individual lines for each of the species instead of something that is across all\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g, \n             color = species)) + \n  geom_point() + \n  geom_smooth(method = 'lm')\n\n\nWhat did we move around from the last set of code?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#take-a-look-at-the-data",
+    "href": "lectures/08_Visualizations.html#take-a-look-at-the-data",
+    "title": "Figures: Using ggplot2",
+    "section": "Take a look at the data",
+    "text": "Take a look at the data\nWill be using a dataset from the palmerpenguins library. This function will pull that data into our environment\n\ndata(penguins)\n\nNow we can get some descriptive statistics:\n\n\nCode\npenguins %&gt;% \n  group_by(species) %&gt;% \n  summarize(\n    mean_flipper = mean(flipper_length_mm, na.rm = TRUE),\n    mean_mass = mean(body_mass_g, na.rm = TRUE),\n    std_flipper = sd(flipper_length_mm, na.rm = TRUE), \n    std_mass = sd(body_mass_g, na.rm = TRUE), \n    cor_flip_mass = cor(flipper_length_mm, body_mass_g)\n  )\n\n\n# A tibble: 3 × 6\n  species   mean_flipper mean_mass std_flipper std_mass cor_flip_mass\n  &lt;fct&gt;            &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;\n1 Adelie            190.     3701.        6.54     459.        NA    \n2 Chinstrap         196.     3733.        7.13     384.         0.642\n3 Gentoo            217.     5076.        6.48     504.        NA"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#updating-labelstitle",
+    "href": "lectures/08_Visualizations.html#updating-labelstitle",
+    "title": "Figures: Using ggplot2",
+    "section": "Updating Labels/Title",
+    "text": "Updating Labels/Title\nIt will default to including the variable names as the x and y labels, but that isn’t something that makes sense. Also would be good to have a title!\nWe add on another layer called labs() for our labels (link)\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g, \n             color = species)) + \n  geom_point() + \n  geom_smooth(method = 'lm') + \n  labs(\n    title = \"Palmer Penguins\",\n    subtitle = \"Body Mass by Flipper Length\", \n    x = \"Flipper Length (mm)\", \n    y = \"Body Mass (g)\", \n    color = \"Species\"\n  )"
   }
 ]
