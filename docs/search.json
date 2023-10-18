@@ -669,7 +669,7 @@
     "href": "lectures/08_Visualizations.html#ggplot2-syntax-1",
     "title": "Figures: Using ggplot2",
     "section": "ggplot2 syntax",
-    "text": "ggplot2 syntax\nLet’s start with a basic figure that pulls data from a dataset from palmerpenguins which is a dataset about…penguins\nFirst we will define the data that we are using and the variables we are visualizing\n\n#the dataset is called penguins\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g))\n\nWhat happens?"
+    "text": "ggplot2 syntax\nLet’s start with a basic figure with palmerpenguins\nFirst we will define the data that we are using and the variables we are visualizing\n\n#the dataset is called penguins\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g))\n\nWhat happens?"
   },
   {
     "objectID": "lectures/08_Visualizations.html#adding-in-color",
@@ -711,7 +711,7 @@
     "href": "lectures/08_Visualizations.html#take-a-look-at-the-data",
     "title": "Figures: Using ggplot2",
     "section": "Take a look at the data",
-    "text": "Take a look at the data\nWill be using a dataset from the palmerpenguins library. This function will pull that data into our environment\n\ndata(penguins)\n\nNow we can get some descriptive statistics:\n\n\nCode\npenguins %&gt;% \n  group_by(species) %&gt;% \n  summarize(\n    mean_flipper = mean(flipper_length_mm, na.rm = TRUE),\n    mean_mass = mean(body_mass_g, na.rm = TRUE),\n    std_flipper = sd(flipper_length_mm, na.rm = TRUE), \n    std_mass = sd(body_mass_g, na.rm = TRUE), \n    cor_flip_mass = cor(flipper_length_mm, body_mass_g)\n  )\n\n\n# A tibble: 3 × 6\n  species   mean_flipper mean_mass std_flipper std_mass cor_flip_mass\n  &lt;fct&gt;            &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;\n1 Adelie            190.     3701.        6.54     459.        NA    \n2 Chinstrap         196.     3733.        7.13     384.         0.642\n3 Gentoo            217.     5076.        6.48     504.        NA"
+    "text": "Take a look at the data\nWill be using a dataset from the palmerpenguins library (link) which is a dataset about…penguins. This function will pull that data into our environment:\n\ndata(penguins)\n\nNow we can get some descriptive statistics:\n\n\nCode\npenguins %&gt;% \n  group_by(species) %&gt;% \n  summarize(\n    mean_flipper = mean(flipper_length_mm, na.rm = TRUE),\n    mean_mass = mean(body_mass_g, na.rm = TRUE),\n    std_flipper = sd(flipper_length_mm, na.rm = TRUE), \n    std_mass = sd(body_mass_g, na.rm = TRUE), \n    cor_flip_mass = cor(flipper_length_mm, body_mass_g)\n  )\n\n\n# A tibble: 3 × 6\n  species   mean_flipper mean_mass std_flipper std_mass cor_flip_mass\n  &lt;fct&gt;            &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;\n1 Adelie            190.     3701.        6.54     459.        NA    \n2 Chinstrap         196.     3733.        7.13     384.         0.642\n3 Gentoo            217.     5076.        6.48     504.        NA"
   },
   {
     "objectID": "lectures/08_Visualizations.html#updating-labelstitle",
@@ -719,5 +719,26 @@
     "title": "Figures: Using ggplot2",
     "section": "Updating Labels/Title",
     "text": "Updating Labels/Title\nIt will default to including the variable names as the x and y labels, but that isn’t something that makes sense. Also would be good to have a title!\nWe add on another layer called labs() for our labels (link)\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g, \n             color = species)) + \n  geom_point() + \n  geom_smooth(method = 'lm') + \n  labs(\n    title = \"Palmer Penguins\",\n    subtitle = \"Body Mass by Flipper Length\", \n    x = \"Flipper Length (mm)\", \n    y = \"Body Mass (g)\", \n    color = \"Species\"\n  )"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#penguin-histogram",
+    "href": "lectures/08_Visualizations.html#penguin-histogram",
+    "title": "Figures: Using ggplot2",
+    "section": "Penguin Histogram",
+    "text": "Penguin Histogram\nTaken from the website for palmerpenguins (link)\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm)) +\n    geom_histogram(aes(fill = species), \n                   alpha = 0.5, \n                   position = \"identity\")"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#the-three-datasets",
+    "href": "lectures/08_Visualizations.html#the-three-datasets",
+    "title": "Figures: Using ggplot2",
+    "section": "The Three Datasets",
+    "text": "The Three Datasets\n\ndata1 &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv\")\n\ndata2 &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv\")\n\ndata3 &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv\")"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#descriptive-stats-on-the-3",
+    "href": "lectures/08_Visualizations.html#descriptive-stats-on-the-3",
+    "title": "Figures: Using ggplot2",
+    "section": "Descriptive Stats on the 3",
+    "text": "Descriptive Stats on the 3\nData 1\n\n\nCode\ndata1 %&gt;% \n  summarize(\n    mean_x = mean(x),\n    mean_y = mean(y),\n    std_x = sd(x), \n    std_y = sd(y), \n    cor_xy = cor(x,y)\n  )\n\n\n   mean_x   mean_y    std_x    std_y      cor_xy\n1 54.2661 47.83472 16.76982 26.93974 -0.06412835\n\n\nData 2\n\n\nCode\ndata2 %&gt;% \n  summarize(\n    mean_x = mean(x),\n    mean_y = mean(y),\n    std_x = sd(x), \n    std_y = sd(y), \n    cor_xy = cor(x,y)\n  )\n\n\n    mean_x   mean_y    std_x    std_y      cor_xy\n1 54.26732 47.83772 16.76001 26.93004 -0.06834336\n\n\nData 3\n\n\nCode\ndata1 %&gt;% \n  summarize(\n    mean_x = mean(x),\n    mean_y = mean(y),\n    std_x = sd(x), \n    std_y = sd(y), \n    cor_xy = cor(x,y)\n  )\n\n\n   mean_x   mean_y    std_x    std_y      cor_xy\n1 54.2661 47.83472 16.76982 26.93974 -0.06412835"
   }
 ]

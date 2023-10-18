@@ -450,7 +450,7 @@ Dustin Haraden, PhD
 </section>
 <section id="take-a-look-at-the-data" class="slide level2">
 <h2>Take a look at the data</h2>
-<p>Will be using a dataset from the <code>palmerpenguins</code> library. This function will pull that data into our environment</p>
+<p>Will be using a dataset from the <code>palmerpenguins</code> library (<a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html#exploring-distributions">link</a>) which is a dataset about…<a href="https://www.youtube.com/watch?v=-GnLDJAgrws">penguins</a>. This function will pull that data into our environment:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">data</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -532,7 +532,7 @@ Dustin Haraden, PhD
 </section>
 <section id="ggplot2-syntax-1" class="slide level2">
 <h2><code>ggplot2</code> syntax</h2>
-<p>Let’s start with a basic figure that pulls data from a dataset from <code>palmerpenguins</code> which is a dataset about…<a href="https://www.youtube.com/watch?v=-GnLDJAgrws">penguins</a></p>
+<p>Let’s start with a basic figure with <code>palmerpenguins</code></p>
 <p><strong>First</strong> we will define the data that we are using and the variables we are visualizing</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#the dataset is called penguins</span></span>
@@ -629,13 +629,96 @@ What did we move around from the last set of code?</p>
 <span id="cb12-13"><a href="#cb12-13"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="penguin-histogram" class="slide level2">
+<h2>Penguin Histogram</h2>
+<p>Taken from the website for <code>palmerpenguins</code> (<a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html#exploring-distributions">link</a>)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill =</span> species), </span>
+<span id="cb13-4"><a href="#cb13-4"></a>                   <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb13-5"><a href="#cb13-5"></a>                   <span class="at">position =</span> <span class="st">"identity"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="08_Visualizations_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="example-2" class="title-slide slide level1 center">
+<h1>Example 2</h1>
+<p>I have uploaded three datasets. I would like us to explore the datasets together to see what is going on with them.</p>
+</section>
+<section id="the-three-datasets" class="slide level2">
+<h2>The Three Datasets</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a>data2 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a></span>
+<span id="cb14-5"><a href="#cb14-5"></a>data3 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="descriptive-stats-on-the-3" class="slide level2 smaller">
+<h2>Descriptive Stats on the 3</h2>
+<p>Data 1</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>data1 <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb15-4"><a href="#cb15-4"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
+<span id="cb15-5"><a href="#cb15-5"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
+<span id="cb15-6"><a href="#cb15-6"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
+<span id="cb15-7"><a href="#cb15-7"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
+<span id="cb15-8"><a href="#cb15-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   mean_x   mean_y    std_x    std_y      cor_xy
+1 54.2661 47.83472 16.76982 26.93974 -0.06412835</code></pre>
+</div>
+</div>
+<p>Data 2</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>data2 <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb17-3"><a href="#cb17-3"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb17-4"><a href="#cb17-4"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
+<span id="cb17-5"><a href="#cb17-5"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
+<span id="cb17-6"><a href="#cb17-6"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
+<span id="cb17-7"><a href="#cb17-7"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
+<span id="cb17-8"><a href="#cb17-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    mean_x   mean_y    std_x    std_y      cor_xy
+1 54.26732 47.83772 16.76001 26.93004 -0.06834336</code></pre>
+</div>
+</div>
+<p>Data 3</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>data1 <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb19-3"><a href="#cb19-3"></a>    <span class="at">mean_x =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb19-4"><a href="#cb19-4"></a>    <span class="at">mean_y =</span> <span class="fu">mean</span>(y),</span>
+<span id="cb19-5"><a href="#cb19-5"></a>    <span class="at">std_x =</span> <span class="fu">sd</span>(x), </span>
+<span id="cb19-6"><a href="#cb19-6"></a>    <span class="at">std_y =</span> <span class="fu">sd</span>(y), </span>
+<span id="cb19-7"><a href="#cb19-7"></a>    <span class="at">cor_xy =</span> <span class="fu">cor</span>(x,y)</span>
+<span id="cb19-8"><a href="#cb19-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   mean_x   mean_y    std_x    std_y      cor_xy
+1 54.2661 47.83472 16.76982 26.93974 -0.06412835</code></pre>
+</div>
+</div>
+</section>
 <section class="slide level2">
 
-<p>three datasets</p>
 <p>compare on descriptive stats</p>
 <p>then visualize</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
 <section id="next-time" class="title-slide slide level1 center">

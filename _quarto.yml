@@ -22,6 +22,8 @@ website:
             href: "lectures/07_ComparingMeans-speaker.html"
           - text: "Week 8 - Dependent/Paired Samples t-test"
             href: "lectures/08_ComparingMeans2.html"
+          - text: "Week 8 - Visualization (ggplot2)"
+            href: "lectures/08_Visualizations.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

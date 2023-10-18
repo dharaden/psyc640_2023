@@ -302,14 +302,55 @@ I have uploaded three datasets. I would like us to explore the datasets together
 ## The Three Datasets
 
 ```{r}
-data1 <- import()
+#| code-fold: true
+data1 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv") %>% 
+  mutate(dataset = "data1")
+
+data2 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv") %>% 
+  mutate(dataset = "data2")
+
+data3 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv") %>% 
+  mutate(dataset = "data3")
 ```
 
-three datasets
+We need to combine them together just to make things easier:
 
-compare on descriptive stats
+```{r}
+three_data <- bind_rows(data1, data2, data3)
+```
 
-then visualize
+------------------------------------------------------------------------
+
+## Descriptive Stats on the 3
+
+```{r}
+#| code-fold: true
+three_data %>%
+  group_by(dataset) %>% 
+  summarize(
+    mean_x = mean(x),
+    mean_y = mean(y),
+    std_x = sd(x), 
+    std_y = sd(y), 
+    cor_xy = cor(x,y)
+  )
+```
+
+------------------------------------------------------------------------
+
+## Visualize the datasets
+
+Create a scatterplot for each of the datasets
+
+But I didn't talk about how to do that for multiple datasets...
+
+Check out [ChatGPT](https://chat.openai.com/)
+
+------------------------------------------------------------------------
+
+# Try it out on data
+
+Take a look at the data that we have been using and try making various visualizations for two of the variables
 
 ```{r}
 state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
@@ -317,6 +358,4 @@ state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.gith
 
 # Next time...
 
--   Visualizing with ggplot
-
--   Parameterization of reports (not using "magic numbers")
+-   ANOVA!
