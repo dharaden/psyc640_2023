@@ -733,5 +733,187 @@
     "title": "Figures: Using ggplot2",
     "section": "Visualize the datasets",
     "text": "Visualize the datasets\nCreate a scatterplot for each of the datasets\nBut I didn’t talk about how to do that for multiple datasets…\nCheck out ChatGPT"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#last-week",
+    "href": "lectures/09_ANOVA.html#last-week",
+    "title": "Introduction to ANOVA",
+    "section": "Last Week",
+    "text": "Last Week\n\n\nComparing Means with 2 groups: \\(t\\)-test\n\nIndependent Samples \\(t\\)-test Review\nPaired Samples \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#looking-ahead",
+    "href": "lectures/09_ANOVA.html#looking-ahead",
+    "title": "Introduction to ANOVA",
+    "section": "Looking Ahead",
+    "text": "Looking Ahead\n\nPlan to have 2 more labs that will be similar to the last lab\n\nLikely take place on 10/25 and sometime the week of 11/13\n\nOutside of these labs, I am going to plan on having additional mini-labs\n\nLikely to take place on 11/1, 11/22 and 11/29 (will update based on how things are going in class)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#today",
+    "href": "lectures/09_ANOVA.html#today",
+    "title": "Introduction to ANOVA",
+    "section": "Today…",
+    "text": "Today…\nIntroduction to ANOVA (Analysis of Variance)\n\n# File management\nlibrary(here)\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#what-is-anova",
+    "href": "lectures/09_ANOVA.html#what-is-anova",
+    "title": "Introduction to ANOVA",
+    "section": "What is ANOVA?",
+    "text": "What is ANOVA?\n\n\nANOVA stands for Analysis of Variance\n\nName is a little misleading\n\nComparing means between two or more groups (usually 3 or more)\n\nPreviously used \\(t\\)-tests to compare means\n\nUnder the larger umbrella of general linear models\n\nANOVA is basically a regression with only categorical predictors"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#when-to-use-anova",
+    "href": "lectures/09_ANOVA.html#when-to-use-anova",
+    "title": "Introduction to ANOVA",
+    "section": "When to Use ANOVA?",
+    "text": "When to Use ANOVA?\n\nANOVA is used when you have more than two groups to compare.\nIt helps determine whether there are any statistically significant differences between the means of the groups."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#assumption-1-independence",
+    "href": "lectures/09_ANOVA.html#assumption-1-independence",
+    "title": "Introduction to ANOVA",
+    "section": "Assumption 1: Independence",
+    "text": "Assumption 1: Independence\n\nObservations within and between groups should be independent. No autocorrelation."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#assumption-2-homogeneity-of-variance",
+    "href": "lectures/09_ANOVA.html#assumption-2-homogeneity-of-variance",
+    "title": "Introduction to ANOVA",
+    "section": "Assumption 2: Homogeneity of Variance",
+    "text": "Assumption 2: Homogeneity of Variance\n\nThe variances within each group should be roughly equal."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#assumption-3-normality",
+    "href": "lectures/09_ANOVA.html#assumption-3-normality",
+    "title": "Introduction to ANOVA",
+    "section": "Assumption 3: Normality",
+    "text": "Assumption 3: Normality\n\nThe data within each group should follow a normal distribution."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#violation-of-assumption-1-independence",
+    "href": "lectures/09_ANOVA.html#violation-of-assumption-1-independence",
+    "title": "Introduction to ANOVA",
+    "section": "Violation of Assumption 1: Independence",
+    "text": "Violation of Assumption 1: Independence\n\nEnsure that data points are independent.\nCheck for potential autocorrelation or dependencies."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#violation-of-assumption-2-homogeneity-of-variance",
+    "href": "lectures/09_ANOVA.html#violation-of-assumption-2-homogeneity-of-variance",
+    "title": "Introduction to ANOVA",
+    "section": "Violation of Assumption 2: Homogeneity of Variance",
+    "text": "Violation of Assumption 2: Homogeneity of Variance\n\nUse Levene’s or Bartlett’s test to check for homogeneity of variances.\nTransform the data if variances are significantly different.\nConsider using Welch’s ANOVA for unequal variances."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#violation-of-assumption-3-normality",
+    "href": "lectures/09_ANOVA.html#violation-of-assumption-3-normality",
+    "title": "Introduction to ANOVA",
+    "section": "Violation of Assumption 3: Normality",
+    "text": "Violation of Assumption 3: Normality\n\nPerform normality tests like Shapiro-Wilk or Anderson-Darling.\nTransform the data (e.g., log transformation).\nUse non-parametric tests like the Kruskal-Wallis test if normality cannot be achieved."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#example-hand-calculation-of-one-way-anova",
+    "href": "lectures/09_ANOVA.html#example-hand-calculation-of-one-way-anova",
+    "title": "Introduction to ANOVA",
+    "section": "Example: Hand Calculation of One-Way ANOVA",
+    "text": "Example: Hand Calculation of One-Way ANOVA\nLet’s work through an example of hand-calculating the components of a one-way ANOVA. We have three teaching methods and test scores.\n\nMethod 1: [Data]\nMethod 2: [Data]\nMethod 3: [Data]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-1-calculate-group-means",
+    "href": "lectures/09_ANOVA.html#step-1-calculate-group-means",
+    "title": "Introduction to ANOVA",
+    "section": "Step 1: Calculate Group Means",
+    "text": "Step 1: Calculate Group Means\n\nCalculate the mean for each group.\nGrand Mean = [Grand Mean Value]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-2-calculate-sum-of-squares-ss",
+    "href": "lectures/09_ANOVA.html#step-2-calculate-sum-of-squares-ss",
+    "title": "Introduction to ANOVA",
+    "section": "Step 2: Calculate Sum of Squares (SS)",
+    "text": "Step 2: Calculate Sum of Squares (SS)\n\nCalculate the sum of squares for each group (SSBetween).\nCalculate the sum of squares within groups (SSWithin).\nTotal Sum of Squares (SSTotal) = SSBetween + SSWithin."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-3-calculate-degrees-of-freedom-df",
+    "href": "lectures/09_ANOVA.html#step-3-calculate-degrees-of-freedom-df",
+    "title": "Introduction to ANOVA",
+    "section": "Step 3: Calculate Degrees of Freedom (df)",
+    "text": "Step 3: Calculate Degrees of Freedom (df)\n\nDegrees of Freedom for Between Groups (dfBetween) = Number of Groups - 1.\nDegrees of Freedom for Within Groups (dfWithin) = Total Number of Observations - Number of Groups."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-4-calculate-mean-squares-ms",
+    "href": "lectures/09_ANOVA.html#step-4-calculate-mean-squares-ms",
+    "title": "Introduction to ANOVA",
+    "section": "Step 4: Calculate Mean Squares (MS)",
+    "text": "Step 4: Calculate Mean Squares (MS)\n\nMSBetween = SSBetween / dfBetween.\nMSWithin = SSWithin / dfWithin."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-5-calculate-f-statistic",
+    "href": "lectures/09_ANOVA.html#step-5-calculate-f-statistic",
+    "title": "Introduction to ANOVA",
+    "section": "Step 5: Calculate F-Statistic",
+    "text": "Step 5: Calculate F-Statistic\n\nF = MSBetween / MSWithin."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-6-find-the-critical-value",
+    "href": "lectures/09_ANOVA.html#step-6-find-the-critical-value",
+    "title": "Introduction to ANOVA",
+    "section": "Step 6: Find the Critical Value",
+    "text": "Step 6: Find the Critical Value\n\nDetermine the critical value for F with dfBetween and dfWithin at a given significance level (alpha)."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#step-7-make-a-decision",
+    "href": "lectures/09_ANOVA.html#step-7-make-a-decision",
+    "title": "Introduction to ANOVA",
+    "section": "Step 7: Make a Decision",
+    "text": "Step 7: Make a Decision\n\nIf F &gt; Critical Value, reject the null hypothesis."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#one-way-anova-example",
+    "href": "lectures/09_ANOVA.html#one-way-anova-example",
+    "title": "Introduction to ANOVA",
+    "section": "One-Way ANOVA Example",
+    "text": "One-Way ANOVA Example\nLet’s compare our hand-calculated results with R’s built-in ANOVA function.\n\n# Perform ANOVA\n#result &lt;- aov(Score ~ Method, data = data)\n#summary(result)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#waitanalyzing-varianceor-means",
+    "href": "lectures/09_ANOVA.html#waitanalyzing-varianceor-means",
+    "title": "Introduction to ANOVA",
+    "section": "Wait…Analyzing Variance…Or Means?",
+    "text": "Wait…Analyzing Variance…Or Means?\nWe are using the variance to create a ratio (within group versus between group variance) to determine differences in means\n\nWe are not directly investigating variance, but operationalize variance to create the ratio:\n\n\\[\nF_{df_b, \\: df_w} = \\frac{MS_{between}}{MS_{within}}\n\\]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#what-is-anova-lsr-ch.-14",
+    "href": "lectures/09_ANOVA.html#what-is-anova-lsr-ch.-14",
+    "title": "Introduction to ANOVA",
+    "section": "What is ANOVA? (LSR Ch. 14)",
+    "text": "What is ANOVA? (LSR Ch. 14)\n\n\nANOVA stands for Analysis of Variance\n\nName is a little misleading\n\nComparing means between two or more groups (usually 3 or more)\n\nContinuous outcome and grouping variable with 2 or more levels\nPreviously used \\(t\\)-tests to compare means\n\nUnder the larger umbrella of general linear models\n\nANOVA is basically a regression with only categorical predictors\n\nLikely the most widely used tool in Psychology"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#waitanalyzing-varianceor-means-1",
+    "href": "lectures/09_ANOVA.html#waitanalyzing-varianceor-means-1",
+    "title": "Introduction to ANOVA",
+    "section": "Wait…Analyzing Variance…Or Means?",
+    "text": "Wait…Analyzing Variance…Or Means?"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#different-types-of-anova",
+    "href": "lectures/09_ANOVA.html#different-types-of-anova",
+    "title": "Introduction to ANOVA",
+    "section": "Different Types of ANOVA",
+    "text": "Different Types of ANOVA\n\n\nOne-Way ANOVA\n\nTwo-Way ANOVA\nRepeated Measures ANOVA\nANCOVA\nMANOVA"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#one-way-anova",
+    "href": "lectures/09_ANOVA.html#one-way-anova",
+    "title": "Introduction to ANOVA",
+    "section": "One-Way ANOVA",
+    "text": "One-Way ANOVA\nGoal: Inform of differences among the levels of our variable of interest (Omnibus Test)\n\nBut cannot tell us more than that…\n\nHypotheses:\n\\[\nH_0: it\\: is\\: true\\: that\\: \\mu_1 = \\mu_2 = \\mu_3 =\\: ...\\mu_k\n\\\\\nH_1: it\\: is\\: \\boldsymbol{not}\\: true\\: that\\: \\mu_1 = \\mu_2 = \\mu_3 =\\: ...\\mu_k\n\\]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#waitmeans-or-variance",
+    "href": "lectures/09_ANOVA.html#waitmeans-or-variance",
+    "title": "Introduction to ANOVA",
+    "section": "Wait…Means or Variance?",
+    "text": "Wait…Means or Variance?\nWe are using the variance to create a ratio (within group versus between group variance) to determine differences in means\n\nWe are not directly investigating variance, but operationalize variance to create the ratio:\n\n\\[\nF_{df_b, \\: df_w} = \\frac{MS_{between}}{MS_{within}}\n\\]"
   }
 ]

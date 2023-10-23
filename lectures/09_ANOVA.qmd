@@ -1,0 +1,239 @@
+---
+title: "Introduction to ANOVA"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
+format: 
+  revealjs:
+    multiplex: true
+    scrollable: true
+    slide-number: true
+    incremental: false
+    touch: true
+    code-overflow: wrap
+    theme: dark
+execute: 
+  echo: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Last Week
+
+::: nonincremental
+-   Comparing Means with 2 groups: $t$-test
+    -   Independent Samples $t$-test Review
+    -   Paired Samples $t$-test
+:::
+
+------------------------------------------------------------------------
+
+## Looking Ahead
+
+-   Plan to have 2 more labs that will be similar to the last lab
+
+    -   Likely take place on 10/25 and sometime the week of 11/13
+
+-   Outside of these labs, I am going to plan on having additional mini-labs
+
+    -   Likely to take place on 11/1, 11/22 and 11/29 (will update based on how things are going in class)
+
+------------------------------------------------------------------------
+
+## Today...
+
+Introduction to ANOVA (Analysis of Variance)
+
+```{r, results = 'hide', message = F, warning = F}
+# File management
+library(here)
+# for dplyr, ggplot2
+library(tidyverse)
+#Loading data
+library(rio)
+
+#Remove Scientific Notation 
+options(scipen=999)
+```
+
+# Overview of ANOVA
+
+## What is ANOVA? ([LSR Ch. 14](https://learningstatisticswithr.com/book/anova.html))
+
+::: incremental
+-   ANOVA stands for [***An***]{.underline}alysis [***o***]{.underline}f [***Va***]{.underline}riance
+    -   Name is a little misleading
+-   Comparing means between two or more groups (usually 3 or more)
+    -   Continuous outcome and grouping variable with 2 or more levels
+    -   Previously used $t$-tests to compare means
+-   Under the larger umbrella of general linear models
+    -   ANOVA is basically a regression with only categorical predictors
+-   Likely the most widely used tool in Psychology
+:::
+
+## Different Types of ANOVA
+
+-   ::: {.fragment .highlight-green}
+    One-Way ANOVA
+    :::
+
+-   Two-Way ANOVA
+
+-   Repeated Measures ANOVA
+
+-   ANCOVA
+
+-   MANOVA
+
+## One-Way ANOVA
+
+Goal: Inform of differences among the levels of our variable of interest (Omnibus Test)
+
+-   But cannot tell us more than that...
+
+Hypotheses:
+
+$$
+H_0: it\: is\: true\: that\: \mu_1 = \mu_2 = \mu_3 =\: ...\mu_k 
+\\ 
+H_1: it\: is\: \boldsymbol{not}\: true\: that\: \mu_1 = \mu_2 = \mu_3 =\: ...\mu_k
+$$
+
+## Wait...Means or Variance?
+
+We are using the variance to create a ratio (within group versus between group variance) to determine differences in means
+
+-   We are not directly investigating variance, but operationalize variance to create the ratio:
+
+$$
+F_{df_b, \: df_w} = \frac{MS_{between}}{MS_{within}}
+$$
+
+------------------------------------------------------------------------
+
+![](/images/ANOVA.png){width="729"}
+
+------------------------------------------------------------------------
+
+![](/images/ANOVA.png){width="729"}
+
+::: columns
+::: {.column width="50%"}
+$F = \frac{MS_{between}}{MS_{within}} = \frac{small}{large} < 1$
+:::
+
+::: {.column width="50%"}
+$F = \frac{MS_{between}}{MS_{within}} = \frac{large}{small} > 1$
+:::
+:::
+
+# stopped here: 
+
+Pulling from <https://uopsych.github.io/psy612/lectures/10-anova.html#/title-slide>
+
+and the code: <https://github.com/uopsych/psy612/blob/master/lectures/10-anova.qmd>
+
+# Assumptions of ANOVA
+
+## Assumption 1: Independence
+
+-   Observations within and between groups should be independent. No autocorrelation.
+
+## Assumption 2: Homogeneity of Variance
+
+-   The variances within each group should be roughly equal.
+
+## Assumption 3: Normality
+
+-   The data within each group should follow a normal distribution.
+
+# Dealing with Assumption Violations
+
+## Violation of Assumption 1: Independence
+
+-   Ensure that data points are independent.
+-   Check for potential autocorrelation or dependencies.
+
+## Violation of Assumption 2: Homogeneity of Variance
+
+-   Use Levene's or Bartlett's test to check for homogeneity of variances.
+-   Transform the data if variances are significantly different.
+-   Consider using Welch's ANOVA for unequal variances.
+
+## Violation of Assumption 3: Normality
+
+-   Perform normality tests like Shapiro-Wilk or Anderson-Darling.
+-   Transform the data (e.g., log transformation).
+-   Use non-parametric tests like the Kruskal-Wallis test if normality cannot be achieved.
+
+# Calculating ANOVA by Hand
+
+## Example: Hand Calculation of One-Way ANOVA
+
+Let's work through an example of hand-calculating the components of a one-way ANOVA. We have three teaching methods and test scores.
+
+-   Method 1: \[Data\]
+-   Method 2: \[Data\]
+-   Method 3: \[Data\]
+
+## Step 1: Calculate Group Means
+
+1.  Calculate the mean for each group.
+2.  Grand Mean = \[Grand Mean Value\]
+
+## Step 2: Calculate Sum of Squares (SS)
+
+1.  Calculate the sum of squares for each group (SSBetween).
+2.  Calculate the sum of squares within groups (SSWithin).
+3.  Total Sum of Squares (SSTotal) = SSBetween + SSWithin.
+
+## Step 3: Calculate Degrees of Freedom (df)
+
+1.  Degrees of Freedom for Between Groups (dfBetween) = Number of Groups - 1.
+2.  Degrees of Freedom for Within Groups (dfWithin) = Total Number of Observations - Number of Groups.
+
+## Step 4: Calculate Mean Squares (MS)
+
+1.  MSBetween = SSBetween / dfBetween.
+2.  MSWithin = SSWithin / dfWithin.
+
+## Step 5: Calculate F-Statistic
+
+1.  F = MSBetween / MSWithin.
+
+## Step 6: Find the Critical Value
+
+1.  Determine the critical value for F with dfBetween and dfWithin at a given significance level (alpha).
+
+## Step 7: Make a Decision
+
+1.  If F \> Critical Value, reject the null hypothesis.
+
+# One-Way ANOVA
+
+## One-Way ANOVA Example
+
+Let's compare our hand-calculated results with R's built-in ANOVA function.
+
+```{r}
+# Perform ANOVA
+#result <- aov(Score ~ Method, data = data)
+#summary(result)
+
+```
+
+# Try it out on data
+
+Take a look at the data that we have been using and try making various visualizations for two of the variables
+
+```{r}
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
+```
+
+# Next time...
+
+-   ANOVA!
