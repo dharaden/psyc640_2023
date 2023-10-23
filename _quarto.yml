@@ -24,6 +24,8 @@ website:
             href: "lectures/08_ComparingMeans2.html"
           - text: "Week 8 - Visualization (ggplot2)"
             href: "lectures/08_Visualizations.html"
+          - text: "Week 9 - One-Way ANOVA"
+            href: "lectures/09_ANOVA-speaker.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:
