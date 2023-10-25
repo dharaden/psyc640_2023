@@ -1,0 +1,166 @@
+---
+title: "Introduction to ANOVA"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
+format: 
+  revealjs:
+    multiplex: true
+    scrollable: true
+    slide-number: true
+    incremental: false
+    touch: true
+    code-overflow: wrap
+    theme: dark
+execute: 
+  echo: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Last Class
+
+::: nonincremental
+-   One Way ANOVA
+    -   Comparing means across multiple groups/levels
+:::
+
+------------------------------------------------------------------------
+
+## Looking Ahead
+
+-   Probably something here about the expectations for the final project
+
+------------------------------------------------------------------------
+
+## Today...
+
+One-Way ANOVA
+
+-   Contrasts/post-hoc tests
+
+Two-Way ANOVA
+
+```{r, results = 'hide', message = F, warning = F}
+# File management
+library(here)
+# for dplyr, ggplot2
+library(tidyverse)
+#Loading data
+library(rio)
+
+#Remove Scientific Notation 
+options(scipen=999)
+```
+
+# Review of One-Way ANOVA
+
+## One-Way ANOVA
+
+Goal: Inform of differences among the levels of our variable of interest (Omnibus Test)
+
+Using the between and within group variance to create the $F$-statistic/ratio
+
+Hypotheses:
+
+$$
+H_0: it\: is\: true\: that\: \mu_1 = \mu_2 = \mu_3 =\: ...\mu_k 
+\\ 
+H_1: it\: is\: \boldsymbol{not}\: true\: that\: \mu_1 = \mu_2 = \mu_3 =\: ...\mu_k
+$$
+
+------------------------------------------------------------------------
+
+![](/images/ANOVA.png){width="729"}
+
+::: columns
+::: {.column width="50%"}
+$F = \frac{MS_{between}}{MS_{within}} = \frac{small}{large} < 1$
+:::
+
+::: {.column width="50%"}
+$F = \frac{MS_{between}}{MS_{within}} = \frac{large}{small} > 1$
+:::
+:::
+
+## Review of the NHST process
+
+::: incremental
+1.  Collect Sample and define hypotheses
+
+2.  Set alpha level
+
+3.  Determine the sampling distribution (will be using $F$-distribution now)
+
+4.  Identify the critical value
+
+5.  Calculate test statistic for sample collected
+
+6.  Inspect & compare statistic to critical value; Calculate probability
+:::
+
+## Steps to calculating F-ratio
+
+1.  Variance to Sum of Squares (Between & Within)
+2.  Degrees of Freedom
+3.  Mean squares values
+4.  F-Statistic
+
+## Calculating the F-Statistic
+
+$$F = \frac{MS_b}{MS_w}$$
+
+If the null hypothesis is true, $F$ has an expected value close to 1 (numerator and denominator are estimates of the same variability)
+
+If it is false, the numerator will likely be larger, because systematic, between-group differences contribute to the variance of the means, but not to variance within group.
+
+------------------------------------------------------------------------
+
+```{r fig.width = 10, fig.height = 6}
+#| code-fold: true
+#| 
+data.frame(F = c(0,8)) %>%
+  ggplot(aes(x = F)) +
+  stat_function(fun = function(x) df(x, df1 = 3, df2 = 196), 
+                geom = "line") +
+  stat_function(fun = function(x) df(x, df1 = 3, df2 = 196), 
+                geom = "area", xlim = c(2.65, 8), fill = "purple") +
+  geom_vline(aes(xintercept = 2.65), color = "purple") +
+  scale_y_continuous("Density") + scale_x_continuous("F statistic", breaks = NULL) +
+  theme_bw(base_size = 20)
+```
+
+If data are normally distributed, then the variance is $\chi^2$ distributed
+
+$F$-distributions are one-tailed tests. Recall that we're interested in how far away our test statistic from the null $(F = 1).$
+
+------------------------------------------------------------------------
+
+## 
+
+## Contrasts/Post-Hoc Tests
+
+Performed when there is a significant difference among the groups to examine which groups are different
+
+1.  **Contrasts**: When we have *a priori* hypotheses
+2.  **Post-hoc Tests**: When we want to test everything
+
+## Example:
+
+Take a look at the data and compute the following:
+
+| Source of Variation |  df   | Sum of Squares |        Mean Squares        |       F-statistic       | p-value |
+|:----------:|:----------:|:----------:|:-----------:|:----------:|:----------:|
+|        Group        | $G-1$ |     $SS_b$     | $MS_b = \frac{SS_b}{df_b}$ | $F = \frac{MS_b}{MS_w}$ |   $p$   |
+|      Residual       | $N-G$ |     $SS_w$     | $MS_w = \frac{SS_w}{df_w}$ |                         |         |
+|        Total        | $N-1$ |  $SS_{total}$  |                            |                         |         |
+
+Contrast Comparisons: <https://uopsych.github.io/psy612/lectures/10-anova.html#/5/31>
+
+# Next time...
+
+-   Two-Way ANOVA!
