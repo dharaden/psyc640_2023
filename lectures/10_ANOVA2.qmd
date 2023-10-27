@@ -1,5 +1,5 @@
 ---
-title: "Introduction to ANOVA"
+title: "Two-Way ANOVA"
 subtitle: "PSYC 640 - Fall 2023"
 author: "Dustin Haraden, PhD"
 format: 
@@ -33,7 +33,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 ## Looking Ahead
 
--   R-Workshop! ([Link to Sign up](https://docs.google.com/open?id=1U9jFDGQKYU5MyyWkAInJk9jHUypebmBGxREAEIEtakI&usp=drive_fs))
+-   R-Workshop! ([Link to Sign up](https://docs.google.com/forms/d/e/1FAIpQLSd2Gjcb88kWHBS7LXNDaLCZ9Sb7aroRceMjrLl5K36epewdtQ/viewform?usp=sf_link))
     -   11/3 & 12/1 from 2-3pm
 -   Professor will put together guidelines for the final project and have dates to complete various components
 -   Lab 3 - Starting Today will be due before class on 11/6
