@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Courses & Workshops"
+  title: "Haraden: Courses & Workshops"
   navbar:
     left:
       - href: index.qmd
