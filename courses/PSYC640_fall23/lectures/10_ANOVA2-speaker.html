@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/tabby.min.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Dustin Haraden, PhD">
-  <title>PSYC 640 - Grad Stats - Introduction to ANOVA</title>
+  <title>Courses &amp; Workshops - Two-Way ANOVA</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -95,11 +95,11 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #dcc6e0; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -391,7 +391,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Introduction to ANOVA</h1>
+  <h1 class="title">Two-Way ANOVA</h1>
   <p class="subtitle">PSYC 640 - Fall 2023</p>
 
 <div class="quarto-title-authors">
@@ -417,7 +417,7 @@ Dustin Haraden, PhD
 <section id="looking-ahead" class="slide level2">
 <h2>Looking Ahead</h2>
 <ul>
-<li>R-Workshop! (<a href="https://docs.google.com/open?id=1U9jFDGQKYU5MyyWkAInJk9jHUypebmBGxREAEIEtakI&amp;usp=drive_fs">Link to Sign up</a>)
+<li>R-Workshop! (<a href="https://docs.google.com/forms/d/e/1FAIpQLSd2Gjcb88kWHBS7LXNDaLCZ9Sb7aroRceMjrLl5K36epewdtQ/viewform?usp=sf_link">Link to Sign up</a>)
 <ul>
 <li>11/3 &amp; 12/1 from 2-3pm</li>
 </ul></li>
@@ -471,7 +471,7 @@ H_1: it\: is\: \boldsymbol{not}\: true\: that\: \mu_1 = \mu_2 = \mu_3 =\: ...\mu
 <section class="slide level2">
 
 
-<img data-src="..\images/ANOVA.png" width="729" class="r-stretch"><div class="columns">
+<img data-src="../../..\images/ANOVA.png" width="729" class="r-stretch"><div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="math inline">\(F = \frac{MS_{between}}{MS_{within}} = \frac{small}{large} &lt; 1\)</span></p>
 </div><div class="column" style="width:50%;">
@@ -599,7 +599,7 @@ H_1: it\: is\: \boldsymbol{not}\: true\: that\: \mu_1 = \mu_2 = \mu_3 =\: ...\mu
 <h2>Previous Spooky Data</h2>
 <p>EMF rating across multiple locations</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>spooky <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/SS%20Calculations.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>spooky <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/SS%20Calculations.csv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">select</span>(Location, EMF) <span class="co">#There were some extra empty variables in there that we don't care about</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
 <span id="cb3-4"><a href="#cb3-4"></a>fit_1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(EMF <span class="sc">~</span> Location, <span class="at">data =</span> spooky)</span>
@@ -1255,21 +1255,21 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <script src="../../../site_libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
-  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
-  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

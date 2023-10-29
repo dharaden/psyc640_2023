@@ -303,13 +303,13 @@ I have uploaded three datasets. I would like us to explore the datasets together
 
 ```{r}
 #| code-fold: true
-data1 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv") %>% 
+data1 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/data1.csv") %>% 
   mutate(dataset = "data1")
 
-data2 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv") %>% 
+data2 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/data2.csv") %>% 
   mutate(dataset = "data2")
 
-data3 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv") %>% 
+data3 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/data3.csv") %>% 
   mutate(dataset = "data3")
 ```
 
@@ -353,7 +353,7 @@ Check out [ChatGPT](https://chat.openai.com/)
 Take a look at the data that we have been using and try making various visualizations for two of the variables
 
 ```{r}
-state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/NM-NY_CAS.csv")
 ```
 
 # Next time...

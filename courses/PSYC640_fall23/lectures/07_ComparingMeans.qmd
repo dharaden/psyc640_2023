@@ -70,7 +70,7 @@ The heavier tails of the t-distribution, especially for small N, are the penalty
 ### Load in the dataset from last class
 
 ```{r}
-school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>%  
+school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/example2-chisq.csv") %>%  
   mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))
 school <- school %>% 
   filter(!is.na(Score_in_memory_game))
@@ -81,7 +81,7 @@ school <- school %>%
 ### One-sample *t*-tests vs Z-test
 
 | Parameters                                  | Z-test                    | *t*-test                        |
-|---------------------------------------------|---------------------------|---------------------------------|
+|-------------------------------|-------------------|-----------------------|
 | $\large{\mu}$                               | known                     | known                           |
 | $\sigma$                                    | known                     | unknown                         |
 | sem or $\sigma_M$                           | $\frac{\sigma}{\sqrt{N}}$ | $\frac{\hat{\sigma}}{\sqrt{N}}$ |
@@ -161,7 +161,7 @@ You will mainly see them when interpreting effect sizes of coefficients in your 
 
 ```{r}
 #Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html
-sleep <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv")
+sleep <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/sleepstudy.csv")
 model = lm(Reaction ~ Days, data = sleep)
 summary(model)
 ```
@@ -218,7 +218,7 @@ Moving forward for today, we will use this dataset
 
 ```{r}
 
-state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv")
+state_school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/NM-NY_CAS.csv")
 
 ```
 

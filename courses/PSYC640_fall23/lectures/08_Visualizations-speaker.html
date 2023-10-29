@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/tabby.min.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Dustin Haraden, PhD">
-  <title>PSYC 640 - Grad Stats - Figures: Using ggplot2</title>
+  <title>Courses &amp; Workshops - Figures: Using ggplot2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -95,11 +95,11 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #dcc6e0; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -505,7 +505,7 @@ Dustin Haraden, PhD
 <section id="grammar-of-graphics" class="slide level2">
 <h2>Grammar of Graphics</h2>
 
-<img data-src="..\images/grammargraphics.webp" width="779" class="r-stretch quarto-figure-center"></section></section>
+<img data-src="../../..\images/grammargraphics.webp" width="779" class="r-stretch quarto-figure-center"></section></section>
 <section>
 <section id="ggplot2-cheatsheet" class="title-slide slide level1 center">
 <h1><code>ggplot2</code> <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf">cheatsheet</a></h1>
@@ -651,13 +651,13 @@ What did we move around from the last set of code?</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/data1.csv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"data1"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4"></a>data2 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4"></a>data2 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/data2.csv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"data2"</span>)</span>
 <span id="cb14-6"><a href="#cb14-6"></a></span>
-<span id="cb14-7"><a href="#cb14-7"></a>data3 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-7"><a href="#cb14-7"></a>data3 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/data3.csv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"data3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -704,7 +704,7 @@ What did we move around from the last set of code?</p>
 <h1>Try it out on data</h1>
 <p>Take a look at the data that we have been using and try making various visualizations for two of the variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 
@@ -722,21 +722,21 @@ What did we move around from the last set of code?</p>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <script src="../../../site_libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
-  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
-  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

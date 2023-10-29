@@ -131,7 +131,7 @@ Let's work through how to do a $\chi^2$ test of independence (or association)
 First, we have to load in the data:
 
 ```{r}
-chapek9 <- read.csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/chapek9.csv") %>% 
+chapek9 <- read.csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/chapek9.csv") %>% 
   mutate(choice = as.factor(choice), 
          species = as.factor(species))
 ```
@@ -285,7 +285,7 @@ plot_xtab(chapek9$choice, chapek9$species, margin = "row", bar.pos = "stack", co
 
 ## Writing it up
 
-> Pearson\'s $\chi^2$ revealed a significant association between species and choice ( $\chi^2 (2) =$ 10.7, $p$ \< .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data.
+> Pearson's $\chi^2$ revealed a significant association between species and choice ( $\chi^2 (2) =$ 10.7, $p$ \< .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data.
 
 ------------------------------------------------------------------------
 
@@ -326,7 +326,7 @@ The heavier tails of the t-distribution, especially for small N, are the penalty
 ### Load in the dataset from last class
 
 ```{r}
-school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>% 
+school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/example2-chisq.csv") %>% 
   mutate(Score_in_memory_game = as.numeric(Score_in_memory_game))
 school <- school %>% 
   filter(!is.na(Score_in_memory_game))
@@ -337,7 +337,7 @@ school <- school %>%
 ### One-sample *t*-tests vs Z-test
 
 |                                             | Z-test                    | *t*-test                        |
-|------------------|---------------------------|---------------------------|
+|-------------------|---------------------------|---------------------------|
 | $\large{\mu}$                               | known                     | known                           |
 | $\sigma$                                    | known                     | unknown                         |
 | sem or $\sigma_M$                           | $\frac{\sigma}{\sqrt{N}}$ | $\frac{\hat{\sigma}}{\sqrt{N}}$ |
@@ -439,7 +439,7 @@ The one-sample *t*-test is used to test coefficients in a model.
 
 ```{r}
 #Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html
-sleep <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv")
+sleep <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/sleepstudy.csv")
 model = lm(Reaction ~ Days, data = sleep)
 summary(model)
 ```

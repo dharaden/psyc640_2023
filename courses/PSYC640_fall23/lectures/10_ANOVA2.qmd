@@ -185,7 +185,7 @@ These comparisons take the general form of t-tests, but note some extensions:
 EMF rating across multiple locations
 
 ```{r}
-spooky <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/SS%20Calculations.csv") %>% 
+spooky <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/SS%20Calculations.csv") %>% 
   select(Location, EMF) #There were some extra empty variables in there that we don't care about
 
 fit_1 <- aov(EMF ~ Location, data = spooky)

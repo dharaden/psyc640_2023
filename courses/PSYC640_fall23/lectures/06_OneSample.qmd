@@ -234,7 +234,7 @@ expected <- df
 ```
 
 |              |       |                   |                   |                   |                   |                   |
-|--------------|-------|-------------------|-------------------|-------------------|-------------------|-------------------|
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 |              |       | **Monday**        | **Tuesday**       | **Wednesday**     | **Thursday**      | **Friday**        |
 | **Observed** | $O_i$ | `r observed[1,2]` | `r observed[2,2]` | `r observed[3,2]` | `r observed[4,2]` | `r observed[5,2]` |
 | **Expected** | $E_i$ | `r expected[1,2]` | `r expected[2,2]` | `r expected[3,2]` | `r expected[4,2]` | `r expected[5,2]` |
@@ -250,7 +250,7 @@ The chi-square goodness of fit (GOF) statistic compares observed and expected fr
 ------------------------------------------------------------------------
 
 |                |             |                                   |                                   |                                   |                                   |                                   |
-|----------------|-------------|-----------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 |                |             | **Monday**                        | **Tuesday**                       | **Wednesday**                     | **Thursday**                      | **Friday**                        |
 | **Observed**   | $O_i$       | `r observed[1,2]`                 | `r observed[2,2]`                 | `r observed[3,2]`                 | `r observed[4,2]`                 | `r observed[5,2]`                 |
 | **Expected**   | $E_i$       | `r expected[1,2]`                 | `r expected[2,2]`                 | `r expected[3,2]`                 | `r expected[4,2]`                 | `r expected[5,2]`                 |
@@ -497,7 +497,7 @@ The responses from 250 randomly selected New York students were obtained from th
 
 ```{r, message=FALSE, warning = F}
 
-school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") 
+school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/example2-chisq.csv") 
 school <- school %>% 
   filter(!is.na(Superpower))
 ```

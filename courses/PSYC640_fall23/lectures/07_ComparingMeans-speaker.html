@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/tabby.min.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Dustin Haraden, PhD">
-  <title>PSYC 640 - Grad Stats - Comparing Means: t-tests</title>
+  <title>Courses &amp; Workshops - Comparing Means: t-tests</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -95,11 +95,11 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #dcc6e0; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -450,7 +450,7 @@ Dustin Haraden, PhD
 
 <h3 id="load-in-the-dataset-from-last-class">Load in the dataset from last class</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span>  </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/example2-chisq.csv"</span>) <span class="sc">%&gt;%</span>  </span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">mutate</span>(<span class="at">Score_in_memory_game =</span> <span class="fu">as.numeric</span>(Score_in_memory_game))</span>
 <span id="cb2-3"><a href="#cb2-3"></a>school <span class="ot">&lt;-</span> school <span class="sc">%&gt;%</span> </span>
 <span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Score_in_memory_game))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -462,7 +462,7 @@ Dustin Haraden, PhD
 <table>
 <colgroup>
 <col style="width: 42%">
-<col style="width: 25%">
+<col style="width: 26%">
 <col style="width: 31%">
 </colgroup>
 <thead>
@@ -605,7 +605,7 @@ Other information:
 <p>You will mainly see them when interpreting effect sizes of coefficients in your model</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#Load sleep data: https://vincentarelbundock.github.io/Rdatasets/datasets.html</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/sleepstudy.csv"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/sleepstudy.csv"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3"></a>model <span class="ot">=</span> <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, <span class="at">data =</span> sleep)</span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -669,7 +669,7 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 0.000000000000009894</code></pre>
 </ul>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>state_school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/courses/PSYC640_fall23/data/NM-NY_CAS.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="normality-assumption" class="slide level2">
@@ -798,7 +798,7 @@ t = \frac{\bar{X_1} - \bar{X_2}}{SE(\bar{X_1} - \bar{X_2})}
 H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
 \]</span></p>
 
-<img data-src="..\images/student_H.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="../../..\images/student_H.png" class="r-stretch quarto-figure-center"></section>
 <section class="slide level2">
 
 <h3 id="students-t-test-calculate-se">Student’s t-test: Calculate SE</h3>
@@ -898,7 +898,7 @@ mean in group NM mean in group NY
 H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
 \]</span></p>
 
-<img data-src="..\images/welch_H.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="../../..\images/welch_H.png" class="r-stretch quarto-figure-center"></section>
 <section class="slide level2">
 
 <h3 id="welchs-t-test-calculate-se">Welch’s t-test: Calculate SE</h3>
@@ -906,7 +906,7 @@ H_0 : \mu_1 = \mu_2  \ \  H_1 : \mu_1 \neq \mu_2
 <p><span class="math display">\[ SE(\bar{X_1} - \bar{X_2}) = \sqrt{\frac{\hat{\sigma_1^2}}{N_1} + \frac{\hat{\sigma_2^2}}{N_2}} \]</span></p>
 <p>Degrees of Freedom is also very different:</p>
 
-<img data-src="..\images/welch_df.png" width="380" class="r-stretch quarto-figure-center"></section>
+<img data-src="../../..\images/welch_df.png" width="380" class="r-stretch quarto-figure-center"></section>
 <section class="slide level2">
 
 <h3 id="welchs-t-test-in-r">Welch’s t-test: In R</h3>
@@ -1046,21 +1046,21 @@ mean in group NM mean in group NY
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <script src="../../../site_libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
-  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
-  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
