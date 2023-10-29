@@ -1,21 +1,7 @@
 ---
-title: "Dustin Haraden Materials"
+title: "PSYC 640"
 ---
 
-This is a central point for Dr. Haraden's courses/workshops both past and present (it would be weird if it were future too).
+This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.
 
-Please see below for the links to the various different sets of materials:
-
-::: panel-tabset
-## Classes
-
--   Fall 2023
-
-    -   [PSYC 640 - Graduate Introduction to Statistics](https://dharaden.github.io/courses/PSYC640_fall23/)
-
-## Workshops
-
--   Fall 2023
-
-    -   Intro to R for Psychologists
-:::
+Dr. Haraden is trying to put materials up here to share with everyone.

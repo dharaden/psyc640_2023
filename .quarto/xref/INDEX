@@ -1,50 +1,41 @@
 {
-  "about.qmd": {
-    "about.html": "3622e3d0"
-  },
-  "courses/index.qmd": {
-    "index.html": "208c457a"
-  },
-  "courses/lectures/05_Hypothesis-Power.qmd": {
-    "05_Hypothesis-Power.html": "e9428c48"
-  },
   "index.qmd": {
-    "index.html": "8126783a"
+    "index.html": "fbbc7b5c"
   },
-  "courses/lectures/05_Pre-Lab.qmd": {
-    "05_Pre-Lab.html": "9e60faf5"
+  "about.qmd": {
+    "about.html": "48cc66ed"
   },
-  "courses/PSYC640_fall23/index.qmd": {
-    "index.html": "940f250b"
+  "lectures/05_Pre-Lab.qmd": {
+    "05_Pre-Lab.html": "54f30be4"
   },
-  "courses/PSYC640_fall23/lectures/05_Hypothesis-Power.qmd": {
-    "05_Hypothesis-Power.html": "afef1070"
+  "lectures/05_Hypothesis-Power.qmd": {
+    "05_Hypothesis-Power.html": "20d55567"
   },
-  "courses/PSYC640_fall23/lectures/05_Pre-Lab.qmd": {
-    "05_Pre-Lab.html": "d2fcb04d"
+  "lectures/6_OneSample.qmd": {
+    "6_OneSample.html": "1be202cf"
   },
-  "courses/PSYC640_fall23/lectures/06_OneSample.qmd": {
-    "06_OneSample.html": "96c98b81"
+  "lectures/06_OneSample.qmd": {
+    "06_OneSample.html": "4f4a53c2"
   },
-  "courses/PSYC640_fall23/lectures/06_OneSample2.qmd": {
-    "06_OneSample2.html": "2e03d03d"
+  "lecture_code.qmd": {
+    "lecture_code.html": "53510301"
   },
-  "courses/PSYC640_fall23/lectures/07_ComparingMeans.qmd": {
-    "07_ComparingMeans.html": "6218066b"
+  "lectures/06_OneSample2.qmd": {
+    "06_OneSample2.html": "69c3d0ce"
   },
-  "courses/PSYC640_fall23/lectures/08_ComparingMeans2.qmd": {
-    "08_ComparingMeans2.html": "9856dc30"
+  "lectures/07_ComparingMeans.qmd": {
+    "07_ComparingMeans.html": "5074aab9"
   },
-  "courses/PSYC640_fall23/lectures/08_Visualizations.qmd": {
-    "08_Visualizations.html": "b0737656"
+  "lectures/08_ComparingMeans2.qmd": {
+    "08_ComparingMeans2.html": "c551d75f"
   },
-  "courses/PSYC640_fall23/lectures/09_ANOVA.qmd": {
-    "09_ANOVA.html": "106e9d14"
+  "lectures/08_Visualizations.qmd": {
+    "08_Visualizations.html": "c795e065"
   },
-  "courses/PSYC640_fall23/lectures/10_ANOVA2.qmd": {
-    "10_ANOVA2.html": "ba05b42b"
+  "lectures/09_ANOVA.qmd": {
+    "09_ANOVA.html": "692e18b7"
   },
-  "courses/PSYC640_fall23/lecture_code.qmd": {
-    "lecture_code.html": "b2fb5230"
+  "lectures/10_ANOVA2.qmd": {
+    "10_ANOVA2.html": "33abb745"
   }
 }
