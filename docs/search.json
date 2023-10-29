@@ -1,0 +1,1094 @@
+[
+  {
+    "objectID": "lecture_code.html",
+    "href": "lecture_code.html",
+    "title": "Lecture Code",
+    "section": "",
+    "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data\nCategorical Data Part 2\nComparing Means"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#last-week",
+    "href": "lectures/09_ANOVA.html#last-week",
+    "title": "Introduction to ANOVA",
+    "section": "Last Week",
+    "text": "Last Week\n\n\nComparing Means with 2 groups: \\(t\\)-test\n\nIndependent Samples \\(t\\)-test Review\nPaired Samples \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#looking-ahead",
+    "href": "lectures/09_ANOVA.html#looking-ahead",
+    "title": "Introduction to ANOVA",
+    "section": "Looking Ahead",
+    "text": "Looking Ahead\n\nPlan to have 2 more labs that will be similar to the last lab\n\nLikely take place on 10/25 and sometime the week of 11/13\n\nOutside of these labs, I am going to plan on having additional mini-labs\n\nLikely to take place on 11/1, 11/22 and 11/29 (will update based on how things are going in class)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#today",
+    "href": "lectures/09_ANOVA.html#today",
+    "title": "Introduction to ANOVA",
+    "section": "Today…",
+    "text": "Today…\nIntroduction to ANOVA (Analysis of Variance)\n\n# File management\nlibrary(here)\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#what-is-anova-lsr-ch.-14",
+    "href": "lectures/09_ANOVA.html#what-is-anova-lsr-ch.-14",
+    "title": "Introduction to ANOVA",
+    "section": "What is ANOVA? (LSR Ch. 14)",
+    "text": "What is ANOVA? (LSR Ch. 14)\n\n\nANOVA stands for Analysis of Variance\nComparing means between two or more groups (usually 3 or more)\n\nContinuous outcome and grouping variable with 2 or more levels\n\nUnder the larger umbrella of general linear models\n\nANOVA is basically a regression with only categorical predictors\n\nLikely the most widely used tool in Psychology"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#different-types-of-anova",
+    "href": "lectures/09_ANOVA.html#different-types-of-anova",
+    "title": "Introduction to ANOVA",
+    "section": "Different Types of ANOVA",
+    "text": "Different Types of ANOVA\n\n\nOne-Way ANOVA\n\nTwo-Way ANOVA\nRepeated Measures ANOVA\nANCOVA\nMANOVA"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#one-way-anova",
+    "href": "lectures/09_ANOVA.html#one-way-anova",
+    "title": "Introduction to ANOVA",
+    "section": "One-Way ANOVA",
+    "text": "One-Way ANOVA\nGoal: Inform of differences among the levels of our variable of interest (Omnibus Test)\n\nBut cannot tell us more than that…\n\nHypotheses:\n\\[\nH_0: it\\: is\\: true\\: that\\: \\mu_1 = \\mu_2 = \\mu_3 =\\: ...\\mu_k\n\\\\\nH_1: it\\: is\\: \\boldsymbol{not}\\: true\\: that\\: \\mu_1 = \\mu_2 = \\mu_3 =\\: ...\\mu_k\n\\]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#waitmeans-or-variance",
+    "href": "lectures/09_ANOVA.html#waitmeans-or-variance",
+    "title": "Introduction to ANOVA",
+    "section": "Wait…Means or Variance?",
+    "text": "Wait…Means or Variance?\nWe are using the variance to create a ratio (within group versus between group variance) to determine differences in means\n\nWe are not directly investigating variance, but operationalize variance to create the ratio:\n\n\\[\nF_{df_b, \\: df_w} = \\frac{MS_{between}}{MS_{within}}\n\\]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#anova-assumptions",
+    "href": "lectures/09_ANOVA.html#anova-assumptions",
+    "title": "Introduction to ANOVA",
+    "section": "ANOVA: Assumptions",
+    "text": "ANOVA: Assumptions\n\nIndependence\n\nObservations between and within groups should be independent. No autocorrelation\n\nHomogeneity of Variance\n\nThe variances within each group should be roughly equal\n\nLevene’s test –&gt; Welch’s ANOVA for unequal variances\n\n\nNormality\n\nThe data within each group should follow a normal distribution\n\nShapiro-Wilk test –&gt; can transform the data or use non-parametric tests"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#review-of-the-nhst-process",
+    "href": "lectures/09_ANOVA.html#review-of-the-nhst-process",
+    "title": "Introduction to ANOVA",
+    "section": "Review of the NHST process",
+    "text": "Review of the NHST process\n\n\nCollect Sample and define hypotheses\nSet alpha level\nDetermine the sampling distribution (will be using \\(F\\)-distribution now)\nIdentify the critical value\nCalculate test statistic for sample collected\nInspect & compare statistic to critical value; Calculate probability"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#steps-to-calculating-f-ratio",
+    "href": "lectures/09_ANOVA.html#steps-to-calculating-f-ratio",
+    "title": "Introduction to ANOVA",
+    "section": "Steps to calculating F-ratio",
+    "text": "Steps to calculating F-ratio\n\nCapture variance both between and within groups\nVariance to Sum of Squares\nDegrees of Freedom\nMean squares values\nF-Statistic"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#capturing-variance",
+    "href": "lectures/09_ANOVA.html#capturing-variance",
+    "title": "Introduction to ANOVA",
+    "section": "Capturing Variance",
+    "text": "Capturing Variance\nWe have calculated variance before!\n\\[\nVar = \\frac{1}{N}\\sum(x_i - \\bar{x})^2\n\\]\nNow we have to take into account the variance between and within the groups:\n\\[\nVar(Y) = \\frac{1}{N} \\sum^G_{k=1}\\sum^{N_k}_{i=i}(Y_{ik} - \\bar{Y})^2\n\\]\n\nNotice that we have the summation across each group ( \\(G\\) ) and the person in the group ( \\(N_k\\) )"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#variance-to-sum-of-squares",
+    "href": "lectures/09_ANOVA.html#variance-to-sum-of-squares",
+    "title": "Introduction to ANOVA",
+    "section": "Variance to Sum of Squares",
+    "text": "Variance to Sum of Squares\nTotal Sum of Squares - Adding up the sum of squares instead of getting the average (notice the removal of \\(\\frac{1}{N}\\))\n\\[\nSS_{total} = \\sum^G_{k=1}\\sum^{N_k}_{i=i}(Y_{ik} - \\bar{Y})^2\n\\]\nCan be broken up to see what is the variation between the groups AND the variation within the groups\n\\[\nSS_{total}=SS_{between}+SS_{within}\n\\]\n\nThis gets us closer to understanding the difference between means"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares---between",
+    "href": "lectures/09_ANOVA.html#sum-of-squares---between",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares - Between",
+    "text": "Sum of Squares - Between\nThe difference between the group mean and grand mean\n\\[\nSS_{between} = \\sum^G_{k=1}N_k(\\bar{Y_k} - \\bar{Y})^2\n\\]\n\n\n\nGroup\nGroup Mean \\(\\bar{Y_k}\\)\nGrand Mean \\(\\bar{Y}\\)\n\n\n\n\nCool\n32\n41.8\n\n\nUncool\n56.5\n41.8"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares---between-1",
+    "href": "lectures/09_ANOVA.html#sum-of-squares---between-1",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares - Between",
+    "text": "Sum of Squares - Between\nThe difference between the group mean and grand mean\n\\[ SS_{between} = \\sum^G_{k=1}N_k(\\bar{Y_k} - \\bar{Y})^2 \\]\n\n\n\n\n\n\n\n\n\n\n\nGroup\nGroup Mean \\(\\bar{Y_k}\\)\nGrand Mean \\(\\bar{Y}\\)\nSq. Dev.\nN\nWeighted Sq. Dev.\n\n\n\n\nCool\n32\n41.8\n96.04\n3\n288.12\n\n\nUncool\n56.5\n41.8\n216.09\n2\n432.18"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares---between-2",
+    "href": "lectures/09_ANOVA.html#sum-of-squares---between-2",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares - Between",
+    "text": "Sum of Squares - Between\nThe difference between the group mean and grand mean\n\\[ SS_{between} = \\sum^G_{k=1}N_k(\\bar{Y_k} - \\bar{Y})^2 \\]\nNow we can sum the Weighted Squared Deviations together to get our Sum of Squares Between:\n\nssb &lt;- 288.12 + 432.18\nssb\n\n[1] 720.3"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares---within",
+    "href": "lectures/09_ANOVA.html#sum-of-squares---within",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares - Within",
+    "text": "Sum of Squares - Within\nThe difference between the individual and their group mean\n\\[\nSS_{within} = \\sum^G_{k=1}\\sum^{N_k}_{i=i}(Y_{ik} - \\bar{Y_k})^2\n\\]\n\n\n\nName\nGrumpiness \\(Y_{ik}\\)\nGroup Mean \\(\\bar{Y_K}\\)\n\n\n\n\nFrodo\n20\n32\n\n\nSam\n55\n32\n\n\nBandit\n21\n32\n\n\nDolores U.\n91\n56.5\n\n\nDustin\n22\n56.5"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares---within-1",
+    "href": "lectures/09_ANOVA.html#sum-of-squares---within-1",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares - Within",
+    "text": "Sum of Squares - Within\nThe difference between the individual and their group mean\n\\[ SS_{within} = \\sum^G_{k=1}\\sum^{N_k}_{i=i}(Y_{ik} - \\bar{Y_k})^2 \\]\n\n\n\nName\nGrumpiness \\(Y_{ik}\\)\nGroup Mean \\(\\bar{Y_K}\\)\nSq. Dev\n\n\n\n\nFrodo\n20\n32\n144\n\n\nSam\n55\n32\n529\n\n\nBandit\n21\n32\n121\n\n\nDolores U.\n91\n56.5\n1190.25\n\n\nDustin\n22\n56.5\n1190.25\n\n\n\n\n\nCode\nscore &lt;- c(20, 55, 21, 91, 22)\ngroup_m &lt;- c(32, 32, 32, 56.5, 56.5)\nsq_dev &lt;- (score - group_m)^2"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares---within-2",
+    "href": "lectures/09_ANOVA.html#sum-of-squares---within-2",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares - Within",
+    "text": "Sum of Squares - Within\nThe difference between the individual and their group mean\n\\[ SS_{within} = \\sum^G_{k=1}\\sum^{N_k}_{i=i}(Y_{ik} - \\bar{Y_k})^2 \\] Now we can sum the Squared Deviations together to get our Sum of Squares Within:\n\nsum(sq_dev)\n\n[1] 3174.5"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#sum-of-squares-2",
+    "href": "lectures/09_ANOVA.html#sum-of-squares-2",
+    "title": "Introduction to ANOVA",
+    "section": "Sum of Squares",
+    "text": "Sum of Squares\nCan start to have an idea of what this looks like\n\\[\nSS_{between} = \\sum^G_{k=1}N_k(\\bar{Y_k} - \\bar{Y})^2 = 720.3\n\\]\n\\[\nSS_{within} = \\sum^G_{k=1}\\sum^{N_k}_{i=i}(Y_{ik} - \\bar{Y_k})^2 = 3174.5\n\\]\nNext we have to take into account the degrees of freedom"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#degrees-of-freedom",
+    "href": "lectures/09_ANOVA.html#degrees-of-freedom",
+    "title": "Introduction to ANOVA",
+    "section": "Degrees of Freedom",
+    "text": "Degrees of Freedom\nSince we have 2 types of variations that we are examining, this needs to be reflected in the degrees of freedom\n\nTake the number of groups and subtract 1\n\\(df_{between} = G - 1\\)\nTake the total number of observations and subtract the number of groups\n\n\\(df_{within} = N - G\\)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#calculating-mean-squares",
+    "href": "lectures/09_ANOVA.html#calculating-mean-squares",
+    "title": "Introduction to ANOVA",
+    "section": "Calculating Mean Squares",
+    "text": "Calculating Mean Squares\nNext we convert our summed squares value into a “mean squares”\nThis is done by dividing by the respective degrees of freedom\n\\[\nMS_b = \\frac{SS_b}{df_b}\n\\]\n\\[\nMS_W = \\frac{SS_w}{df_w}\n\\]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#calculating-mean-squares---example",
+    "href": "lectures/09_ANOVA.html#calculating-mean-squares---example",
+    "title": "Introduction to ANOVA",
+    "section": "Calculating Mean Squares - Example",
+    "text": "Calculating Mean Squares - Example\nLet’s take a look at how this applies to our example: \\[ MS_b = \\frac{SS_b}{G-1} = \\frac{720.3}{2-1} = 720.3 \\]\n\\[ MS_W = \\frac{SS_w}{N-G} = \\frac{3174.5}{5-2} = 1058.167  \\]"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#calculating-the-f-statistic",
+    "href": "lectures/09_ANOVA.html#calculating-the-f-statistic",
+    "title": "Introduction to ANOVA",
+    "section": "Calculating the F-Statistic",
+    "text": "Calculating the F-Statistic\n\\[F = \\frac{MS_b}{MS_w}\\]\nIf the null hypothesis is true, \\(F\\) has an expected value close to 1 (numerator and denominator are estimates of the same variability)\nIf it is false, the numerator will likely be larger, because systematic, between-group differences contribute to the variance of the means, but not to variance within group."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#calculating-f-statistic-example",
+    "href": "lectures/09_ANOVA.html#calculating-f-statistic-example",
+    "title": "Introduction to ANOVA",
+    "section": "Calculating F-statistic: Example",
+    "text": "Calculating F-statistic: Example\n\\[F = \\frac{MS_b}{MS_w} = \\frac{720.3}{1058.167} = 0.68\\]\nLink to probability calculator"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#contrastspost-hoc-tests",
+    "href": "lectures/09_ANOVA.html#contrastspost-hoc-tests",
+    "title": "Introduction to ANOVA",
+    "section": "Contrasts/Post-Hoc Tests",
+    "text": "Contrasts/Post-Hoc Tests\nPerformed when there is a significant difference among the groups to examine which groups are different\n\nContrasts: When we have a priori hypotheses\nPost-hoc Tests: When we want to test everything"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#tables",
+    "href": "lectures/09_ANOVA.html#tables",
+    "title": "Introduction to ANOVA",
+    "section": "Tables",
+    "text": "Tables\nOften times the output will be in the form of a table and then it is often reported this way in the manuscript\n\n\n\n\n\n\n\n\n\n\n\nSource of Variation\ndf\nSum of Squares\nMean Squares\nF-statistic\np-value\n\n\n\n\nGroup\n\\(G-1\\)\n\\(SS_b\\)\n\\(MS_b = \\frac{SS_b}{df_b}\\)\n\\(F = \\frac{MS_b}{MS_w}\\)\n\\(p\\)\n\n\nResidual\n\\(N-G\\)\n\\(SS_w\\)\n\\(MS_w = \\frac{SS_w}{df_w}\\)\n\n\n\n\nTotal\n\\(N-1\\)\n\\(SS_{total}\\)"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#in-text",
+    "href": "lectures/09_ANOVA.html#in-text",
+    "title": "Introduction to ANOVA",
+    "section": "In-Text",
+    "text": "In-Text\n\nA one-way analysis of variance was used to test for differences in the [variable of interest/outcome variable] as a function of [whatever the factor is]. Specifically, differences in [variable of interest] were assessed for the [list different levels and be sure to include (M= , SD= )] . The one-way ANOVA revealed a significant/nonsignificant effect of [factor] on scores on the [variable of interest] (F(dfb, dfw) = f-ratio, p = p-value, η2 = effect size).\nPlanned comparisons were conducted to compare expected differences among the [however many groups] means. Planned contrasts revealed that participants in the [one of the conditions] had a greater/fewer [variable of interest] and then include the p-value. This same type of sentence is repeated for whichever contrasts you completed. Descriptive statistics were reported in Table 1."
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#new-data-collection-example",
+    "href": "lectures/09_ANOVA.html#new-data-collection-example",
+    "title": "Introduction to ANOVA",
+    "section": "New Data Collection: Example",
+    "text": "New Data Collection: Example\nWe want to be able to connect with the paranormal. Collected data at different locations to examine whether there are certain areas that have more ghost activity. We have multiple ratings (EMF) at the various locations to determine the potential presence of ghosts. The locations were determined by a select group of undergraduate researchers. They include:\n\n\n\nWalmart\nAbandoned Walmart\nIkea\nGetysburg\n\n\n\nThe Woods\nUnused Stairwell\nRIT Tunnels\nThis classroom"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#review-of-the-nhst-process-1",
+    "href": "lectures/09_ANOVA.html#review-of-the-nhst-process-1",
+    "title": "Introduction to ANOVA",
+    "section": "Review of the NHST process",
+    "text": "Review of the NHST process\n\n\nCollect Sample and define hypotheses\nSet alpha level\nDetermine the sampling distribution (will be using \\(F\\)-distribution now)\nIdentify the critical value\nCalculate test statistic for sample collected\nInspect & compare statistic to critical value; Calculate probability"
+  },
+  {
+    "objectID": "lectures/09_ANOVA.html#example",
+    "href": "lectures/09_ANOVA.html#example",
+    "title": "Introduction to ANOVA",
+    "section": "Example:",
+    "text": "Example:\nTake a look at the data and compute the following:\n\n\n\n\n\n\n\n\n\n\n\nSource of Variation\ndf\nSum of Squares\nMean Squares\nF-statistic\np-value\n\n\n\n\nGroup\n\\(G-1\\)\n\\(SS_b\\)\n\\(MS_b = \\frac{SS_b}{df_b}\\)\n\\(F = \\frac{MS_b}{MS_w}\\)\n\\(p\\)\n\n\nResidual\n\\(N-G\\)\n\\(SS_w\\)\n\\(MS_w = \\frac{SS_w}{df_w}\\)\n\n\n\n\nTotal\n\\(N-1\\)\n\\(SS_{total}\\)\n\n\n\n\n\n\nCan use R or Excel"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#last-week",
+    "href": "lectures/08_ComparingMeans2.html#last-week",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Last week",
+    "text": "Last week\n\n\nComparing Means: \\(t\\)-test\n\nIndependent Samples \\(t\\)-test\n\n\n\n\nlibrary(lsr)\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#today",
+    "href": "lectures/08_ComparingMeans2.html#today",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Today…",
+    "text": "Today…\n\n\nComparing Means with the \\(t\\)-test\n\n\nPaired Samples\n\n\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
+    "href": "lectures/08_ComparingMeans2.html#independent-samples-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Independent Samples \\(t\\)-test",
+    "text": "Independent Samples \\(t\\)-test\nChapter 13.3 in Learning Stats with R\n\n\nTwo different types: Student’s & Welch’s\n\n\nStudent’s \\(t\\)-test\nWelch’s \\(t\\)-test\n\n\n\n\\[\nt = \\frac{\\bar{X_1} - \\bar{X_2}}{SE(\\bar{X_1} - \\bar{X_2})}\n\\]"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#types-of-t-tests-assumptions",
+    "href": "lectures/08_ComparingMeans2.html#types-of-t-tests-assumptions",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Types of t-Tests: Assumptions",
+    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances\nSpoiler Alert! The same as a one-sample \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#steps-for-t-test",
+    "href": "lectures/08_ComparingMeans2.html#steps-for-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Steps for \\(t\\)-test",
+    "text": "Steps for \\(t\\)-test\n\nCheck for normality of variables\n\nVisualizing, Q-Q plots, Statistical Tests\n\nHomogeneity of Variance\n\nLevene’s test –&gt; Welch’s \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#paired-samples-t-test",
+    "href": "lectures/08_ComparingMeans2.html#paired-samples-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Paired Samples \\(t\\)-Test",
+    "text": "Paired Samples \\(t\\)-Test\nChapter 13.5 - Learning Stats with R\nAlso called “Dependent Samples t-test”\n\nWe have been testing means between two independent samples. Participants may be randomly assigned to the separate groups\n\nThis is limited to those types of study designs, but what if we have repeated measures?\n\nWe will then need to compare scores across people…the samples we are comparing now depend on one another and are paired"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#review-of-the-t-test-process",
+    "href": "lectures/08_ComparingMeans2.html#review-of-the-t-test-process",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Review of the t-test process",
+    "text": "Review of the t-test process\n\nCollect Sample and define hypotheses\nSet alpha level\nDetermine the sampling distribution (\\(t\\) distribution for now)\nIdentify the critical value that corresponds to alpha and df\nCalculate test statistic for sample collected\nInspect & compare statistic to critical value; Calculate probability"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#determining-t-crit",
+    "href": "lectures/08_ComparingMeans2.html#determining-t-crit",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Determining \\(t\\)-crit",
+    "text": "Determining \\(t\\)-crit\nCan look things up using a t-table where you need the degrees of freedom and the alpha\nBut we have R to do those things for us:\n\n#the qt() function is for a 1 tailed test, so we are having to divide it in half to get both tails\nalpha &lt;- 0.05\nn &lt;- nrow(ex1)\nt_crit &lt;- qt(alpha/2, n-1)\nt_crit\n\n[1] -2.570582"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#calculating-t",
+    "href": "lectures/08_ComparingMeans2.html#calculating-t",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Calculating t",
+    "text": "Calculating t\nLet’s get all of the information for the sample we are focusing on (difference scores):\n\nd &lt;- mean(ex1$diff_score)\nd\n\n[1] -1.166667\n\nsd_diff &lt;- sd(ex1$diff_score)\nsd_diff\n\n[1] 4.167333"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#calculating-t-1",
+    "href": "lectures/08_ComparingMeans2.html#calculating-t-1",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Calculating t",
+    "text": "Calculating t\nNow we can calculate our \\(t\\)-statistic: \\[t_{df=n-1} = \\frac{\\bar{D}}{\\frac{sd_{diff}}{\\sqrt{n}}}\\]\n\nt_stat &lt;- d/(sd_diff/(sqrt(n)))\nt_stat\n\n[1] -0.6857474\n\n#Probability of this t-statistic \np_val &lt;- pt(t_stat, n-1)*2\np_val\n\n[1] 0.5233677"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#make-a-decision",
+    "href": "lectures/08_ComparingMeans2.html#make-a-decision",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Make a decision",
+    "text": "Make a decision\nHypotheses:\n\n\n\\(H_0:\\) There is no difference in ratings of happiness between the rooms ( \\(\\mu = 0\\) )\n\\(H_1:\\) There is a difference in ratings of happiness between the rooms ( \\(\\mu \\neq 0\\) )\n\n\n\n\n\n\n\n\n\n\n\n\\(alpha\\)\n\\(t-crit\\)\n\\(t-statistic\\)\n\\(p-value\\)\n\n\n\n\n0.05\n\\(\\pm\\) -2.57\n-0.69\n0.52\n\n\n\nWhat can we conclude??"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#lets-look-at-the-data",
+    "href": "lectures/08_ComparingMeans2.html#lets-look-at-the-data",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Let’s Look at the data",
+    "text": "Let’s Look at the data\nResearch Question: Is there a difference between school nights and weekend nights for amount of time slept?\nOnly looking at the variables that we are potentially interested in:\n\nstate_school %&gt;% \n  select(Gender, Ageyears, Sleep_Hours_Schoolnight, Sleep_Hours_Non_Schoolnight) %&gt;% \n  head() #look at first few observations\n\n  Gender Ageyears Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight\n1 Female       16                     8.0                          13\n2   Male       17                     8.0                           9\n3 Female       19                     8.0                           7\n4   Male       17                     8.0                           9\n5   Male       16                     8.5                           5\n6 Female       11                    11.0                          12"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-one-sample",
+    "href": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-one-sample",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Doing the test in R: One Sample",
+    "text": "Doing the test in R: One Sample\nSince we have calculated the difference scores, we can basically just do a one-sample t-test with the lsr library\n\noneSampleTTest(sleep_state_school$sleep_diff, mu = 0)\n\n\n   One sample t-test \n\nData variable:   sleep_state_school$sleep_diff \n\nDescriptive statistics: \n            sleep_diff\n   mean         -1.866\n   std dev.      2.741\n\nHypotheses: \n   null:        population mean equals 0 \n   alternative: population mean not equal to 0 \n\nTest results: \n   t-statistic:  -9.106 \n   degrees of freedom:  178 \n   p-value:  &lt;.001 \n\nOther information: \n   two-sided 95% confidence interval:  [-2.27, -1.462] \n   estimated effect size (Cohen's d):  0.681"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-paired-sample",
+    "href": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-paired-sample",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Doing the test in R: Paired Sample",
+    "text": "Doing the test in R: Paired Sample\nMaybe we want to keep things separate and don’t want to calculate separate values. We can use pairedSamplesTTest() instead!\n\npairedSamplesTTest(\n  formula = ~ Sleep_Hours_Schoolnight + Sleep_Hours_Non_Schoolnight, \n  data = sleep_state_school\n)\n\n\n   Paired samples t-test \n\nVariables:  Sleep_Hours_Schoolnight , Sleep_Hours_Non_Schoolnight \n\nDescriptive statistics: \n            Sleep_Hours_Schoolnight Sleep_Hours_Non_Schoolnight difference\n   mean                       6.992                       8.858     -1.866\n   std dev.                   1.454                       2.412      2.741\n\nHypotheses: \n   null:        population means equal for both measurements\n   alternative: different population means for each measurement\n\nTest results: \n   t-statistic:  -9.106 \n   degrees of freedom:  178 \n   p-value:  &lt;.001 \n\nOther information: \n   two-sided 95% confidence interval:  [-2.27, -1.462] \n   estimated effect size (Cohen's d):  0.681"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-classic-edition",
+    "href": "lectures/08_ComparingMeans2.html#doing-the-test-in-r-classic-edition",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Doing the test in R: Classic Edition",
+    "text": "Doing the test in R: Classic Edition\nAs you Google around to figure things out, you will likely see folks using `t.test()\n\nt.test(\n  x = sleep_state_school$Sleep_Hours_Schoolnight, \n  y = sleep_state_school$Sleep_Hours_Non_Schoolnight, \n  paired = TRUE\n)\n\n\n    Paired t-test\n\ndata:  sleep_state_school$Sleep_Hours_Schoolnight and sleep_state_school$Sleep_Hours_Non_Schoolnight\nt = -9.1062, df = 178, p-value &lt; 0.00000000000000022\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -2.270281 -1.461563\nsample estimates:\nmean difference \n      -1.865922"
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#reporting-t-test",
+    "href": "lectures/08_ComparingMeans2.html#reporting-t-test",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "Reporting \\(t\\)-test",
+    "text": "Reporting \\(t\\)-test\nThe first sentence usually conveys some descriptive information about the sample you were comparing (e.g., pre & post test).\nThen you identify the type of test you conducted and what was determined (be sure to include the “stat block” here as well with the t-statistic, df, p-value, CI and Effect size).\nFinish it up by putting that into person words and saying what that means."
+  },
+  {
+    "objectID": "lectures/08_ComparingMeans2.html#if-we-have-time-example-3---dog-training",
+    "href": "lectures/08_ComparingMeans2.html#if-we-have-time-example-3---dog-training",
+    "title": "Comparing Means: Paired t-tests",
+    "section": "If we have time: Example 3 - Dog Training",
+    "text": "If we have time: Example 3 - Dog Training\nA dog trainer wants to know if dogs are faster at an agility course if a jump is early in the course or later. She has a sample of dogs from her classes run both courses and measures their finish times. Half the class runs the early barrier version on Tuesday, half the class runs the early barrier version on Thursday. Is there a significant difference between course types (alpha = 0.05)?"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#last-week",
+    "href": "lectures/06_OneSample2.html#last-week",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Last week",
+    "text": "Last week\n\n\nReview of the NHST\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nGoodness of Fit test\n\n\n\n\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Descriptives\nlibrary(psych)\n# Making things look nice\nlibrary(knitr)\n# Presenting nice tables\nlibrary(kableExtra)\n# Making things look nice\nlibrary(ggpubr)\n# animate things\nlibrary(gganimate)"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#today",
+    "href": "lectures/06_OneSample2.html#today",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Today…",
+    "text": "Today…\n\nThe chi-square test of independence (Book Chapter 12.2)\nReview Assumptions of chi-square test\nIntroduction to Comparing Means"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#pop-quizjk",
+    "href": "lectures/06_OneSample2.html#pop-quizjk",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Pop Quiz…jk",
+    "text": "Pop Quiz…jk\n\nWhat do we mean when we say a study was powered to an effect of 0.34?\nWhat does a p-value tell us?\n\nScientists get it wrong"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#chapek-9-data",
+    "href": "lectures/06_OneSample2.html#chapek-9-data",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Chapek 9 Data",
+    "text": "Chapek 9 Data\nTake a peek at the data:\n\nhead(chapek9)\n\n  species choice\n1   robot flower\n2   human   data\n3   human   data\n4   human   data\n5   robot   data\n6   human flower\n\n# or \n#glimpse(chapek9)"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses",
+    "href": "lectures/06_OneSample2.html#constructing-hypotheses",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Constructing Hypotheses",
+    "text": "Constructing Hypotheses\nResearch hypothesis states that “humans and robots answer the question in different ways”\nNow our notation has two subscript values?? What torture is this??"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#constructing-hypotheses-1",
+    "href": "lectures/06_OneSample2.html#constructing-hypotheses-1",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Constructing Hypotheses",
+    "text": "Constructing Hypotheses\nOnce we have this established, we can take a look at the null\n\n\nClaiming now that the true choice probabilities don’t depend on the species making the choice ( \\(P_i\\) )\nHowever, we don’t know what the expected probability would be for each answer choice\n\nWe have to calculate the totals of each row/column"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#writing-it-up",
+    "href": "lectures/06_OneSample2.html#writing-it-up",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Writing it up",
+    "text": "Writing it up\n\nPearson's \\(\\chi^2\\) revealed a significant association between species and choice ( \\(\\chi^2 (2) =\\) 10.7, \\(p\\) &lt; .01), such that robots appeared to be more likely to say that they prefer flowers, but the humans were more likely to say they prefer data."
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#assumptions-of-the-test",
+    "href": "lectures/06_OneSample2.html#assumptions-of-the-test",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Assumptions of the test",
+    "text": "Assumptions of the test\n\nThe expected frequencies are rather large\nData are independent of one another"
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#comparing-means",
+    "href": "lectures/06_OneSample2.html#comparing-means",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Comparing Means",
+    "text": "Comparing Means\nWhen we move from categorical outcomes to variables measured on an interval or ratio scale, we become interested in means rather than frequencies. Comparing means is usually done with the t-test, of which there are several forms.\nThe one-sample t-test is appropriate when a single sample mean is compared to a population mean but the population standard deviation is unknown. A sample estimate of the population standard deviation is used instead. The appropriate sampling distribution is the t-distribution, with N-1 degrees of freedom.\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#one-sample-t-tests",
+    "href": "lectures/06_OneSample2.html#one-sample-t-tests",
+    "title": "Categorical Data & Comparing Means",
+    "section": "One-sample t-tests",
+    "text": "One-sample t-tests\nt-tests were developed by William Sealy Gosset, who was a chemist studying the grains used in making beer. (He worked for Guinness.)\n\nSpecifically, he wanted to know whether particular strains of grain made better or worse beer than the standard.\nHe developed the t-test, to test small samples of beer against a population with an unknown standard deviation.\n\nProbably had input from Karl Pearson and Ronald Fisher\n\nPublished this as “Student” because Guinness didn’t want these tests tied to the production of beer."
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#cohens-d",
+    "href": "lectures/06_OneSample2.html#cohens-d",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Cohen’s D",
+    "text": "Cohen’s D\nCohen suggested one of the most common effect size estimates—the standardized mean difference—useful when comparing a group mean to a population mean or two group means to each other.\n\\[\\delta = \\frac{\\mu_1 - \\mu_0}{\\sigma} \\approx d = \\frac{\\bar{X}-\\mu}{\\hat{\\sigma}}\\]\nCohen’s d is in the standard deviation (Z) metric."
+  },
+  {
+    "objectID": "lectures/06_OneSample2.html#next-time",
+    "href": "lectures/06_OneSample2.html#next-time",
+    "title": "Categorical Data & Comparing Means",
+    "section": "Next time…",
+    "text": "Next time…\nMore comparing means!"
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
+    "href": "lectures/05_Pre-Lab.html#lessons-from-lab-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Lessons from Lab 1",
+    "text": "Lessons from Lab 1\n\nGetting data into R is surprisingly hard\nThe console doesn’t come with you\nWork together\nProfessor gets too excited about R\n\n\nlibrary(tidyverse) #plotting\nlibrary(ggpubr) #prettier figures"
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#sampling-revisited",
+    "href": "lectures/05_Pre-Lab.html#sampling-revisited",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Sampling Revisited",
+    "text": "Sampling Revisited\nWe use features of the sample (statistics) to inform us about features of the population (parameters). The quality of this information goes up as sample size goes up – the Law of Large Numbers. The quality of this information is easier to defend with random samples.\nAll sample statistics are wrong (they do not match the population parameters exactly) but they become more useful (better matches) as sample size increases."
+  },
+  {
+    "objectID": "lectures/05_Pre-Lab.html#some-terminology",
+    "href": "lectures/05_Pre-Lab.html#some-terminology",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Some Terminology",
+    "text": "Some Terminology\n\n\n\n\n\n\n\nPopulation\nSample\n\n\n\n\n\\(\\mu\\) (mu) = Population Mean\n\\(\\bar{X}\\) (x bar) = Sample Mean\n\n\n\\(\\sigma\\) (sigma) = Population Standard Deviation\n\\(s\\) = \\(\\hat{\\sigma}\\) = Sample Standard Deviation\n\n\n\\(\\sigma^2\\) (sigma squared) = Population Variance\n\\(s^2\\) = \\(\\hat{\\sigma^2}\\) = Sample Variance"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PSYC 640",
+    "section": "",
+    "text": "This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.\nDr. Haraden is trying to put materials up here to share with everyone."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#recap",
+    "href": "lectures/05_Hypothesis-Power.html#recap",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Recap",
+    "text": "Recap\n\nlibrary(tidyverse)\nlibrary(gganimate)\nlibrary(pwr)\nlibrary(ggpubr)\nlibrary(transformr)\n\n\nSample statistics are biased estimates of the population\nCan construct confidence intervals around our sample statistics\n\nWe use (so far) the normal distribution & the t-distribution\n\nUp Next…Hypothesis testing!"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#hypothesis",
+    "href": "lectures/05_Hypothesis-Power.html#hypothesis",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Hypothesis",
+    "text": "Hypothesis\nWhat is a hypothesis?\nIn statistics, a hypothesis is a statement about the population. It is usually a prediction that a parameter describing some characteristic of a variable takes a particular numerical value, or falls into a certain range of values."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#hypothesis-1",
+    "href": "lectures/05_Hypothesis-Power.html#hypothesis-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Hypothesis",
+    "text": "Hypothesis\nFor example, dogs are characterized by their ability to read humans’ social cues, but it is (was) unknown whether that skill is biologically prepared. I might hypothesize that when a human points to a hidden treat, puppies do not understand that social cue and their performance on a related task is at-chance. We would call this a research hypothesis.\nThis could be represented numerically as, as a statistical hypothesis:\n\\[\\text{Proportion}_{\\text{Correct Performance}} = .50\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#the-null-hypothesis",
+    "href": "lectures/05_Hypothesis-Power.html#the-null-hypothesis",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "The null hypothesis",
+    "text": "The null hypothesis\nIn Null Hypothesis Significance Testing, we… test a null hypothesis.\nA null hypothesis ( \\(H_0\\) ) is a statement of no effect. The research hypothesis states that there is no relationship between X and Y, or our intervention has no effect on the outcome.\n\nThe statistical hypothesis is either that the population parameter is a single value, like 0, or that a range, like 0 or smaller."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#the-alternative-hypothesis",
+    "href": "lectures/05_Hypothesis-Power.html#the-alternative-hypothesis",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "The alternative hypothesis",
+    "text": "The alternative hypothesis\nAccording to probability theory, our sample space must cover all possible elementary events. Therefore, we create an alternative hypothesis ( \\(H_1\\) ) that is every possible event not represented by our null hypothesis.\n\n\n\\[H_0: \\mu = 4\\] \\[H_1: \\mu \\neq 4\\]\n\n\\[H_0: \\mu \\leq -7\\] \\[H_1: \\mu &gt; -7\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#the-tortured-logic-of-nhst",
+    "href": "lectures/05_Hypothesis-Power.html#the-tortured-logic-of-nhst",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "The tortured logic of NHST",
+    "text": "The tortured logic of NHST\nWe create two hypotheses, \\(H_0\\) and \\(H_1\\). Usually, we care about \\(H_1\\), not \\(H_0\\). In fact, what we really want to know is how likely \\(H_1\\), given our data.\n\\[P(H_1|Data)\\] Instead, we’re going to test our null hypothesis. Well, not really. We’re going to assume our null hypothesis is true, and test how likely we would be to get these data.\n\\[P(Data|H_0)\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-1",
+    "href": "lectures/05_Hypothesis-Power.html#example-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #1",
+    "text": "Example #1\nConsider the example of puppies’ abilities to read human social cues.\nLet \\(\\Pi\\) be the probability the puppy chooses the correct cup that a person points to.\nIn a task with two choices, an at-chance performance is \\(\\Pi = .5\\). This can be the null hypothesis because if this is true, than puppies would make the correct choice as often as they would make an incorrect choice.\nNote that the null hypothesis changes depending on the situation and research question."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-1---hypotheses",
+    "href": "lectures/05_Hypothesis-Power.html#example-1---hypotheses",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #1 - Hypotheses",
+    "text": "Example #1 - Hypotheses\nAs a dog-lover, you’re skeptical that reading human social cues is purely learned, and you have an alternative hypothesis that puppies will perform well over chance, thus having a probability of success on any given task greater than .5.\n\\[H_0: \\Pi = .5\\] \\[H_1: \\Pi \\neq .5\\]"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-1-1",
+    "href": "lectures/05_Hypothesis-Power.html#example-1-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #1",
+    "text": "Example #1\nTo test the null hypothesis, you a single puppy and test them 12 times on a pointing task. The puppy makes the correct choice 10 times.\nThe question you’re going to ask is:\n\n\n“How likely is it that the puppy is successful 10 times out of 12, if the probability of success is .5?”\n\n\nThis is the essence of NHST.\nYou can already test this using what you know about the binomial distribution."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#complications-with-the-binomial",
+    "href": "lectures/05_Hypothesis-Power.html#complications-with-the-binomial",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Complications with the binomial",
+    "text": "Complications with the binomial\nThe likelihood of the puppy being successful 10 times out of 12 if the true probability of success is .5 is 0.02. That’s pretty low! That’s so low that we might begin to suspect that the true probability is not .5.\nBut there’s a problem with this example. The real study used a sample of many puppies (&gt;300), and the average number of correct trials per puppy was about 8.33. But the binomial won’t allow us to calculate the probability of fractional successes!\nWhat we really want is not to assess 10 out of 12 times, but a proportion, like .694. How many different proportions could result puppy to puppy?"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#our-statistic-is-usually-continuous",
+    "href": "lectures/05_Hypothesis-Power.html#our-statistic-is-usually-continuous",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Our statistic is usually continuous",
+    "text": "Our statistic is usually continuous\nWhen we estimate a statistic for our sample – like the proportion of puppy success, or the average IQ score, or the relationship between age in months and second attending to a new object – that statistic is nearly always continuous. So we have to assess the probability of that statistic using a probability distribution for continuous variables, like the normal distribution. (Or t, or F, or \\(\\chi^2\\) ).\nWhat is the probability of any value in a continuous distribution?"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#quick-recap",
+    "href": "lectures/05_Hypothesis-Power.html#quick-recap",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Quick recap",
+    "text": "Quick recap\nFor any NHST test, we:\n\nIdentify the null hypothesis ( \\(H_0\\) ), which is usually the opposite of what we think to be true.\nCollect data.\nDetermine how likely we are to get these data or more extreme if the null is true."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#enter-sampling-distributions",
+    "href": "lectures/05_Hypothesis-Power.html#enter-sampling-distributions",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Enter sampling distributions",
+    "text": "Enter sampling distributions\n\n\n\n\nCode\ndata.frame(trials = trial, d = dbinom(trial, size = 12, prob = .5), \n           color = ifelse(trial %in% c(0,1,2, 10,11,12), \"1\", \"2\")) %&gt;%\n  ggplot(aes(x = trials, y = d, fill = color)) +\n  geom_bar(stat = \"identity\") + \n  guides(fill = \"none\")+\n  scale_x_continuous(\"Number of successes\", breaks = c(0:12))+\n  scale_y_continuous(\"Probability of X successes\") +\n  theme(text = element_text(size = 20))\n\n\n\n\n\n\nWhen we were analyzing the puppy problem, we built the distribution under the null using the binomial.\nThis is our sampling distribution."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-2",
+    "href": "lectures/05_Hypothesis-Power.html#example-2",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example #2",
+    "text": "Example #2\nBray and colleagues (2020) test a sample of 10* puppies on multiple cognitive tasks, including their ability to correctly find a treat hidden under one of two cups based on human pointing. The average success rate was 69.41% (SD = 18.88).\nHow do you generate the sampling distribution around the null?\n\nNull: distribution of successes – you know this population, trying to see if ratings of female applicants come from the same distribution of scores"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#a-p-value-does-not",
+    "href": "lectures/05_Hypothesis-Power.html#a-p-value-does-not",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "A p-value DOES NOT:",
+    "text": "A p-value DOES NOT:\n\nTell you that the probability that the null hypothesis is true.\nProve that the alternative hypothesis is true.\nTell you anything about the size or magnitude of any observed difference in your data."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#p-values",
+    "href": "lectures/05_Hypothesis-Power.html#p-values",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "\\(p\\)-values",
+    "text": "\\(p\\)-values\nFisher established (rather arbitrarily) the sanctity of the .05 and .01 significance levels during his work in agriculture, including work on the effectiveness of fertilizer. A common source of fertilizer is cow manure. Male cattle are called bulls.\nA common misinterpretation of the \\(p\\)-value ( \\(\\alpha\\) ) is that it is the probability of the null hypothesis being wrong.\nAnother common misunderstanding is that \\(1-\\alpha\\) is the probability that results will replicate."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#p-values-1",
+    "href": "lectures/05_Hypothesis-Power.html#p-values-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "\\(p\\)-values",
+    "text": "\\(p\\)-values\n\nIn most research, the probability that the null hypothesis is true is very small.\nIf the null hypothesis is false, then the only mistake to be made is a failure to detect a real effect."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors",
+    "href": "lectures/05_Hypothesis-Power.html#errors",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nFalsely rejecting the null hypothesis is a Type I error. Traditionally, this has been viewed as particularly important to control at a low level (akin to avoiding false conviction of an innocent defendant)."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors-1",
+    "href": "lectures/05_Hypothesis-Power.html#errors-1",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nFailing to reject the null hypothesis when it is false is a Type II error. This is sometimes viewed as a failure in signal detection."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors-2",
+    "href": "lectures/05_Hypothesis-Power.html#errors-2",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nNull hypothesis testing is designed to make it easy to control Type I errors. We set a minimum proportion of such errors that we would be willing to tolerate in the long run. This is the significance level ( \\(\\alpha\\) ). By tradition this is no greater than .05."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#errors-3",
+    "href": "lectures/05_Hypothesis-Power.html#errors-3",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Errors",
+    "text": "Errors\nIn hypothesis testing, we can make two kinds of errors.\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error\n\n\n\nControlling Type II errors is more challenging because it depends on several factors. But, we usually DO want to control these errors. Some argue that the null hypothesis is usually false, so the only error we can make is a Type II error – a failure to detect a signal that is present. Power is the probability of correctly rejecting a false null hypothesis."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#example-errors",
+    "href": "lectures/05_Hypothesis-Power.html#example-errors",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Example Errors",
+    "text": "Example Errors\n\nIn the long run, if psychology samples have a mean of 110 (\\(\\sigma\\) = 20, \\(N\\) = 25), we will correctly reject the null with probability of 0.71 (power; 1 - \\(\\beta\\)). We will incorrectly fail to reject the null with probability of 0.29 ( \\(\\beta\\) )\n\n\n\n\n\n\n\n\nReject \\(H_0\\)\nDo not reject\n\n\n\n\n\\(H_0\\) True\nType I Error \\(\\alpha\\) = 0.05\nCorrect decision\n\n\n\\(H_0\\) False\nCorrect decision\nType II Error \\(\\beta\\) = 0.29"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#what-if-these-factors-change",
+    "href": "lectures/05_Hypothesis-Power.html#what-if-these-factors-change",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "What if these factors change?",
+    "text": "What if these factors change?\n\n\nSample size ( \\(N\\) )\nEffect size ( Right now it is difference between means )\n\nSignificance level ( \\(\\alpha\\) )\nPower ( \\(\\beta\\) )"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#calculating-power-in-r",
+    "href": "lectures/05_Hypothesis-Power.html#calculating-power-in-r",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Calculating Power in R",
+    "text": "Calculating Power in R\n\n\n\nlibrary(pwr)\n\nWe will use the pwr package and a few tutorials you can look at are as follows:\n\n\nReproducible Medical Research with R\nStat Methods\nVignettes from pwr package\n\n\n\nThe four components are interrelated and by knowing three, we can determine the fourth:\n\n\nSample Size\nEffect Size\nSignificance Level \\(\\alpha\\)\nPower \\(\\beta\\)"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#summary",
+    "href": "lectures/05_Hypothesis-Power.html#summary",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Summary",
+    "text": "Summary\n\nConducting a study we tend to have null \\(H_0\\) and alternative \\(H_1\\) hypotheses\nTested through Null Hypothesis Significance Testing\n\\(p-values\\) are the probability of getting this score or higher if the null distribution were true\nImportant to consider power in all studies we do"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#reminders",
+    "href": "lectures/05_Hypothesis-Power.html#reminders",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Reminders",
+    "text": "Reminders\n\nLab 2 is due at 11:59pm on Sunday (10/1)"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#additional-slides",
+    "href": "lectures/05_Hypothesis-Power.html#additional-slides",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Additional Slides",
+    "text": "Additional Slides"
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#alpha",
+    "href": "lectures/05_Hypothesis-Power.html#alpha",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "alpha",
+    "text": "alpha\nHistorically, psychologists have chosen to set their \\(\\alpha\\) level at .05, meaning any p-value less than .05 is considered “statistically significant” or the null is rejected.\nThis means that, among the times we examine a relationship that is truly null, we will reject the null 1 in 20 times.\nSome have argued that this is not conservative enough and we should use \\(\\alpha &lt; .005\\) (Benjamin et al., 2018)."
+  },
+  {
+    "objectID": "lectures/05_Hypothesis-Power.html#check-in-and-review",
+    "href": "lectures/05_Hypothesis-Power.html#check-in-and-review",
+    "title": "Wk 5 - Hypothesis & Power",
+    "section": "Check-in and Review",
+    "text": "Check-in and Review\n\nThe null hypothesis ( \\(H_0\\) ) is a claim about the particular value that a population parameter takes.\nThe alternative hypothesis ( \\(H_1\\) ) states an alternative range of values for the population parameter.\nWe test the null hypothesis by determining if we have sufficient evidence that contradicts or nullifies it.\nWe reject the null hypothesis if the data in hand are rare, unusual, or atypical if the null were true. The alternative hypothesis gains support when the null is rejected, but \\(H_1\\) is not proven."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#last-week",
+    "href": "lectures/06_OneSample.html#last-week",
+    "title": "Categorical & One-Sample",
+    "section": "Last week",
+    "text": "Last week\nNHST & p-values\nLab 2…feedback?\nFrequency of Labs check-in\n\nlibrary(here)\nlibrary(tidyverse)\nlibrary(psych)\nlibrary(psychTools)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(ggpubr)\nlibrary(patchwork)\n\nset.seed(42)"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#this-week",
+    "href": "lectures/06_OneSample.html#this-week",
+    "title": "Categorical & One-Sample",
+    "section": "This Week…",
+    "text": "This Week…\n\nThe chi-square goodness-of-fit test\nOne-sample t-tests"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "href": "lectures/06_OneSample.html#what-are-the-steps-of-nhst",
+    "title": "Categorical & One-Sample",
+    "section": "What are the steps of NHST?",
+    "text": "What are the steps of NHST?\n\n\n\nDefine null and alternative hypothesis.\nSet and justify alpha level.\nDetermine which sampling distribution ( \\(z\\), \\(t\\), or \\(\\chi^2\\) for now)\nCalculate parameters of your sampling distribution under the null.\n\n\nIf \\(z\\), calculate \\(\\mu\\) and \\(\\sigma_M\\)\n\n\n\nCalculate test statistic under the null.\n\n\nIf \\(z\\), \\(\\frac{\\bar{X} - \\mu}{\\sigma_M}\\)\n\n\nCalculate probability of that test statistic or more extreme under the null, and compare to alpha."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#example---coffee-shop",
+    "href": "lectures/06_OneSample.html#example---coffee-shop",
+    "title": "Categorical & One-Sample",
+    "section": "Example - Coffee Shop",
+    "text": "Example - Coffee Shop\nLet’s say we collect data on customers of a coffee shop and we want to see if there is an equal number of folks that come into the shop across all days. Therefore, we record how many individuals came into the coffee shop over a weeks time.\nHow would we test this?\n\nFirst, setup the Null and alternative:\n\n\\(H_0\\): Customers will be equal across all days.\n\\(H_1\\): There will be more customers on one or multiple days than others and will not be equal"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#distribution---degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Distribution - Degrees of freedom",
+    "text": "Distribution - Degrees of freedom\nThe \\(\\chi^2\\) distribution is a single-parameter distribution defined by it’s degrees of freedom.\nIn the case of a goodness-of-fit test (like this one), the degrees of freedom are \\(\\textbf{k-1}\\), where k is the number of groups."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#degrees-of-freedom",
+    "href": "lectures/06_OneSample.html#degrees-of-freedom",
+    "title": "Categorical & One-Sample",
+    "section": "Degrees of freedom",
+    "text": "Degrees of freedom\nThe Degrees of freedom are the number of genuinely independent things in a calculation. It’s specifically calculated as the number of quantities in a calculation minus the number of constraints.\nWhat it means in principle is that given a set number of categories (k) and a constraint (the proportions have to add up to 1), I can freely choose numbers for k-1 categories. But for the kth category, there’s only one number that will work."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#but-what-if",
+    "href": "lectures/06_OneSample.html#but-what-if",
+    "title": "Categorical & One-Sample",
+    "section": "But what if…",
+    "text": "But what if…\nIn the example, we had a null distribution that was distributed uniformly\nWhat if that isn’t a super interesting research question?\nInstead we may want to compare the proportions in our sample to a larger population"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "href": "lectures/06_OneSample.html#example-2---schools-super-powers",
+    "title": "Categorical & One-Sample",
+    "section": "Example 2 - Schools & Super-powers",
+    "text": "Example 2 - Schools & Super-powers\nThe data were obtained from Census at School, a website developed by the American Statistical Association tohelp students in the 4th through 12th grades understand statistical problem-solving.\n\n\nThe site sponsors a survey that students can complete and a database that students and instructors can use to illustrate principles in quantitative methods.\nThe database includes students from all 50 states, from grade levels 4 through 12, both boys and girls, who have completed the survey dating back to 2010."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#write-up-practice",
+    "href": "lectures/06_OneSample.html#write-up-practice",
+    "title": "Categorical & One-Sample",
+    "section": "Write-up Practice",
+    "text": "Write-up Practice\nOpen up a word document and provide a 2-6 sentence write up of the analyses that we just completed\nDon’t forget:\n\nBefore the test, there are some descriptives\nInformation about the the null hypothesis\nIncluding a “stats block”\nBrief interpretation of the results"
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "href": "lectures/06_OneSample.html#the-usefulness-of-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "The usefulness of \\(\\chi^2\\)",
+    "text": "The usefulness of \\(\\chi^2\\)\nHow often will you conducted a \\(chi^2\\) goodness of fit test on raw data?\n\n(Probably) never\n\nHow often will you come across \\(\\chi^2\\) tests?\n\n(Probably) a lot!\n\nThe goodness of fit test is used to statistically test the how well a model fits data."
+  },
+  {
+    "objectID": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "href": "lectures/06_OneSample.html#model-fit-with-chi2",
+    "title": "Categorical & One-Sample",
+    "section": "Model Fit with \\(\\chi^2\\)",
+    "text": "Model Fit with \\(\\chi^2\\)\nTo calculate Goodness of Fit of a model to data, you build a statistical model of the process as you believe it is in the world.\n\n\nexample: depression ~ age + parental history of depression\n\n\n\nThen you estimate each subject’s predicted/expected value based on your model.\nYou compare each subject’s predicted value to their actual value – the difference is called the residual ( \\(\\varepsilon\\) )."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#last-week",
+    "href": "lectures/07_ComparingMeans.html#last-week",
+    "title": "Comparing Means: t-tests",
+    "section": "Last week",
+    "text": "Last week\n\n\nCategorical Data analysis with the \\(\\chi^2\\) distribution\n\nTest of Independence & Goodness of Fit Test\n\nSingle Sample \\(t\\)-test\n\n\n\nlibrary(lsr)\n# File management\nlibrary(here)\n# for dplyr, ggplot\nlibrary(tidyverse)\n# Making things look nice\nlibrary(ggpubr)\n#Loading data\nlibrary(rio)\n# Assumption Checks\nlibrary(car)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#today",
+    "href": "lectures/07_ComparingMeans.html#today",
+    "title": "Comparing Means: t-tests",
+    "section": "Today…",
+    "text": "Today…\n\nComparing Means with the \\(t\\)-test\n\nIndependent samples\nPaired Samples (probably next class)"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#comparing-means",
+    "href": "lectures/07_ComparingMeans.html#comparing-means",
+    "title": "Comparing Means: t-tests",
+    "section": "Comparing Means",
+    "text": "Comparing Means\nCalculated using a t-test. To calculate the t-statistic, you will use this formula:\n\\[t_{df=N-1} = \\frac{\\bar{X}-\\mu}{\\frac{\\hat{\\sigma}}{\\sqrt{N}}}\\]\nThe heavier tails of the t-distribution, especially for small N, are the penalty we pay for having to estimate the population standard deviation from the sample."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
+    "href": "lectures/07_ComparingMeans.html#writing-up-a-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Writing Up a t-test",
+    "text": "Writing Up a t-test\n\n“A one-sample t-test was conducted to determine if the mean [variable name] differed from a hypothesized population mean of [population mean]. The sample mean was M = [sample mean], which was significantly [greater than/less than/different from] the hypothesized population mean, t(df) = [t-value], p = [p-value].”\n\nA one-sample t-test was conducted to determine if the mean score in a memory game for NY students differed from the US population mean. The sample mean was \\(M = 44.164\\) (SD = 15.32, CI = [42.15, 46.18]), which was not significantly different from the population mean, \\(t(223) = -0.87\\), \\(p = 0.388\\)."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests",
+    "text": "Types of t-Tests\nSingle Samples t-test\nIndependent Samples t-test\nPaired Samples t-test"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "href": "lectures/07_ComparingMeans.html#types-of-t-tests-assumptions",
+    "title": "Comparing Means: t-tests",
+    "section": "Types of t-Tests: Assumptions",
+    "text": "Types of t-Tests: Assumptions\nSingle Samples t-test\nIndependent Samples t-test\n\n\n\nRandom Sampling\nIndependent observations\n\n\n\nApproximately normal distributions\nHomogeneity of variances\n\n\n\nPaired Samples t-test\n\nApproximately normal distributions\nHomogeneity of variances"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#dataset",
+    "href": "lectures/07_ComparingMeans.html#dataset",
+    "title": "Comparing Means: t-tests",
+    "section": "Dataset",
+    "text": "Dataset\nMoving forward for today, we will use this dataset\n\n\n100 students from New York\n100 students from New Mexico\n\n\n\nstate_school &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv\")"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#normality-assumption",
+    "href": "lectures/07_ComparingMeans.html#normality-assumption",
+    "title": "Comparing Means: t-tests",
+    "section": "Normality Assumption",
+    "text": "Normality Assumption\n\nCheck for Normality: Visualizing data (histograms), Q-Q plots, and statistical tests (Shapiro-Wilk, Anderson-Darling) to assess normality.\nRemedies for Violations: data transformation or non-parametric alternatives when data is not normally distributed."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
+    "href": "lectures/07_ComparingMeans.html#homogeneity-of-variance",
+    "title": "Comparing Means: t-tests",
+    "section": "Homogeneity of Variance",
+    "text": "Homogeneity of Variance\n\nCheck for Equality of Variances: Levene’s test to assess if variances are equal between groups\nRemedies for Violations: Welch’s t-test for unequal variances."
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#students-t-test",
+    "href": "lectures/07_ComparingMeans.html#students-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Student’s t-test",
+    "text": "Student’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#welchs-t-test",
+    "href": "lectures/07_ComparingMeans.html#welchs-t-test",
+    "title": "Comparing Means: t-tests",
+    "section": "Welch’s t-test",
+    "text": "Welch’s t-test\n\\[\nH_0 : \\mu_1 = \\mu_2  \\ \\  H_1 : \\mu_1 \\neq \\mu_2\n\\]"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#cool-visualizations",
+    "href": "lectures/07_ComparingMeans.html#cool-visualizations",
+    "title": "Comparing Means: t-tests",
+    "section": "Cool Visualizations",
+    "text": "Cool Visualizations\nThe library ggstatsplot has some wonderful visualizations of various tests\n\n\nCode\nggstatsplot::ggbetweenstats(\n  data  = state_school,\n  x     = Region,\n  y     = Sleep_Hours_Schoolnight,\n  title = \"Distribution of hours of sleep across Region\"\n)"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#next-time",
+    "href": "lectures/07_ComparingMeans.html#next-time",
+    "title": "Comparing Means: t-tests",
+    "section": "Next Time…",
+    "text": "Next Time…\nPaired Samples t-test"
+  },
+  {
+    "objectID": "lectures/07_ComparingMeans.html#next-time-1",
+    "href": "lectures/07_ComparingMeans.html#next-time-1",
+    "title": "Comparing Means: t-tests",
+    "section": "Next time…",
+    "text": "Next time…"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#last-class",
+    "href": "lectures/08_Visualizations.html#last-class",
+    "title": "Figures: Using ggplot2",
+    "section": "Last Class",
+    "text": "Last Class\n\n\nComparing Means: \\(t\\)-test\n\nIndependent Samples \\(t\\)-test Review\nPaired Samples \\(t\\)-test"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#looking-ahead",
+    "href": "lectures/08_Visualizations.html#looking-ahead",
+    "title": "Figures: Using ggplot2",
+    "section": "Looking Ahead",
+    "text": "Looking Ahead\n\nPlan to have 2 more labs that will be similar to the last lab\n\nLikely take place on 10/25 and sometime the week of 11/13\n\nOutside of these labs, I am going to plan on having additional mini-labs\n\nLikely to take place on 11/1, 11/22 and 11/29 (will update based on how things are going in class)"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#today",
+    "href": "lectures/08_Visualizations.html#today",
+    "title": "Figures: Using ggplot2",
+    "section": "Today…",
+    "text": "Today…\nWorking with ggplot2 to get some really fancy visualizations!\nMaybe integrating some generative AI (ChatGPT) to help us out too\n\n# File management\nlibrary(here)\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n\n#for the penguins dataset\n#install.packages('palmerpenguins')\nlibrary(palmerpenguins)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#take-a-look-at-the-data",
+    "href": "lectures/08_Visualizations.html#take-a-look-at-the-data",
+    "title": "Figures: Using ggplot2",
+    "section": "Take a look at the data",
+    "text": "Take a look at the data\nWill be using a dataset from the palmerpenguins library (link) which is a dataset about…penguins. This function will pull that data into our environment:\n\ndata(penguins)\n\nNow we can get some descriptive statistics:\n\n\nCode\npenguins %&gt;% \n  group_by(species) %&gt;% \n  summarize(\n    mean_flipper = mean(flipper_length_mm, na.rm = TRUE),\n    mean_mass = mean(body_mass_g, na.rm = TRUE),\n    std_flipper = sd(flipper_length_mm, na.rm = TRUE), \n    std_mass = sd(body_mass_g, na.rm = TRUE), \n    cor_flip_mass = cor(flipper_length_mm, body_mass_g)\n  )\n\n\n# A tibble: 3 × 6\n  species   mean_flipper mean_mass std_flipper std_mass cor_flip_mass\n  &lt;fct&gt;            &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;\n1 Adelie            190.     3701.        6.54     459.        NA    \n2 Chinstrap         196.     3733.        7.13     384.         0.642\n3 Gentoo            217.     5076.        6.48     504.        NA"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-from-the-tidyverse",
+    "href": "lectures/08_Visualizations.html#ggplot2-from-the-tidyverse",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2 from the tidyverse",
+    "text": "ggplot2 from the tidyverse\nSince we have already installed and loaded the library, we don’t have to do anything else at this point!\nggplot2 follows the “grammar of graphics”\n\nTheoretical framework for creating data visualizations\nBreaks the process down into separate components:\n\n\n\nData\nAesthetics (aes)\nGeometric Objects (geoms)\n\nFaceting\nThemes"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#grammar-of-graphics",
+    "href": "lectures/08_Visualizations.html#grammar-of-graphics",
+    "title": "Figures: Using ggplot2",
+    "section": "Grammar of Graphics",
+    "text": "Grammar of Graphics"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-syntax",
+    "href": "lectures/08_Visualizations.html#ggplot2-syntax",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2 syntax",
+    "text": "ggplot2 syntax\nThere is a basic structure to create a plot within ggplot2, and consists of at least these three things:\n\nA Data Set\nCoordinate System\nGeoms - visual marks to represent the data points\n\nIn R it looks like this:\n\nggplot(data = &lt;DATA&gt;) + \n  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))\n\n#or how I like to do it\n&lt;DATA&gt; %&gt;% \n  ggplot(aes(&lt;MAPPINGS&gt;)) + \n  &lt;GEOM_FUNCTION&gt;()"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#ggplot2-syntax-1",
+    "href": "lectures/08_Visualizations.html#ggplot2-syntax-1",
+    "title": "Figures: Using ggplot2",
+    "section": "ggplot2 syntax",
+    "text": "ggplot2 syntax\nLet’s start with a basic figure with palmerpenguins\nFirst we will define the data that we are using and the variables we are visualizing\n\n#the dataset is called penguins\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g))\n\nWhat happens?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#adding-in-color",
+    "href": "lectures/08_Visualizations.html#adding-in-color",
+    "title": "Figures: Using ggplot2",
+    "section": "Adding in Color",
+    "text": "Adding in Color\nMaybe we would like to have each of the points colored by their respective species\nThis information will be added to the aes() within the geom_point() layer\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species))"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#including-a-fit-line",
+    "href": "lectures/08_Visualizations.html#including-a-fit-line",
+    "title": "Figures: Using ggplot2",
+    "section": "Including a fit line",
+    "text": "Including a fit line\nWhy don’t we put in a line that represents the relationship between these variables?\nWe will want to add another layer/geom\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species)) + \n  geom_smooth()\n\n\nThat looks a little wonky…why is that? Did you get a note in the console?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#including-a-fit-line-1",
+    "href": "lectures/08_Visualizations.html#including-a-fit-line-1",
+    "title": "Figures: Using ggplot2",
+    "section": "Including a fit line",
+    "text": "Including a fit line\nThe geom_smooth() defaults to using a loess line to fit to the data\nIn order to update that, we need to change some of the defaults for that layer and specify that we want a “linear model” or lm function to the data\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g)) + \n  geom_point(aes(color = species)) + \n  geom_smooth(method = 'lm')\n\n\nDid that look a little better?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#individual-fit-lines",
+    "href": "lectures/08_Visualizations.html#individual-fit-lines",
+    "title": "Figures: Using ggplot2",
+    "section": "Individual fit lines",
+    "text": "Individual fit lines\nIt might make more sense to have individual lines for each of the species instead of something that is across all\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g, \n             color = species)) + \n  geom_point() + \n  geom_smooth(method = 'lm')\n\n\nWhat did we move around from the last set of code?"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#updating-labelstitle",
+    "href": "lectures/08_Visualizations.html#updating-labelstitle",
+    "title": "Figures: Using ggplot2",
+    "section": "Updating Labels/Title",
+    "text": "Updating Labels/Title\nIt will default to including the variable names as the x and y labels, but that isn’t something that makes sense. Also would be good to have a title!\nWe add on another layer called labs() for our labels (link)\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm, \n             y = body_mass_g, \n             color = species)) + \n  geom_point() + \n  geom_smooth(method = 'lm') + \n  labs(\n    title = \"Palmer Penguins\",\n    subtitle = \"Body Mass by Flipper Length\", \n    x = \"Flipper Length (mm)\", \n    y = \"Body Mass (g)\", \n    color = \"Species\"\n  )"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#penguin-histogram",
+    "href": "lectures/08_Visualizations.html#penguin-histogram",
+    "title": "Figures: Using ggplot2",
+    "section": "Penguin Histogram",
+    "text": "Penguin Histogram\nTaken from the website for palmerpenguins (link)\n\npenguins %&gt;% \n  ggplot(aes(x = flipper_length_mm)) +\n    geom_histogram(aes(fill = species), \n                   alpha = 0.5, \n                   position = \"identity\")"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#the-three-datasets",
+    "href": "lectures/08_Visualizations.html#the-three-datasets",
+    "title": "Figures: Using ggplot2",
+    "section": "The Three Datasets",
+    "text": "The Three Datasets\n\n\nCode\ndata1 &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv\") %&gt;% \n  mutate(dataset = \"data1\")\n\ndata2 &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv\") %&gt;% \n  mutate(dataset = \"data2\")\n\ndata3 &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv\") %&gt;% \n  mutate(dataset = \"data3\")\n\n\nWe need to combine them together just to make things easier:\n\nthree_data &lt;- bind_rows(data1, data2, data3)"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#descriptive-stats-on-the-3",
+    "href": "lectures/08_Visualizations.html#descriptive-stats-on-the-3",
+    "title": "Figures: Using ggplot2",
+    "section": "Descriptive Stats on the 3",
+    "text": "Descriptive Stats on the 3\n\n\nCode\nthree_data %&gt;%\n  group_by(dataset) %&gt;% \n  summarize(\n    mean_x = mean(x),\n    mean_y = mean(y),\n    std_x = sd(x), \n    std_y = sd(y), \n    cor_xy = cor(x,y)\n  )\n\n\n# A tibble: 3 × 6\n  dataset mean_x mean_y std_x std_y  cor_xy\n  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n1 data1     54.3   47.8  16.8  26.9 -0.0641\n2 data2     54.3   47.8  16.8  26.9 -0.0683\n3 data3     54.3   47.8  16.8  26.9 -0.0645"
+  },
+  {
+    "objectID": "lectures/08_Visualizations.html#visualize-the-datasets",
+    "href": "lectures/08_Visualizations.html#visualize-the-datasets",
+    "title": "Figures: Using ggplot2",
+    "section": "Visualize the datasets",
+    "text": "Visualize the datasets\nCreate a scatterplot for each of the datasets\nBut I didn’t talk about how to do that for multiple datasets…\nCheck out ChatGPT"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#last-class",
+    "href": "lectures/10_ANOVA2.html#last-class",
+    "title": "Two-Way ANOVA",
+    "section": "Last Class",
+    "text": "Last Class\n\n\nOne Way ANOVA\n\nComparing means across multiple groups/levels"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#looking-ahead",
+    "href": "lectures/10_ANOVA2.html#looking-ahead",
+    "title": "Two-Way ANOVA",
+    "section": "Looking Ahead",
+    "text": "Looking Ahead\n\nR-Workshop! (Link to Sign up)\n\n11/3 & 12/1 from 2-3pm\n\nProfessor will put together guidelines for the final project and have dates to complete various components\nLab 3 - Starting Today will be due before class on 11/6\n\nWill be able to resubmit for any missed items up to 1 week from when I post the initial feedback\n\nCorrelation & Regression"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#today",
+    "href": "lectures/10_ANOVA2.html#today",
+    "title": "Two-Way ANOVA",
+    "section": "Today…",
+    "text": "Today…\nOne-Way ANOVA\n\nContrasts/post-hoc tests\n\nTwo-Way ANOVA\n\n# File management\nlibrary(here)\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n# Estimating Marginal Means\nlibrary(emmeans)\n# Pretty Tables\nlibrary(kableExtra)\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#one-way-anova",
+    "href": "lectures/10_ANOVA2.html#one-way-anova",
+    "title": "Two-Way ANOVA",
+    "section": "One-Way ANOVA",
+    "text": "One-Way ANOVA\nGoal: Inform of differences among the levels of our variable of interest (Omnibus Test)\nUsing the between and within group variance to create the \\(F\\)-statistic/ratio\nHypotheses:\n\\[\nH_0: it\\: is\\: true\\: that\\: \\mu_1 = \\mu_2 = \\mu_3 =\\: ...\\mu_k\n\\\\\nH_1: it\\: is\\: \\boldsymbol{not}\\: true\\: that\\: \\mu_1 = \\mu_2 = \\mu_3 =\\: ...\\mu_k\n\\]"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#review-of-the-nhst-process",
+    "href": "lectures/10_ANOVA2.html#review-of-the-nhst-process",
+    "title": "Two-Way ANOVA",
+    "section": "Review of the NHST process",
+    "text": "Review of the NHST process\n\nCollect Sample and define hypotheses\nSet alpha level\nDetermine the sampling distribution (will be using \\(F\\)-distribution now)\nIdentify the critical value\nCalculate test statistic for sample collected\nInspect & compare statistic to critical value; Calculate probability"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#steps-to-calculating-f-ratio",
+    "href": "lectures/10_ANOVA2.html#steps-to-calculating-f-ratio",
+    "title": "Two-Way ANOVA",
+    "section": "Steps to calculating F-ratio",
+    "text": "Steps to calculating F-ratio\n\nVariance to Sum of Squares (Between & Within)\nDegrees of Freedom\nMean squares values\nF-Statistic"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#calculating-the-f-statistic",
+    "href": "lectures/10_ANOVA2.html#calculating-the-f-statistic",
+    "title": "Two-Way ANOVA",
+    "section": "Calculating the F-Statistic",
+    "text": "Calculating the F-Statistic\n\\[F = \\frac{MS_b}{MS_w}\\]\nIf the null hypothesis is true, \\(F\\) has an expected value close to 1 (numerator and denominator are estimates of the same variability)\nIf it is false, the numerator will likely be larger, because systematic, between-group differences contribute to the variance of the means, but not to variance within group."
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#anova-table",
+    "href": "lectures/10_ANOVA2.html#anova-table",
+    "title": "Two-Way ANOVA",
+    "section": "ANOVA table",
+    "text": "ANOVA table\n\n\n\n\n\n\n\n\n\n\n\nSource of Variation\ndf\nSum of Squares\nMean Squares\nF-statistic\np-value\n\n\n\n\nGroup\n\\(G-1\\)\n\\(SS_b\\)\n\\(MS_b = \\frac{SS_b}{df_b}\\)\n\\(F = \\frac{MS_b}{MS_w}\\)\n\\(p\\)\n\n\nResidual\n\\(N-G\\)\n\\(SS_w\\)\n\\(MS_w = \\frac{SS_w}{df_w}\\)\n\n\n\n\nTotal\n\\(N-1\\)\n\\(SS_{total}\\)"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#contrastspost-hoc-tests",
+    "href": "lectures/10_ANOVA2.html#contrastspost-hoc-tests",
+    "title": "Two-Way ANOVA",
+    "section": "Contrasts/Post-Hoc Tests",
+    "text": "Contrasts/Post-Hoc Tests\nPerformed when there is a significant difference among the groups to examine which groups are different\n\nContrasts: When we have a priori hypotheses\nPost-hoc Tests: When we want to test everything"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#previous-spooky-data",
+    "href": "lectures/10_ANOVA2.html#previous-spooky-data",
+    "title": "Two-Way ANOVA",
+    "section": "Previous Spooky Data",
+    "text": "Previous Spooky Data\nEMF rating across multiple locations\n\nspooky &lt;- import(\"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/SS%20Calculations.csv\") %&gt;% \n  select(Location, EMF) #There were some extra empty variables in there that we don't care about\n\nfit_1 &lt;- aov(EMF ~ Location, data = spooky)\nsummary(fit_1)\n\n             Df Sum Sq Mean Sq F value              Pr(&gt;F)    \nLocation      7   5115   730.7   523.5 &lt;0.0000000000000002 ***\nResiduals   138    193     1.4                                \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#post-hoc-tests",
+    "href": "lectures/10_ANOVA2.html#post-hoc-tests",
+    "title": "Two-Way ANOVA",
+    "section": "Post-hoc tests",
+    "text": "Post-hoc tests\n\n#library(emmeans)\nemmeans(fit_1, pairwise ~ Location, adjust = \"none\")\n\n$emmeans\n Location          emmean    SE  df lower.CL upper.CL\n Abandoned Walmart  11.42 0.278 138    10.87    11.97\n Gettysburg         21.23 0.278 138    20.68    21.78\n Ikea               16.27 0.278 138    15.72    16.82\n RIT Tunnels         7.51 0.278 138     6.96     8.06\n Stats Classroom    12.35 0.271 138    11.82    12.89\n The Woods          25.01 0.278 138    24.46    25.56\n Unused Stairwell   14.23 0.278 138    13.68    14.78\n Walmart             6.81 0.271 138     6.28     7.35\n\nConfidence level used: 0.95 \n\n$contrasts\n contrast                             estimate    SE  df t.ratio p.value\n Abandoned Walmart - Gettysburg         -9.809 0.394 138 -24.910  &lt;.0001\n Abandoned Walmart - Ikea               -4.847 0.394 138 -12.308  &lt;.0001\n Abandoned Walmart - RIT Tunnels         3.913 0.394 138   9.937  &lt;.0001\n Abandoned Walmart - Stats Classroom    -0.932 0.389 138  -2.399  0.0178\n Abandoned Walmart - The Woods         -13.587 0.394 138 -34.501  &lt;.0001\n Abandoned Walmart - Unused Stairwell   -2.809 0.394 138  -7.134  &lt;.0001\n Abandoned Walmart - Walmart             4.607 0.389 138  11.857  &lt;.0001\n Gettysburg - Ikea                       4.962 0.394 138  12.601  &lt;.0001\n Gettysburg - RIT Tunnels               13.723 0.394 138  34.847  &lt;.0001\n Gettysburg - Stats Classroom            8.877 0.389 138  22.845  &lt;.0001\n Gettysburg - The Woods                 -3.777 0.394 138  -9.592  &lt;.0001\n Gettysburg - Unused Stairwell           7.000 0.394 138  17.775  &lt;.0001\n Gettysburg - Walmart                   14.417 0.389 138  37.101  &lt;.0001\n Ikea - RIT Tunnels                      8.760 0.394 138  22.246  &lt;.0001\n Ikea - Stats Classroom                  3.915 0.389 138  10.074  &lt;.0001\n Ikea - The Woods                       -8.740 0.394 138 -22.193  &lt;.0001\n Ikea - Unused Stairwell                 2.038 0.394 138   5.174  &lt;.0001\n Ikea - Walmart                          9.454 0.389 138  24.330  &lt;.0001\n RIT Tunnels - Stats Classroom          -4.846 0.389 138 -12.470  &lt;.0001\n RIT Tunnels - The Woods               -17.500 0.394 138 -44.439  &lt;.0001\n RIT Tunnels - Unused Stairwell         -6.723 0.394 138 -17.072  &lt;.0001\n RIT Tunnels - Walmart                   0.694 0.389 138   1.786  0.0763\n Stats Classroom - The Woods           -12.654 0.389 138 -32.565  &lt;.0001\n Stats Classroom - Unused Stairwell     -1.877 0.389 138  -4.831  &lt;.0001\n Stats Classroom - Walmart               5.540 0.383 138  14.453  &lt;.0001\n The Woods - Unused Stairwell           10.777 0.394 138  27.367  &lt;.0001\n The Woods - Walmart                    18.194 0.389 138  46.821  &lt;.0001\n Unused Stairwell - Walmart              7.417 0.389 138  19.087  &lt;.0001"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#family-wise-error",
+    "href": "lectures/10_ANOVA2.html#family-wise-error",
+    "title": "Two-Way ANOVA",
+    "section": "Family-wise error",
+    "text": "Family-wise error\nThese pairwise comparisons can quickly grow in number as the number of Groups increases. With 8 (k) Groups, we have k(k-1)/2 = 28 possible pairwise comparisons.\nAs the number of groups in the ANOVA grows, the number of possible pairwise comparisons increases dramatically."
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#what-is-a-two-way-anova",
+    "href": "lectures/10_ANOVA2.html#what-is-a-two-way-anova",
+    "title": "Two-Way ANOVA",
+    "section": "What is a Two-Way ANOVA?",
+    "text": "What is a Two-Way ANOVA?\nExamines the impact of 2 nominal/categorical variables on a continuous outcome\nWe can now examine:\n\nThe impact of variable 1 on the outcome (Main Effect)\nThe impact of variable 2 on the outcome (Main Effect)\nThe interaction of variable 1 & 2 on the outcome (Interaction Effect)\n\n\nThe effect of variable 1 depends on the level of variable 2"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#two-way-anova-assumptions",
+    "href": "lectures/10_ANOVA2.html#two-way-anova-assumptions",
+    "title": "Two-Way ANOVA",
+    "section": "Two-Way ANOVA: Assumptions",
+    "text": "Two-Way ANOVA: Assumptions\nSame as what we’ve examined previously, plus a couple more:\n\n\n\nIndependence\nNormality of Residuals\nHomoscedasticity (Homogeneity of Variance)\n\n\n\n\nAdditivity\n\nThe effects of each factor are consistent across all levels of the other factor\n\nMulticollinearity\n\nCorrelations between factors. This can make it difficult to separate unique contributions to the outcome\n\nEqual Cell Sizes (N)"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#main-effect-interactions",
+    "href": "lectures/10_ANOVA2.html#main-effect-interactions",
+    "title": "Two-Way ANOVA",
+    "section": "Main Effect & Interactions",
+    "text": "Main Effect & Interactions\nMain Effect: Basically a one-way ANOVA\n\nThe effect of variable 1 is the same across all levels of variable 2\n\nInteraction:\n\nAble to examine the effect of variable 1 across different levels of variable 2\nBasically speaking, the effect of variable 1 on our outcome DEPENDS on the levels of variable 2"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#data",
+    "href": "lectures/10_ANOVA2.html#data",
+    "title": "Two-Way ANOVA",
+    "section": "Data",
+    "text": "Data\n\nWe are interested on the impact of phone usage on overall sleep quality\nWe include 2 variables of interest: 1) Phone Type (iOS vs. Android) and 2) Amount of usage (High, Medium & Low) to examine if there are differences in terms of sleep quality\nNote: It is important to consider HOW we operationalize constructs as some things we have as factors could easily be continuous variables\n\n\n\nCode\n#Generate some data\n\n# Set random seed for reproducibility\nset.seed(42)\n\nn &lt;- 500  # Set number of observations\n\n# Generate Type of Phone data\nphone_type &lt;- sample(c(\"Android\", \"iOS\"), \n                     n, \n                     replace = TRUE)\n\n# Generate Phone Usage data\nphone_usage &lt;- factor(sample(c(\"Low\", \"Medium\", \"High\"), \n                             n, \n                             replace = TRUE), \n                      levels= c(\"Low\", \"Medium\", \"High\"))\n\n# Generate Sleep Quality data (with some variation)\n# Intentionally inflating to highlight main effects\nsleep_quality &lt;- round(\n  rnorm(n, mean = ifelse(phone_type == \"Android\", 5, 7) + ifelse(phone_usage == \"High\", 1, -1), sd = 1),\n  1\n)\n\n# Generate Sleep Quality data (with some variation)\nsleep_quality2 &lt;- round(rnorm(n, mean = 6, sd = 3),1)\n\n# Create a data frame\nsleep_data &lt;- data.frame(phone_type, \n                         phone_usage, \n                         sleep_quality,\n                         sleep_quality2)\n\nhead(sleep_data)\n\n\n  phone_type phone_usage sleep_quality sleep_quality2\n1    Android        High           5.0           12.5\n2    Android         Low           3.8           12.8\n3    Android      Medium           3.9            8.7\n4    Android      Medium           3.3            5.8\n5        iOS         Low           5.6            8.0\n6        iOS        High           7.8            3.6"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#test-statistics",
+    "href": "lectures/10_ANOVA2.html#test-statistics",
+    "title": "Two-Way ANOVA",
+    "section": "Test Statistics",
+    "text": "Test Statistics\nWe’ve gone too far today without me showing some equations\nWith one way anova, we calculated the \\(SS_{between}\\) and the \\(SS_{within}\\) and were able to use those to capture the F-statistic\nNow we have another variable to take into account. Therefore, we need to calculate:\n\\[\nSS_{between Group1}, \\: SS_{between Group2}\n\\]\n\\[\nSS_{within}, \\: SS_{total}\n\\]"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#f-statisticratio",
+    "href": "lectures/10_ANOVA2.html#f-statisticratio",
+    "title": "Two-Way ANOVA",
+    "section": "\\(F\\)-Statistic/Ratio",
+    "text": "\\(F\\)-Statistic/Ratio\nHelpful site for hand calculations: (link)\n\nSince we have these various sum of squares, we can then fill out the ANOVA table\nThis also means that we will have multiple F-Statistics"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#calculate-ss_interaction",
+    "href": "lectures/10_ANOVA2.html#calculate-ss_interaction",
+    "title": "Two-Way ANOVA",
+    "section": "Calculate \\(SS_{interaction}\\)",
+    "text": "Calculate \\(SS_{interaction}\\)\nNow we need to be able to take into account the interaction term\nThis is done by calculating all other \\(SS\\) and then performing:\n\\[\nSS_{interaction} = SS_{total} - SS_{b1} - SS_{b2} - SS_{w}\n\\]"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#running-in-r-1",
+    "href": "lectures/10_ANOVA2.html#running-in-r-1",
+    "title": "Two-Way ANOVA",
+    "section": "Running in R",
+    "text": "Running in R\nWe will use the aov() function to set up our model\n\nfit2 &lt;- aov(sleep_quality ~ phone_type + phone_usage + phone_type*phone_usage, \n            data = sleep_data)\n\n#OR \n\nfit2 &lt;- aov(sleep_quality ~ phone_type * phone_usage, \n            data = sleep_data)\n\nsummary(fit2)\n\n                        Df Sum Sq Mean Sq F value              Pr(&gt;F)    \nphone_type               1  544.6   544.6 515.727 &lt;0.0000000000000002 ***\nphone_usage              2  498.7   249.4 236.148 &lt;0.0000000000000002 ***\nphone_type:phone_usage   2    0.7     0.3   0.317               0.728    \nResiduals              494  521.6     1.1                                \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "lectures/10_ANOVA2.html#different-outcome",
+    "href": "lectures/10_ANOVA2.html#different-outcome",
+    "title": "Two-Way ANOVA",
+    "section": "Different Outcome",
+    "text": "Different Outcome\nCreated the outcome of sleep_quality2 to be completely random instead of following a formula so that we could visualize the effect\n\nfit3 &lt;- aov(sleep_quality2 ~ phone_type * phone_usage, \n            data = sleep_data)\nsummary(fit3)\n\n                        Df Sum Sq Mean Sq F value Pr(&gt;F)   \nphone_type               1     86   85.65   9.162 0.0026 **\nphone_usage              2     56   27.83   2.977 0.0519 . \nphone_type:phone_usage   2      8    4.18   0.447 0.6399   \nResiduals              494   4618    9.35                  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  }
+]
