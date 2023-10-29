@@ -1,0 +1,17 @@
+{
+  "about.qmd": {
+    "about.html": "3622e3d0"
+  },
+  "courses/index.qmd": {
+    "index.html": "208c457a"
+  },
+  "courses/lectures/05_Hypothesis-Power.qmd": {
+    "05_Hypothesis-Power.html": "e9428c48"
+  },
+  "index.qmd": {
+    "index.html": "8126783a"
+  },
+  "courses/lectures/05_Pre-Lab.qmd": {
+    "05_Pre-Lab.html": "9e60faf5"
+  }
+}
