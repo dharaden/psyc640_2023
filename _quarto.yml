@@ -26,8 +26,10 @@ website:
             href: "lectures/08_Visualizations.html"
           - text: "Week 9 - One-Way ANOVA"
             href: "lectures/09_ANOVA-speaker.html"
-          - text: "Week 10 - ANOVA pt. 2"
-            href: "lectures/10_ANOVA2-speaker.html"
+          - text: "Week 9 - ANOVA pt. 2"
+            href: "lectures/9_ANOVA2-speaker.html"
+          - text: "Week 10 - Correlation"
+            href: "lectures/10_Correlation-speaker.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

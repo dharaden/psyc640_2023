@@ -1,0 +1,121 @@
+---
+title: "Correlation"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
+format: 
+  revealjs:
+    multiplex: true
+    scrollable: true
+    slide-number: true
+    incremental: false
+    touch: true
+    code-overflow: wrap
+    theme: dark
+execute: 
+  echo: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Last Class
+
+::: nonincremental
+-   Two Way ANOVA
+    -   Comparing means across multiple groups/levels
+:::
+
+------------------------------------------------------------------------
+
+## Looking Ahead
+
+-   R-Workshop! ([Link to Sign up](https://docs.google.com/forms/d/e/1FAIpQLSd2Gjcb88kWHBS7LXNDaLCZ9Sb7aroRceMjrLl5K36epewdtQ/viewform?usp=sf_link))
+    -   11/3 & 12/1 from 2-3pm
+-   Professor will put together guidelines for the final project and have dates to complete various components
+    -   If this point is still here, that means that I haven't gotten to it...
+
+------------------------------------------------------------------------
+
+## Today...
+
+Linear Relationships - Correlation
+
+```{r, results = 'hide', message = F, warning = F}
+# for dplyr, ggplot2
+library(tidyverse)
+#Loading data
+library(rio)
+
+
+#Remove Scientific Notation 
+options(scipen=999)
+```
+
+# Relationships between variables
+
+## Correlation
+
+Examine the relationship between two continuous variables
+
+Similar to the mean and standard deviation, but it is *between* two variables
+
+Typically displayed as a `scatterplot`
+
+```{r}
+# | code-fold: true
+
+set.seed(42)
+
+n <- 200
+x <- rnorm(n, mean = 10, sd = 2)
+y <- 2 * x + rnorm(n, mean = 0, sd = 2) 
+corr_data <- data.frame(x,y)
+
+corr_data %>% 
+  ggplot(aes(x,y)) + 
+  geom_point() + 
+  geom_smooth(method="lm", 
+              se = FALSE) + 
+  labs(
+    x = "Number of Houses", 
+    y = "Amount of Candy"
+  )
+
+
+```
+
+------------------------------------------------------------------------
+
+## Statistics and Eugenics
+
+The concept of the correlation is primarily attributed to Sir Frances Galton
+
+-   He was also the founder of the [concept of eugenics](https://www.theguardian.com/commentisfree/2019/oct/03/eugenics-francis-galton-science-ideas)
+
+The correlation coefficient was developed by his student, [Karl Pearson](https://www.britannica.com/biography/Karl-Pearson), and adapted into the ANOVA framework by [Sir Ronald Fisher](https://statmodeling.stat.columbia.edu/2020/08/01/ra-fisher-and-the-science-of-hatred/)
+
+-   Both were prominent advocates for the eugenics movement
+
+------------------------------------------------------------------------
+
+## What do we do with this info?
+
+::: incremental
+-   Never use the correlation or the later techniques developed on it? Of course not.
+
+-   Acknowledge this history? Certainly.
+
+-   [Understand how the perspectives](https://medium.com/swlh/is-statistics-racist-59cd4ddb5fa9) of Galton, Fisher, Pearson and others [shaped our practices](http://gppreview.com/2019/12/16/eugenics-ethics-statistical-analysis/)? We must! -- these are not set in stone, [nor are they necessarily the best way](https://www.forbes.com/sites/jerrybowyer/2016/01/06/beer-vs-eugenics-the-good-and-the-bad-uses-of-statistics/?sh=3114a0c82a14) to move forward.
+:::
+
+# Next time...
+
+::: incremental
+-   ¯\\\_(ツ)\_/¯
+
+-   Correlation & Regression
+:::
