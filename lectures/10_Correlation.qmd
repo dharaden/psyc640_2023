@@ -35,8 +35,9 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 -   R-Workshop! ([Link to Sign up](https://docs.google.com/forms/d/e/1FAIpQLSd2Gjcb88kWHBS7LXNDaLCZ9Sb7aroRceMjrLl5K36epewdtQ/viewform?usp=sf_link))
     -   11/3 & 12/1 from 2-3pm
--   Professor will put together guidelines for the final project and have dates to complete various components
-    -   If this point is still here, that means that I haven't gotten to it...
+-   Final Project Updates:
+    -   Introduction & Methods draft due 11/15 (Peer Review)
+    -   Data Analysis draft due 11/27 (Peer Review)
 
 ------------------------------------------------------------------------
 
@@ -44,20 +45,32 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 Linear Relationships - Correlation
 
+-   Pearson Correlation
+
+-   Spearman's Rank Correlation
+
+-   Missing Data
+
+-   Creating correlation matrices
+
 ```{r, results = 'hide', message = F, warning = F}
 # for dplyr, ggplot2
 library(tidyverse)
 #Loading data
 library(rio)
+# nice tables/plots
+library(sjPlot)
+library(kableExtra)
+library(ggpubr)
 
 
 #Remove Scientific Notation 
 options(scipen=999)
 ```
 
-# Relationships between variables
+# Relationships between variables ([Ch 5.7](https://learningstatisticswithr.com/book/descriptives.html#correl))
 
-## Correlation
+## Association - Correlation
 
 Examine the relationship between two continuous variables
 
@@ -65,8 +78,10 @@ Similar to the mean and standard deviation, but it is *between* two variables
 
 Typically displayed as a `scatterplot`
 
+------------------------------------------------------------------------
+
 ```{r}
-# | code-fold: true
+#| code-fold: true
 
 set.seed(42)
 
@@ -87,6 +102,249 @@ corr_data %>%
 
 
 ```
+
+------------------------------------------------------------------------
+
+## Association - Covariance
+
+Before we talk about correlation, we need to take a look at covariance
+
+$$
+cov_{xy} = \frac{\sum(x-\bar{x})(y-\bar{y})}{N-1}
+$$
+
+::: incremental
+-   Covariance can be thought of as the "average cross product" between two variables
+
+-   It captures the *raw/unstandardized* relationship between two variables
+
+-   Covariance matrix is the basis for many statistical analyses
+:::
+
+------------------------------------------------------------------------
+
+### Covariance
+
+Let's take a look back at that data before and get the covariance
+
+```{r}
+cov(corr_data)
+```
+
+::: incremental
+-   What does having a covariance of `r round(cov(corr_data)[1,2], 2)` actually mean though?
+
+-   We have to interpret the covariance in terms of the units present (x = \# of houses and y = amount of candy)
+
+    -   The scale is $x*y$ ... what does that even mean?
+:::
+
+------------------------------------------------------------------------
+
+## Covariance to Correlation
+
+The Pearson correlation coefficient $r$ addresses this by standardizing the covariance
+
+It is done in the same way that we would create a $z-score$...by dividing by the standard deviation
+
+$$
+r_{xy} = \frac{Cov(x,y)}{sd_x sd_y}
+$$
+
+------------------------------------------------------------------------
+
+## Correlations
+
+-   Tells us: How much 2 variables are *linearly* related
+
+-   Range: -1 to +1
+
+-   Most common and basic effect size measure
+
+-   Is used to build the regression model
+
+------------------------------------------------------------------------
+
+### Interpreting Correlations ([5.7.5](https://learningstatisticswithr.com/book/descriptives.html#interpretingcorrelations))
+
+| Correlation  |  Strength   | Direction |
+|:------------:|:-----------:|:---------:|
+| -1.0 to -0.9 | Very Strong | Negative  |
+| -0.9 to -0.7 |   Strong    | Negative  |
+| -0.7 to -0.4 |  Moderate   | Negative  |
+| -0.4 to -0.2 |    Weak     | Negative  |
+|  -0.2 to 0   | Negligible  | Negative  |
+|   0 to 0.2   | Negligible  | Positive  |
+|  0.2 to 0.4  |    Weak     | Positive  |
+|  0.4 to 0.7  |  Moderate   | Positive  |
+|  0.7 to 0.9  |   Strong    | Positive  |
+|  0.9 to 1.0  | Very Strong | Positive  |
+
+# Hypothesis Testing - Correlation
+
+------------------------------------------------------------------------
+
+## Statistical Test - Correlation
+
+We tend to always compare our correlations to the null (0)
+
+::: columns
+::: {.column width="50%"}
+Hypotheses:
+
+-   $H_0: r_{xy} = 0$
+
+-   $H_1:r_{xy} \neq 0$
+:::
+
+::: {.column width="50%"}
+Assumptions:
+
+-   Observations are independent
+
+-   Linear Relationship
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Statistical Test - Correlation
+
+When comparing to 0, we can use the steps similar to a t-test
+
+Calculate the test statistic (df = N - 2):
+
+$$
+t = \frac{r}{\sqrt{\frac{1-r^2}{N-2}}}
+$$
+
+Then follow the typical steps for a t-test!
+
+## Statistical Test - But not always
+
+It isn't always that easy though...
+
+We were able to use the $t-distribution$ previously because we assumed the null was 0. However, we cannot do that when:
+
+-   The null $\neq$ 0
+
+-   Calculating Confidence Intervals for correlations
+
+-   Comparing two correlations against each other
+
+Will need to transform the $r$ to a $z$ using Fisher's r to z' transformation (beyond this class)
+
+$$
+z' = \frac{1}{2}ln\frac{1+r}{1-r}
+$$
+
+# Pearson Correlations in R
+
+## Calculating Correlation in R
+
+Now how do we get a correlation value in R?
+
+```{r}
+cor(corr_data$x, corr_data$y)
+
+```
+
+That will give us the correlation, but we also want to know how to get our p-value
+
+------------------------------------------------------------------------
+
+### Correlation Test
+
+To get the test of a single pair of variables, we will use the `cor.test()` function:
+
+```{r}
+cor.test(x, y, data = corr_data)
+```
+
+------------------------------------------------------------------------
+
+## Using real data - NY & NM
+
+So far we have been looking at single variables, but we often care about the relationships between multiple variables in a dataset
+
+```{r}
+#| code-fold: true
+school <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/NM-NY_CAS.csv") %>% 
+  select(Ageyears, Sleep_Hours_Schoolnight, Sleep_Hours_Non_Schoolnight,
+         Reaction_time, Score_in_memory_game) %>% 
+  janitor::clean_names()
+
+cor(school) %>% 
+  kable()
+```
+
+# Missing Values
+
+------------------------------------------------------------------------
+
+## Handling Missing - Correlation
+
+-   Listwise Deletion (complete cases)
+
+    ::: incremental
+    -   Removes participants completely if they are missing a value being compared
+    -   Smaller Sample Sizes
+    -   Doesn't bias correlation estimate
+    :::
+
+-   Pairwise Deletion
+
+    ::: incremental
+    -   Removes participants for that single pair, but leaves information in when there are complete information
+    -   Larger Sample Sizes
+    -   Could bias estimates if there is a systematic reason things are missing
+    :::
+
+------------------------------------------------------------------------
+
+```{r}
+cor(school, use = "complete") %>% kable()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+cor(school, use = "pairwise") %>% kable()
+```
+
+# Spearman's Rank Correaltion
+
+------------------------------------------------------------------------
+
+## Shortcomings of Pearson Correlation
+
+::: {style="font-size: 30px"}
+Focus on linear relationships - how data fall on a single straight line
+
+::: incremental
+-   We assume that with any increase in our X variable, there is an equal amount of increase in Y across the *whole* variable
+-   Example: relation between studying/effort and grade
+    -   If you put 0 effort you would expect a 0 grade
+    -   However, a little bit of effort might be related to a grade of 45
+    -   But more effort will need to take place in order to go from 45 - 90 than it does to go from 0 - 45
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Spearman's Rank Correlation
+
+We need to be able to capture this different (ordinal) "relationship"
+
+-   If student 1 works more hours than student 2, then we can guarantee that student 1 will get a better grade
+
+Instead of using the amount given by the variables ("hours studied"), we rank the variables based on least (rank = 1) to most (rank = 10)
+
+Then we correlate the rankings with one another
+
+# Foundations of Statistics
+
+Who were those white dudes that started this?
 
 ------------------------------------------------------------------------
 
@@ -112,10 +370,141 @@ The correlation coefficient was developed by his student, [Karl Pearson](https:/
 -   [Understand how the perspectives](https://medium.com/swlh/is-statistics-racist-59cd4ddb5fa9) of Galton, Fisher, Pearson and others [shaped our practices](http://gppreview.com/2019/12/16/eugenics-ethics-statistical-analysis/)? We must! -- these are not set in stone, [nor are they necessarily the best way](https://www.forbes.com/sites/jerrybowyer/2016/01/06/beer-vs-eugenics-the-good-and-the-bad-uses-of-statistics/?sh=3114a0c82a14) to move forward.
 :::
 
-# Next time...
+------------------------------------------------------------------------
+
+## Be aware of the assumptions
 
 ::: incremental
--   ¯\\\_(ツ)\_/¯
+-   Statistics are often thought of as being absent of bias...they are just numbers
 
--   Correlation & Regression
+-   Statistical significance was a way to avoid talking about nuance or degree.
+
+-   "Correlation does not imply causation" was a refutation of work demonstrating associations between environment and poverty.
+
+-   Need to be particularly mindful of our goals as scientists and how they can influence the way we interpret the findings
 :::
+
+# Fancy Tables
+
+------------------------------------------------------------------------
+
+## Correlation Tables
+
+Before we used the `cor()` function to create a correlation matrix of our variables
+
+***But what is missing?***
+
+```{r}
+cor(school, use = "complete") %>% 
+  kable()
+```
+
+## Correlation Tables - [sjPlot](https://strengejacke.github.io/sjPlot/reference/tab_corr.html)
+
+```{r}
+tab_corr(school, na.deletion = "listwise", triangle = "lower")
+```
+
+------------------------------------------------------------------------
+
+## Correlation Tables - [sjPlot](https://strengejacke.github.io/sjPlot/reference/tab_corr.html)
+
+So many different cusomizations for this type of plot
+
+Can add titles, indicate what missingness and method
+
+Saves you a TON of time when putting it into a manuscript
+
+# Visualizing Data
+
+------------------------------------------------------------------------
+
+## Visualizing Data
+
+It is always important to visualize our data! Even after getting the correlations and other descriptives
+
+Let's go back to the data that we had in a previous lecture
+
+```{r}
+#| code-fold: true
+data1 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data1.csv") %>% 
+  mutate(dataset = "data1")
+
+data2 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data2.csv") %>% 
+  mutate(dataset = "data2")
+
+data3 <- import("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/data3.csv") %>% 
+  mutate(dataset = "data3")
+```
+
+And then combine them to make it easier
+
+```{r}
+three_data <- bind_rows(data1, data2, data3)
+```
+
+------------------------------------------------------------------------
+
+## Descriptive Stats on the 3 datasets
+
+```{r}
+three_data %>%
+  group_by(dataset) %>% 
+  summarize(
+    mean_x = mean(x),
+    mean_y = mean(y),
+    std_x = sd(x), 
+    std_y = sd(y), 
+    cor_xy = cor(x,y)
+  )
+```
+
+------------------------------------------------------------------------
+
+## Visualizing Dataset 1
+
+```{r}
+#| code-fold: true
+data1 %>% 
+  ggplot(aes(x, y)) + 
+  geom_point() + 
+  labs(title = "Dataset 1")
+```
+
+------------------------------------------------------------------------
+
+## Visualizing Dataset 1
+
+```{r}
+#| code-fold: true
+data1 %>% 
+  ggplot(aes(x, y)) + 
+  geom_point() + 
+  labs(title = "Dataset 1") +
+  geom_smooth(method = "lm", 
+              se = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## Visualizing Dataset 1
+
+```{r}
+data1 %>% 
+  ggscatter("x", "y", 
+            add = "reg.line") + 
+  stat_cor(label.y = 55) + 
+  labs(title = "Dataset 1")
+```
+
+------------------------------------------------------------------------
+
+## Visualizing Dataset 2
+
+Let's try it out in R!
+
+# Next time...
+
+-   More Correlation?
+-   Maybe Regression? (Y = mX + b)
+-   Group Work!
