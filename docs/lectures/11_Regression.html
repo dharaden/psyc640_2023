@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Dustin Haraden, PhD">
   <title>PSYC 640 - Grad Stats - Regression: The First Part</title>
@@ -472,31 +472,47 @@ Dustin Haraden, PhD
 <section class="slide level2">
 
 <h3 id="regression-equation">Regression Equation</h3>
-<p>With regression, we are <strong>building a model</strong> that we think best represents the data at hand</p>
-<p>At the most simple form we are drawing a line to characterize the linear relationship between the variables</p>
+<p>With regression, we are <strong><em>building a model</em></strong> that we think best represents the data at hand</p>
+<p>At the most simple form we are drawing a line to characterize the linear relationship between the variables so that for any value of <code>x</code> we can have an estimate of <code>y</code></p>
 <p><span class="math display">\[
 Y = mX + b
 \]</span></p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Y = Outcome Variable (DV)</p>
-<p>m = Slope Term</p>
+<div>
+<ul>
+<li class="fragment"><p>Y = Outcome Variable (DV)</p></li>
+<li class="fragment"><p>m = Slope Term</p></li>
+</ul>
+</div>
 </div><div class="column" style="width:50%;">
-<p>X = Predictor (IV)</p>
-<p>b = Intercept</p>
+<div>
+<ul>
+<li class="fragment"><p>X = Predictor (IV)</p></li>
+<li class="fragment"><p>b = Intercept</p></li>
+</ul>
+</div>
 </div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="regression-equation-1">Regression Equation</h3>
+<p>Overall, we are providing a model to give us a “best guess” on predicting</p>
+<p>Let’s “science up” the equation a little bit:</p>
+<p><span class="math display">\[
+Y_i = b_0 + b_1X_i + e_i
+\]</span></p>
+<p>This equation is capturing how we are able to calculate each observation ( <span class="math inline">\(Y_i\)</span> )</p>
+<p><span class="math display">\[
+\hat{Y_i} = b_0 + b_1X_i
+\]</span></p>
+<p>This one will give us the “best guess” or <em>expected</em> value of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span></p>
 <h3 id="regression-equation-2">Regression Equation</h3>
 <p>There are two ways to think about our regression equation. They’re similar to each other, but they produce different outputs.<br>
 <span class="math display">\[Y_i = b_{0} + b_{1}X_i +e_i\]</span><br>
 <span class="math display">\[\hat{Y_i} = b_{0} + b_{1}X_i\]</span><br>
-The first is the equation that represents how each <strong>observed outcome</strong> <span class="math inline">\((Y_i)\)</span> is calculated. This observed value is the sum of some constant <span class="math inline">\((b_0)\)</span>, the weighted <span class="math inline">\((b_1)\)</span> observed values of the predictors <span class="math inline">\((X_i)\)</span> and error <span class="math inline">\((e_i)\)</span> that cannot be covered by the observed data.</p>
-<p><br>
-</p>
+The model we are building by including new variables is to <strong><em>explain variance</em></strong> in our outcome</p>
 <aside class="notes">
 <p><span class="math inline">\(\hat{Y}\)</span> signifies the fitted score – no error<br>
 The difference between the fitted and observed score is the residual (<span class="math inline">\(e_i\)</span>)<br>
@@ -512,13 +528,11 @@ There is a different e value for each observation in the dataset</p>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="regression-equation-3" class="slide level2">
-<h2>Regression Equation</h2>
+<h3 id="expected-vs.-actual">Expected vs.&nbsp;Actual</h3>
 <p><span class="math display">\[Y_i = b_{0} + b_{1}X_i + e_i\]</span></p>
 <p><span class="math display">\[\hat{Y_i} = b_{0} + b_{1}X_i\]</span></p>
-<p>The second is the equation that represents our expected or <strong>fitted value</strong> of the outcome <span class="math inline">\((\hat{Y_i})\)</span>, sometimes referred to as the “predicted value.” This expected value is the sum of some constant <span class="math inline">\((b_0)\)</span>, the weighted <span class="math inline">\((b_1)\)</span> observed values of the predictors <span class="math inline">\((X_i)\)</span>.</p>
-<p>Note that <span class="math inline">\(Y_i - \hat{Y_i} = e_i\)</span>.</p>
+<p><span class="math inline">\(\hat{Y}\)</span> signifies that there is no error. Our line is predicting that exact value. We interpret it as being “on average”</p>
+<p>Important to identify that that <span class="math inline">\(Y_i - \hat{Y_i} = e_i\)</span>.</p>
 <aside class="notes">
 <p><span class="math inline">\(\hat{Y}\)</span> signifies the fitted score – no error</p>
 <p>The difference between the fitted and observed score is the residual (<span class="math inline">\(e_i\)</span>)</p>
@@ -537,22 +551,24 @@ There is a different e value for each observation in the dataset</p>
 </section>
 <section id="ols" class="slide level2">
 <h2>OLS</h2>
+<div>
 <ul>
-<li><p>How do we find the regression estimates?</p></li>
-<li><p>Ordinary Least Squares (OLS) estimation</p></li>
-<li><p>Minimizes deviations</p>
+<li class="fragment"><p>How do we find the regression estimates?</p></li>
+<li class="fragment"><p>Ordinary Least Squares (OLS) estimation</p></li>
+<li class="fragment"><p>Minimizes deviations</p>
 <ul>
-<li><span class="math display">\[ min\sum(Y_{i} - \hat{Y} ) ^{2} \]</span></li>
+<li class="fragment"><span class="math display">\[ min\sum(Y_{i} - \hat{Y} ) ^{2} \]</span></li>
 </ul></li>
-<li><p>Other estimation procedures possible (and necessary in some cases)</p></li>
+<li class="fragment"><p>Other estimation procedures possible (and necessary in some cases)</p></li>
 </ul>
+</div>
 </section>
 <section class="slide level2">
 
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">set.seed</span>(<span class="dv">142</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a>x<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>e<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
 <span id="cb2-4"><a href="#cb2-4"></a>y<span class="fl">.1</span> <span class="ot">&lt;-</span> .<span class="dv">5</span> <span class="sc">+</span> .<span class="dv">55</span> <span class="sc">*</span> x<span class="fl">.1</span> <span class="sc">+</span> e<span class="fl">.1</span></span>
@@ -581,7 +597,7 @@ There is a different e value for each observation in the dataset</p>
 </details>
 
 </div>
-<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
 <section class="slide level2">
 
 <div class="cell">
@@ -595,7 +611,7 @@ There is a different e value for each observation in the dataset</p>
 </details>
 
 </div>
-<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
 <section class="slide level2">
 
 <div class="cell">
@@ -610,37 +626,369 @@ There is a different e value for each observation in the dataset</p>
 </details>
 
 </div>
-<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="compare-to-bad-fit" class="slide level2">
 <h2>compare to bad fit</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+<p><img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-6-1.png" width="960"></p>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
+<p><img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
 </div>
 </div>
+</div>
+</div>
+</section>
+<section id="ols-1" class="slide level2">
+<h2>OLS</h2>
+<p>The line that yields the smallest sum of squared deviations</p>
+<p><span class="math display">\[\Sigma(Y_i - \hat{Y_i})^2\]</span> <span class="math display">\[= \Sigma(Y_i - (b_0+b_{1}X_i))^2\]</span> <span class="math display">\[= \Sigma(e_i)^2\]</span></p>
+<div class="fragment">
+<p>In order to find the OLS solution, you could try many different coefficients <span class="math inline">\((b_0 \text{ and } b_{1})\)</span> until you find the one with the smallest sum squared deviation. Luckily, there are simple calculations that will yield the OLS solution every time.</p>
+</div>
+</section>
+<section id="regression-coefficient-b_1" class="slide level2">
+<h2>Regression coefficient, <span class="math inline">\(b_{1}\)</span></h2>
+<p><span class="math display">\[b_{1} = \frac{cov_{XY}}{s_{x}^{2}} = r_{xy} \frac{s_{y}}{s_{x}}\]</span></p>
+<p>What units is the regression coefficient in?</p>
+<div class="fragment">
+<p>The regression coefficient (slope) equals the estimated change in Y for a 1-unit change in X</p>
+</div>
+</section>
+<section class="slide level2">
+
+<p><span class="math display">\[\Large b_{1} = r_{xy} \frac{s_{y}}{s_{x}}\]</span></p>
+<p>If the standard deviation of both X and Y is equal to 1:</p>
+<p><span class="math display">\[\Large b_1 = r_{xy} \frac{s_{y}}{s_{x}} = r_{xy} \frac{1}{1} = r_{xy} = \beta_{yx} = b_{yx}^*\]</span></p>
+</section>
+<section id="standardized-regression-equation" class="slide level2">
+<h2>Standardized regression equation</h2>
+<p><span class="math display">\[\Large Z_{y_i} = b_{yx}^*Z_{x_i}+e_i\]</span></p>
+<p><span class="math display">\[\Large b_{yx}^* = b_{yx}\frac{s_x}{s_y} = r_{xy}\]</span></p>
+<div class="fragment">
+<p>According to this regression equation, when <span class="math inline">\(X = 0, Y = 0\)</span>. Our interpretation of the coefficient is that a one-standard deviation increase in X is associated with a <span class="math inline">\(b_{yx}^*\)</span> standard deviation increase in Y. Our regression coefficient is equivalent to the correlation coefficient <em>when we have only one predictor in our model.</em></p>
+</div>
+</section>
+<section id="estimating-the-intercept-b_0" class="slide level2">
+<h2>Estimating the intercept, <span class="math inline">\(b_0\)</span></h2>
+<ul>
+<li>intercept serves to adjust for differences in means between X and Y</li>
+</ul>
+<p><span class="math display">\[\hat{Y_i} = \bar{Y} + r_{xy} \frac{s_{y}}{s_{x}}(X_i-\bar{X})\]</span></p>
+<ul>
+<li><p>if standardized, intercept drops out</p></li>
+<li><p>otherwise, intercept is where regression line crosses the y-axis at X = 0</p></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Also, notice that when <span class="math inline">\(X = \bar{X}\)</span> the regression line goes through <span class="math inline">\(\bar{Y}\)</span></li>
+</ul>
+<p><span class="math display">\[b_0 = \bar{Y} - b_1\bar{X}\]</span></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<p>The intercept adjusts the location of the regression line to ensure that it runs through the point <span class="math inline">\(\large (\bar{X}, \bar{Y}).\)</span> We can calculate this value using the equation:</p>
+<p><span class="math display">\[\Large b_0 = \bar{Y} - b_1\bar{X}\]</span></p>
+</section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>gapminder <span class="ot">=</span> gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span> <span class="sc">&amp;</span> continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">mutate</span>(<span class="at">log_gdp =</span> <span class="fu">log</span>(gdpPercap))</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="fu">describe</span>(gapminder[,<span class="fu">c</span>(<span class="st">"log_gdp"</span>, <span class="st">"lifeExp"</span>)], <span class="at">fast =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        vars  n  mean   sd   min   max range   se
+log_gdp    1 33  8.74 1.24  6.85 10.76  3.91 0.22
+lifeExp    2 33 70.73 7.96 43.83 82.60 38.77 1.39</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">cor</span>(gapminder<span class="sc">$</span>log_gdp, gapminder<span class="sc">$</span>lifeExp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8003474</code></pre>
 </div>
 </div>
 </section>
 <section class="slide level2">
 
-<p><span class="math display">\[\Large Y_i = b_{0} + b_{1}X_i +e_i\]</span> <span class="math display">\[\Large \hat{Y_i} = b_{0} + b_{1}X_i\]</span> <span class="math display">\[\Large Y_i = \hat{Y_i} + e_i\]</span> <span class="math display">\[\Large e_i = Y_i - \hat{Y_i}\]</span></p>
+<p>If we regress lifeExp onto log_gdp:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>r <span class="ot">=</span> <span class="fu">cor</span>(gapminder<span class="sc">$</span>log_gdp, gapminder<span class="sc">$</span>lifeExp)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>m_log_gdp <span class="ot">=</span> <span class="fu">mean</span>(gapminder<span class="sc">$</span>log_gdp)</span>
+<span id="cb10-3"><a href="#cb10-3"></a>m_lifeExp <span class="ot">=</span> <span class="fu">mean</span>(gapminder<span class="sc">$</span>lifeExp)</span>
+<span id="cb10-4"><a href="#cb10-4"></a>s_log_gdp <span class="ot">=</span> <span class="fu">sd</span>(gapminder<span class="sc">$</span>log_gdp)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>s_lifeExp <span class="ot">=</span> <span class="fu">sd</span>(gapminder<span class="sc">$</span>lifeExp)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>b1 <span class="ot">=</span> r<span class="sc">*</span>(s_lifeExp<span class="sc">/</span>s_log_gdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.157259</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>b0 <span class="ot">=</span> m_lifeExp <span class="sc">-</span> b1<span class="sc">*</span>m_log_gdp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25.65011</code></pre>
+</div>
+</div>
+<p>How will this change if we regress GDP onto life expectancy?</p>
 </section>
 <section class="slide level2">
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>(<span class="at">b1 =</span> r<span class="sc">*</span>(s_lifeExp<span class="sc">/</span>s_log_gdp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.157259</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>(<span class="at">b0 =</span> m_lifeExp <span class="sc">-</span> b1<span class="sc">*</span>m_log_gdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25.65011</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>(<span class="at">b1 =</span> r<span class="sc">*</span>(s_log_gdp<span class="sc">/</span>s_lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1242047</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>(<span class="at">b0 =</span> m_log_gdp <span class="sc">-</span> b1<span class="sc">*</span>m_lifeExp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.04405086</code></pre>
+</div>
+</div>
 </section>
+<section id="in-r" class="slide level2">
+<h2>In <code>R</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>fit<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> log_gdp, <span class="at">data =</span> gapminder)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">summary</span>(fit<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = lifeExp ~ log_gdp, data = gapminder)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-17.314  -1.650  -0.040   3.428   8.370 
+
+Coefficients:
+            Estimate Std. Error t value     Pr(&gt;|t|)    
+(Intercept)  25.6501     6.1234   4.189     0.000216 ***
+log_gdp       5.1573     0.6939   7.433 0.0000000226 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.851 on 31 degrees of freedom
+Multiple R-squared:  0.6406,    Adjusted R-squared:  0.629 
+F-statistic: 55.24 on 1 and 31 DF,  p-value: 0.00000002263</code></pre>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Things to discuss</strong></p>
+<ul>
+<li>Coefficient estimates</li>
+<li>Statistical tests (covered in more detail soon)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="data-fitted-and-residuals">Data, fitted, and residuals</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>model_info <span class="ot">=</span> <span class="fu">augment</span>(fit<span class="fl">.1</span>)</span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="fu">head</span>(model_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  lifeExp log_gdp .fitted .resid   .hat .sigma .cooksd .std.resid
+    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+1    43.8    6.88    61.1 -17.3  0.101    3.63 0.796       -3.76 
+2    75.6   10.3     78.8  -3.15 0.0802   4.89 0.0199      -0.676
+3    64.1    7.24    63.0   1.08 0.0765   4.93 0.00224      0.233
+4    59.7    7.45    64.1  -4.33 0.0646   4.86 0.0294      -0.923
+5    73.0    8.51    69.5   3.43 0.0314   4.89 0.00836      0.718
+6    82.2   10.6     80.3   1.94 0.100    4.92 0.00994      0.422</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">describe</span>(model_info, <span class="at">fast =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           vars  n  mean   sd    min   max range   se
+lifeExp       1 33 70.73 7.96  43.83 82.60 38.77 1.39
+log_gdp       2 33  8.74 1.24   6.85 10.76  3.91 0.22
+.fitted       3 33 70.73 6.37  60.98 81.16 20.19 1.11
+.resid        4 33  0.00 4.77 -17.31  8.37 25.68 0.83
+.hat          5 33  0.06 0.03   0.03  0.11  0.08 0.00
+.sigma        6 33  4.84 0.23   3.63  4.93  1.30 0.04
+.cooksd       7 33  0.04 0.14   0.00  0.80  0.80 0.02
+.std.resid    8 33  0.00 1.02  -3.76  1.77  5.53 0.18</code></pre>
+</div>
+</div>
+<aside class="notes">
+<p>Point out the average of the residuals is 0, just like average deviation from the mean is 0.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-relationship-between-x_i-and-haty_i">The relationship between <span class="math inline">\(X_i\)</span> and <span class="math inline">\(\hat{Y_i}\)</span></h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>model_info <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_gdp, <span class="at">y =</span> .fitted)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> F, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">"X"</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="fu">expression</span>(<span class="fu">hat</span>(Y))) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-16-1.png" width="768" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="the-relationship-between-x_i-and-e_i">The relationship between <span class="math inline">\(X_i\)</span> and <span class="math inline">\(e_i\)</span></h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>model_info <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_gdp, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> F, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">"X"</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="st">"e"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-17-1.png" width="768" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="the-relationship-between-y_i-and-haty_i">The relationship between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(\hat{Y_i}\)</span></h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>model_info <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp, <span class="at">y =</span> .fitted)) <span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> F, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb30-3"><a href="#cb30-3"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">"Y"</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="fu">expression</span>(<span class="fu">hat</span>(Y))) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-18-1.png" width="768" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="the-relationship-between-y_i-and-e_i">The relationship between <span class="math inline">\(Y_i\)</span> and <span class="math inline">\(e_i\)</span></h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>model_info <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> F, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">"Y"</span>) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="st">"e"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-19-1.png" width="768" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="the-relationship-between-haty_i-and-e_i">The relationship between <span class="math inline">\(\hat{Y_i}\)</span> and <span class="math inline">\(e_i\)</span></h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>model_info <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> F, <span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb32-3"><a href="#cb32-3"></a>  <span class="fu">scale_y_continuous</span>(<span class="st">"e"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="fu">expression</span>(<span class="fu">hat</span>(Y))) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-20-1.png" width="768" class="r-stretch"></section>
+<section id="regression-to-the-mean" class="slide level2">
+<h2>Regression to the mean</h2>
+<p>An observation about heights was part of the motivation to develop the regression equation: If you selected a parent who was exceptionally tall (or short), their child was almost always not as tall (or as short).</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">library</span>(psychTools)</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb33-3"><a href="#cb33-3"></a>heights <span class="ot">=</span> psychTools<span class="sc">::</span>galton</span>
+<span id="cb33-4"><a href="#cb33-4"></a>mod <span class="ot">=</span> <span class="fu">lm</span>(child<span class="sc">~</span>parent, <span class="at">data =</span> heights)</span>
+<span id="cb33-5"><a href="#cb33-5"></a>point <span class="ot">=</span> <span class="dv">902</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a>heights <span class="ot">=</span> broom<span class="sc">::</span><span class="fu">augment</span>(mod)</span>
+<span id="cb33-7"><a href="#cb33-7"></a></span>
+<span id="cb33-8"><a href="#cb33-8"></a></span>
+<span id="cb33-9"><a href="#cb33-9"></a>heights <span class="sc">%&gt;%</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> parent, <span class="at">y =</span> child)) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> .<span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-12"><a href="#cb33-12"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">72</span>), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb33-13"><a href="#cb33-13"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="dv">72</span>), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-21-1.png" width="960" class="r-stretch"></section>
+<section id="regression-to-the-mean-1" class="slide level2">
+<h2>Regression to the mean</h2>
+<p>This phenomenon is known as <strong>regression to the mean.</strong> This describes the phenomenon in which an random variable produces an extreme score on a first measurement, but a lower score on a second measurement.</p>
+</section>
+<section id="regression-to-the-mean-2" class="slide level2">
+<h2>Regression to the mean</h2>
+<p>This can be a threat to internal validity if interventins are applied based on first measurement scores.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="11_Regression_files/figure-revealjs/unnamed-chunk-23-1.png" width="960"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-in-r" class="title-slide slide level1 center">
+<h1>Example in <code>R</code></h1>
+<p>Let’s use the <code>school</code> dataset that we have in previous classes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>school <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Try out the <code>sjPlot</code> functions for regression: <a href="http://www.strengejacke.de/sjPlot/reference/index.html">Link to all functions</a></p>
+</section>
+
 <section id="next-time" class="title-slide slide level1 center">
 <h1>Next time…</h1>
 <ul>
-<li>More Correlation?</li>
-<li>Maybe Regression? (Y = mX + b)</li>
+<li>More Regression!</li>
 <li>Group Work!</li>
 </ul>
 
