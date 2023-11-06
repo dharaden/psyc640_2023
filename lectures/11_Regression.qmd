@@ -1,0 +1,95 @@
+---
+title: "Regression"
+subtitle: "PSYC 640 - Fall 2023"
+author: "Dustin Haraden, PhD"
+format: 
+  revealjs:
+    multiplex: true
+    scrollable: true
+    slide-number: true
+    incremental: false
+    touch: true
+    code-overflow: wrap
+    theme: dark
+execute: 
+  echo: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = F}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Last Time
+
+::: nonincremental
+-   Group Work
+-   Correlation
+    -   Comparing interrelationship of variables (Pearson & Spearman)
+    -   Interpreting
+    -   Making pretty tables
+:::
+
+------------------------------------------------------------------------
+
+## Today...
+
+Regression
+
+-   Why use regression?
+
+-   One equation to rule them all
+
+![](images/reg_precious.gif){fig-align="center"}
+
+------------------------------------------------------------------------
+
+## Today...
+
+Regression
+
+-   Why use regression?
+
+-   One equation to rule them all
+
+    -   Ordinary Least Squares
+
+    -   Interpretation
+
+```{r, results = 'hide', message = F, warning = F}
+
+#Don't know if I'm using all of these, but including theme here anyways
+
+# for dplyr, ggplot2
+library(tidyverse)
+#Loading data
+library(rio)
+# nice tables/plots
+library(sjPlot)
+library(kableExtra)
+library(ggpubr)
+
+
+#Remove Scientific Notation 
+options(scipen=999)
+```
+
+## Overview of Regression
+
+## Uses for regression
+
+Prediction
+
+Exploring associations
+
+extrapolaition
+
+causal inference
+
+# Next time...
+
+-   More Correlation?
+-   Maybe Regression? (Y = mX + b)
+-   Group Work!

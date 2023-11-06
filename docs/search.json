@@ -1279,5 +1279,40 @@
     "title": "Two-Way ANOVA",
     "section": "Different Outcome",
     "text": "Different Outcome\nCreated the outcome of sleep_quality2 to be completely random instead of following a formula so that we could visualize the effect\n\nfit3 &lt;- aov(sleep_quality2 ~ phone_type * phone_usage, \n            data = sleep_data)\nsummary(fit3)\n\n                        Df Sum Sq Mean Sq F value Pr(&gt;F)   \nphone_type               1     86   85.65   9.162 0.0026 **\nphone_usage              2     56   27.83   2.977 0.0519 . \nphone_type:phone_usage   2      8    4.18   0.447 0.6399   \nResiduals              494   4618    9.35                  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#last-time",
+    "href": "lectures/11_Regression.html#last-time",
+    "title": "Regression",
+    "section": "Last Time",
+    "text": "Last Time\n\n\nGroup Work\nCorrelation\n\nComparing interrelationship of variables (Pearson & Spearman)\nInterpreting\nMaking pretty tables"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#today",
+    "href": "lectures/11_Regression.html#today",
+    "title": "Regression",
+    "section": "Today…",
+    "text": "Today…\nRegression\n\nWhy use regression?\nOne equation to rule them all"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#today-1",
+    "href": "lectures/11_Regression.html#today-1",
+    "title": "Regression",
+    "section": "Today…",
+    "text": "Today…\nRegression\n\nWhy use regression?\nOne equation to rule them all\n\nOrdinary Least Squares\nInterpretation\n\n\n\n#Don't know if I'm using all of these, but including theme here anyways\n\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n# nice tables/plots\nlibrary(sjPlot)\nlibrary(kableExtra)\nlibrary(ggpubr)\n\n\n#Remove Scientific Notation \noptions(scipen=999)"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#overview-of-regression",
+    "href": "lectures/11_Regression.html#overview-of-regression",
+    "title": "Regression",
+    "section": "Overview of Regression",
+    "text": "Overview of Regression"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#uses-for-regression",
+    "href": "lectures/11_Regression.html#uses-for-regression",
+    "title": "Regression",
+    "section": "Uses for regression",
+    "text": "Uses for regression\nPrediction\nExploring associations\nextrapolaition\ncausal inference"
   }
 ]
