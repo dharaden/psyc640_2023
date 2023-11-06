@@ -1283,36 +1283,71 @@
   {
     "objectID": "lectures/11_Regression.html#last-time",
     "href": "lectures/11_Regression.html#last-time",
-    "title": "Regression",
+    "title": "Regression: The First Part",
     "section": "Last Time",
     "text": "Last Time\n\n\nGroup Work\nCorrelation\n\nComparing interrelationship of variables (Pearson & Spearman)\nInterpreting\nMaking pretty tables"
   },
   {
     "objectID": "lectures/11_Regression.html#today",
     "href": "lectures/11_Regression.html#today",
-    "title": "Regression",
+    "title": "Regression: The First Part",
     "section": "Today…",
     "text": "Today…\nRegression\n\nWhy use regression?\nOne equation to rule them all"
   },
   {
     "objectID": "lectures/11_Regression.html#today-1",
     "href": "lectures/11_Regression.html#today-1",
-    "title": "Regression",
+    "title": "Regression: The First Part",
     "section": "Today…",
-    "text": "Today…\nRegression\n\nWhy use regression?\nOne equation to rule them all\n\nOrdinary Least Squares\nInterpretation\n\n\n\n#Don't know if I'm using all of these, but including theme here anyways\n\n# for dplyr, ggplot2\nlibrary(tidyverse)\n#Loading data\nlibrary(rio)\n# nice tables/plots\nlibrary(sjPlot)\nlibrary(kableExtra)\nlibrary(ggpubr)\n\n\n#Remove Scientific Notation \noptions(scipen=999)"
+    "text": "Today…\nRegression\n\nWhy use regression?\nOne equation to rule them all\n\nOrdinary Least Squares\nInterpretation\n\n\n\n#Don't know if I'm using all of these, but including theme here anyways\nlibrary(tidyverse)\nlibrary(rio)\nlibrary(broom)\nlibrary(psych)\n\n\n#Remove Scientific Notation \noptions(scipen=999)"
   },
   {
     "objectID": "lectures/11_Regression.html#overview-of-regression",
     "href": "lectures/11_Regression.html#overview-of-regression",
-    "title": "Regression",
+    "title": "Regression: The First Part",
     "section": "Overview of Regression",
-    "text": "Overview of Regression"
+    "text": "Overview of Regression\nRegression is a general data analytic system\n\nLots of things fall under the umbrella of regression\nThis system can handle a variety of forms of relations and types of variables\n\nThe output of regression includes both effect sizes and statistical significance\nWe can also incorporate multiple influences (IVs) and account for their intercorrelations"
   },
   {
     "objectID": "lectures/11_Regression.html#uses-for-regression",
     "href": "lectures/11_Regression.html#uses-for-regression",
-    "title": "Regression",
+    "title": "Regression: The First Part",
     "section": "Uses for regression",
     "text": "Uses for regression\nPrediction\nExploring associations\nextrapolaition\ncausal inference"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#regression-equation",
+    "href": "lectures/11_Regression.html#regression-equation",
+    "title": "Regression: The First Part",
+    "section": "Regression Equation",
+    "text": "Regression Equation\nThere are two ways to think about our regression equation. They’re similar to each other, but they produce different outputs.\n\\[Y_i = b_{0} + b_{1}X_i +e_i\\]\n\\[\\hat{Y_i} = b_{0} + b_{1}X_i\\]\nThe first is the equation that represents how each observed outcome \\((Y_i)\\) is calculated. This observed value is the sum of some constant \\((b_0)\\), the weighted \\((b_1)\\) observed values of the predictors \\((X_i)\\) and error \\((e_i)\\) that cannot be covered by the observed data.\n\n\n\n\\(\\hat{Y}\\) signifies the fitted score – no error\nThe difference between the fitted and observed score is the residual (\\(e_i\\))\nThere is a different e value for each observation in the dataset"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#regression-equation-1",
+    "href": "lectures/11_Regression.html#regression-equation-1",
+    "title": "Regression: The First Part",
+    "section": "Regression Equation",
+    "text": "Regression Equation\n\\[Y_i = b_{0} + b_{1}X_i + e_i\\]\n\\[\\hat{Y_i} = b_{0} + b_{1}X_i\\]\nThe second is the equation that represents our expected or fitted value of the outcome \\((\\hat{Y_i})\\), sometimes referred to as the “predicted value.” This expected value is the sum of some constant \\((b_0)\\), the weighted \\((b_1)\\) observed values of the predictors \\((X_i)\\).\nNote that \\(Y_i - \\hat{Y_i} = e_i\\).\n\n\\(\\hat{Y}\\) signifies the fitted score – no error\nThe difference between the fitted and observed score is the residual (\\(e_i\\))\nThere is a different e value for each observation in the dataset"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#ols",
+    "href": "lectures/11_Regression.html#ols",
+    "title": "Regression: The First Part",
+    "section": "OLS",
+    "text": "OLS\n\nHow do we find the regression estimates?\nOrdinary Least Squares (OLS) estimation\nMinimizes deviations\n\n\\[ min\\sum(Y_{i} - \\hat{Y} ) ^{2} \\]\n\nOther estimation procedures possible (and necessary in some cases)"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#compare-to-bad-fit",
+    "href": "lectures/11_Regression.html#compare-to-bad-fit",
+    "title": "Regression: The First Part",
+    "section": "compare to bad fit",
+    "text": "compare to bad fit"
+  },
+  {
+    "objectID": "lectures/11_Regression.html#regression-equation-3",
+    "href": "lectures/11_Regression.html#regression-equation-3",
+    "title": "Regression: The First Part",
+    "section": "Regression Equation",
+    "text": "Regression Equation\n\\[Y_i = b_{0} + b_{1}X_i + e_i\\]\n\\[\\hat{Y_i} = b_{0} + b_{1}X_i\\]\nThe second is the equation that represents our expected or fitted value of the outcome \\((\\hat{Y_i})\\), sometimes referred to as the “predicted value.” This expected value is the sum of some constant \\((b_0)\\), the weighted \\((b_1)\\) observed values of the predictors \\((X_i)\\).\nNote that \\(Y_i - \\hat{Y_i} = e_i\\).\n\n\\(\\hat{Y}\\) signifies the fitted score – no error\nThe difference between the fitted and observed score is the residual (\\(e_i\\))\nThere is a different e value for each observation in the dataset"
   }
 ]

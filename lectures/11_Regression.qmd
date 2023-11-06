@@ -1,11 +1,10 @@
 ---
-title: "Regression"
+title: "Regression: The First Part"
 subtitle: "PSYC 640 - Fall 2023"
 author: "Dustin Haraden, PhD"
 format: 
   revealjs:
     multiplex: true
-    scrollable: true
     slide-number: true
     incremental: false
     touch: true
@@ -61,32 +60,236 @@ Regression
 ```{r, results = 'hide', message = F, warning = F}
 
 #Don't know if I'm using all of these, but including theme here anyways
-
-# for dplyr, ggplot2
 library(tidyverse)
-#Loading data
 library(rio)
-# nice tables/plots
-library(sjPlot)
-library(kableExtra)
-library(ggpubr)
+library(broom)
+library(psych)
 
 
 #Remove Scientific Notation 
 options(scipen=999)
 ```
 
+------------------------------------------------------------------------
+
 ## Overview of Regression
 
-## Uses for regression
+Regression is a general data analytic system
 
-Prediction
+-   Lots of things fall under the umbrella of regression
 
-Exploring associations
+-   This system can handle a variety of forms of relations and types of variables
 
-extrapolaition
+The output of regression includes both effect sizes and statistical significance
 
-causal inference
+We can also incorporate multiple influences (IVs) and account for their intercorrelations
+
+------------------------------------------------------------------------
+
+### Uses for regression
+
+::: incremental
+-   **Adjustment**: Take into account (*control*) known effects in a relationship
+
+-   **Prediction**: Develop a model based on what has happened previously to predict what will happen in the future
+
+-   **Explanation**: examining the influence of one or more variable on some outcome
+:::
+
+------------------------------------------------------------------------
+
+### Regression Equation
+
+With regression, we are ***building a model***that we think best represents the data at hand
+
+At the most simple form we are drawing a line to characterize the linear relationship between the variables so that for any value of `x` we can have an estimate of `y`
+
+$$
+Y = mX + b
+$$
+
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   Y = Outcome Variable (DV)
+
+-   m = Slope Term
+:::
+:::
+
+::: {.column width="50%"}
+::: incremental
+-   X = Predictor (IV)
+
+-   b = Intercept
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+### Regression Equation
+
+Overall, we are providing a model to give us a "best guess" on predicting
+
+Let's "science up" the equation a little bit:
+
+$$
+Y_i = b_0 + b_1X_i + e_i
+$$
+
+This equation is capturing the individual responses, given our model
+
+$$
+\hat{Y_i} = b_0 + b_1X_i
+$$
+
+This one will give us the "best guess" or *expected* value of $Y$ given $X$
+
+### Regression Equation 
+
+There are two ways to think about our regression equation. They're similar to each other, but they produce different outputs.\
+$$Y_i = b_{0} + b_{1}X_i +e_i$$\
+$$\hat{Y_i} = b_{0} + b_{1}X_i$$\
+The first is the equation that represents how each **observed outcome** $(Y_i)$ is calculated. This observed value is the sum of some constant $(b_0)$, the weighted $(b_1)$ observed values of the predictors $(X_i)$ and error $(e_i)$ that cannot be covered by the observed data.
+
+\
+
+::: notes
+$\hat{Y}$ signifies the fitted score -- no error\
+The difference between the fitted and observed score is the residual ($e_i$)\
+There is a different e value for each observation in the dataset
+:::
+
+## Regression Equation
+
+$$Y_i = b_{0} + b_{1}X_i + e_i$$
+
+$$\hat{Y_i} = b_{0} + b_{1}X_i$$
+
+The second is the equation that represents our expected or **fitted value** of the outcome $(\hat{Y_i})$, sometimes referred to as the "predicted value." This expected value is the sum of some constant $(b_0)$, the weighted $(b_1)$ observed values of the predictors $(X_i)$.
+
+Note that $Y_i - \hat{Y_i} = e_i$.
+
+::: notes
+$\hat{Y}$ signifies the fitted score -- no error
+
+The difference between the fitted and observed score is the residual ($e_i$)
+
+There is a different e value for each observation in the dataset
+:::
+
+------------------------------------------------------------------------
+
+## OLS
+
+-   How do we find the regression estimates?
+
+-   Ordinary Least Squares (OLS) estimation
+
+-   Minimizes deviations
+
+    -   $$ min\sum(Y_{i} - \hat{Y} ) ^{2} $$
+
+-   Other estimation procedures possible (and necessary in some cases)
+
+------------------------------------------------------------------------
+
+```{r,echo=FALSE, message=FALSE, cache=TRUE, warning = F, message = F}
+
+```
+
+```{r plot1}
+#| code-fold: true
+
+set.seed(42)
+x.1 <- rnorm(10, 0, 1)
+e.1 <- rnorm(10, 0, 2)
+y.1 <- .5 + .55 * x.1 + e.1
+d.1 <- data.frame(x.1,y.1)
+m.1 <- lm(y.1 ~ x.1, data = d.1)
+d1.f<- augment(m.1)
+
+
+ggplot(d1.f , aes(x=x.1, y=y.1)) +
+    geom_point(size = 2) +
+  geom_smooth(method = lm, se = FALSE) +
+  theme_bw(base_size = 20)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+ggplot(d1.f , aes(x=x.1, y=y.1)) +
+    geom_point(size = 2) +
+  geom_point(aes(y = .fitted), shape = 1, size = 2) +
+  theme_bw(base_size = 20)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+ggplot(d1.f , aes(x=x.1, y=y.1)) +
+    geom_point(size = 2) +
+  geom_point(aes(y = .fitted), shape = 1, size = 2) +
+  geom_segment(aes( xend = x.1, yend = .fitted))+
+  theme_bw(base_size = 20)
+```
+
+------------------------------------------------------------------------
+
+```{r, message = F}
+#| code-fold: true
+
+ggplot(d1.f , aes(x=x.1, y=y.1)) +
+    geom_point(size = 2) +
+  geom_smooth(method = lm, se = FALSE) +
+  geom_point(aes(y = .fitted), shape = 1, size = 2) +
+  geom_segment(aes( xend = x.1, yend = .fitted))+
+  theme_bw(base_size = 20)
+```
+
+------------------------------------------------------------------------
+
+## compare to bad fit
+
+::: columns
+::: {.column width="50%"}
+```{r, echo=FALSE, message = F}
+ggplot(d1.f , aes(x=x.1, y=y.1)) +
+    geom_point(size = 2) +
+  geom_smooth(method = lm, se = FALSE) +
+  geom_point(aes(y = .fitted), shape = 1, size = 2) +
+  geom_segment(aes( xend = x.1, yend = .fitted))+
+  theme_bw(base_size = 20)
+```
+:::
+
+::: {.column width="50%"}
+```{r, echo = F, message = F}
+new.i = 1.1
+new.slope = -0.7
+d1.f$new.fitted = 1.1 -0.7*d1.f$x.1
+
+ggplot(d1.f , aes(x=x.1, y=y.1)) +
+    geom_point(size = 2) +
+  geom_abline(intercept = new.i, slope = new.slope, color = "blue", size = 1) +
+  geom_point(aes(y = new.fitted), shape = 1, size = 2) +
+  geom_segment(aes( xend = x.1, yend = new.fitted))+
+  theme_bw(base_size = 20)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+$$\Large Y_i = b_{0} + b_{1}X_i +e_i$$ $$\Large \hat{Y_i} = b_{0} + b_{1}X_i$$ $$\Large Y_i = \hat{Y_i} + e_i$$ $$\Large e_i = Y_i - \hat{Y_i}$$
+
+------------------------------------------------------------------------
 
 # Next time...
 
