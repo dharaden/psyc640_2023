@@ -32,6 +32,8 @@ website:
             href: "lectures/10_Correlation-speaker.html"
           - text: "Week 11 - Regression"
             href: "lectures/11_Regression-speaker.html"
+          - text: "Week 11 - Regression pt. 2"
+            href: "lectures/12_Regression_pt2-speaker.html"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

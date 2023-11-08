@@ -1384,5 +1384,117 @@
     "title": "Two-Way ANOVA",
     "section": "Different Outcome",
     "text": "Different Outcome\nCreated the outcome of sleep_quality2 to be completely random instead of following a formula so that we could visualize the effect\n\nfit3 &lt;- aov(sleep_quality2 ~ phone_type * phone_usage, \n            data = sleep_data)\nsummary(fit3)\n\n                        Df Sum Sq Mean Sq F value Pr(&gt;F)   \nphone_type               1     86   85.65   9.162 0.0026 **\nphone_usage              2     56   27.83   2.977 0.0519 . \nphone_type:phone_usage   2      8    4.18   0.447 0.6399   \nResiduals              494   4618    9.35                  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#last-time",
+    "href": "lectures/12_Regression_pt2.html#last-time",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Last Time",
+    "text": "Last Time\n\n\nIntro to regression\n\nEverything is just lines (Common statistical tests are linear models)\n\nOLS Estimator\nInterpretation & tables (sjPlot)"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#today",
+    "href": "lectures/12_Regression_pt2.html#today",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Today…",
+    "text": "Today…\n\nMore Regression (but more details)\n\nCoefficient of Determination\nCoefficient of Alientation\nOmnibus test\n\nMultiple Regression? Comparing Models?\nLab 5!!! The Final!\n\n\noptions(scipen=999)\nlibrary(tidyverse)\nlibrary(rio)\nlibrary(broom)\nlibrary(psych)"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#statistical-inference",
+    "href": "lectures/12_Regression_pt2.html#statistical-inference",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Statistical Inference",
+    "text": "Statistical Inference\n\nThe way the world is = our model + error\nHow good is our model? Does it “fit” the data well?\n\n\nTo assess how well our model fits the data, we will examine the proportion of variance in our outcome variable that can be “explained” by our model.\nTo do so, we need to partition the variance into different categories. For now, we will partition it into two categories: the variability that is captured by (explained by) our model, and variability that is not."
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#partitioning-variation",
+    "href": "lectures/12_Regression_pt2.html#partitioning-variation",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Partitioning variation",
+    "text": "Partitioning variation\nLet’s start with the formula defining the relationship between observed \\(Y\\) and fitted \\(\\hat{Y}\\):\n\\[Y_i = \\hat{Y}_i + e_i\\]\n\nOne of the properties that we love about variance is that variances are additive when two variables are independent. In other words, if we create some variable, C, by adding together two other variables, A and B, then the variance of C is equal to the sum of the variances of A and B.\n\n\nWhy can we use that rule in this case?\n\nStudents must recognize that Y-hat and e are uncorrelated, they must be the way that we’ve built the OLS function."
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#partitioning-variation-1",
+    "href": "lectures/12_Regression_pt2.html#partitioning-variation-1",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Partitioning variation",
+    "text": "Partitioning variation\n\n\n\\(\\hat{Y}_i\\) and \\(e_i\\) must be independent from each other. Thus, the variance of \\(Y\\) is equal to the sum of the variance of \\(\\hat{Y}\\) and \\(e\\).\n\\[\\large s^2_Y = s^2_{\\hat{Y}} + s^2_{e}\\]\n\nRecall that variances are sums of squares divided by N-1. Thus, all variances have the same sample size, so we can also note the following:\n\\[\\large SS_Y = SS_{\\hat{Y}} + SS_{\\text{e}}\\]"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#coefficient-of-determination",
+    "href": "lectures/12_Regression_pt2.html#coefficient-of-determination",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Coefficient of Determination",
+    "text": "Coefficient of Determination\n\\[\\Large \\frac{SS_{Model}}{SS_{Y}} = \\frac{s_{Model}^2}{s_{y}^2} = R^2\\]\n\\(R^2\\) represents the proportion of variance in Y that is explained by the model.\n\n\\(\\sqrt{R^2} = R\\) is the correlation between the predicted values of Y from the model and the actual values of Y\n\\[\\large \\sqrt{R^2} = r_{Y\\hat{Y}}\\]"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#coefficient-of-alienation",
+    "href": "lectures/12_Regression_pt2.html#coefficient-of-alienation",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Coefficient of Alienation",
+    "text": "Coefficient of Alienation\n\\(1-R^2\\) is sometimes referred to as the coefficient of alienation. It represents the proportion of variance in Y that is unexplained by our model, or left over after accounting for X (and other predictors)."
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#standard-error-of-the-estimate",
+    "href": "lectures/12_Regression_pt2.html#standard-error-of-the-estimate",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Standard Error of the Estimate",
+    "text": "Standard Error of the Estimate\n\naka residual standard error\n\n\\[s_{Y|X} = \\sqrt{\\frac{SS_{\\text{Residual}}}{df_{\\text{Residual}}}} =  \\sqrt{\\frac{\\Sigma(Y_i -\\hat{Y_i})^2}{N-2}}\\]\n\ninterpreted in original units (unlike \\(R^2\\))\nWe interpret the standard error of the estimate to represent the spread of observed data around the regression line."
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#standard-error-of-the-estimate-1",
+    "href": "lectures/12_Regression_pt2.html#standard-error-of-the-estimate-1",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "standard error of the estimate",
+    "text": "standard error of the estimate\n\n\n\nCall:\nlm(formula = Sleep_Hours_Non_Schoolnight ~ Ageyears, data = school)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-8.3947 -0.7306  0.3813  1.2694  4.5974 \n\nCoefficients:\n            Estimate Std. Error t value            Pr(&gt;|t|)    \n(Intercept) 10.52256    0.90536  11.623 &lt;0.0000000000000002 ***\nAgeyears    -0.11199    0.05887  -1.902              0.0585 .  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 2.204 on 204 degrees of freedom\n  (1 observation deleted due to missingness)\nMultiple R-squared:  0.01743,   Adjusted R-squared:  0.01261 \nF-statistic: 3.619 on 1 and 204 DF,  p-value: 0.05854"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#standard-error-of-the-estimate-2",
+    "href": "lectures/12_Regression_pt2.html#standard-error-of-the-estimate-2",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "standard error of the estimate",
+    "text": "standard error of the estimate\n\nsummary(fit.1)$sigma \n\n[1] 2.203647\n\nsd(model_info$.resid)\n\n[1] 2.198265\n\n\nNote: these are not the same!"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#r2-and-standard-error-of-the-estimate",
+    "href": "lectures/12_Regression_pt2.html#r2-and-standard-error-of-the-estimate",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "\\(1-R^2\\) and standard error of the estimate",
+    "text": "\\(1-R^2\\) and standard error of the estimate\n\ntwo sides of same coin\none in original units (standard error of the estimate), the other standardized \\((1-R^2)\\)"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#inferential-tests",
+    "href": "lectures/12_Regression_pt2.html#inferential-tests",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Inferential tests",
+    "text": "Inferential tests\nNHST is about making decisions:\n\nthese two means are/are not different\nthis correlation is/is not significant\nthe distribution of this categorical variable is/is not different between these groups\n\n\nIn regression, there are several inferential tests being conducted at once. The first is called the omnibus test – this is a test of whether the model fits the data."
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#f-distribution-review",
+    "href": "lectures/12_Regression_pt2.html#f-distribution-review",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "F Distribution review",
+    "text": "F Distribution review\nThe F probability distribution represents all possible ratios of two variances:\n\\[F \\approx \\frac{s^2_{1}}{s^2_{2}}\\]"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#f-distribution-review-1",
+    "href": "lectures/12_Regression_pt2.html#f-distribution-review-1",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "F Distribution review",
+    "text": "F Distribution review\nEach variance estimate in the ratio is \\(\\chi^2\\) distributed, if the data are normally distributed. The ratio of two \\(\\chi^2\\) distributed variables is \\(F\\) distributed. It should be noted that each \\(\\chi^2\\) distribution has its own degrees of freedom.\n\\[F_{\\nu_1\\nu_2} = \\frac{\\frac{\\chi^2_{\\nu_1}}{\\nu_1}}{\\frac{\\chi^2_{\\nu_2}}{\\nu_2}}\\]\nAs a result, F has two degrees of freedom, \\(\\nu_1\\) and \\(\\nu_2\\)"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#f-distributions-and-regression",
+    "href": "lectures/12_Regression_pt2.html#f-distributions-and-regression",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "F Distributions and regression",
+    "text": "F Distributions and regression\nRecall that when using a z or t distribution, we were interested in whether one mean was equal to another mean – sometimes the second mean was calculated from another sample or hypothesized (i.e., the value of the null). In this comparison, we compared the difference of two means to 0 (or whatever our null hypothesis dictates), and if the difference was not 0, we concluded significance.\nF statistics are not testing the likelihood of differences; they test the likelihood of ratios. In this case, we want to determine whether the variance explained by our model is larger in magnitude than another variance.\nWhich variance?"
+  },
+  {
+    "objectID": "lectures/12_Regression_pt2.html#mean-square-error-mse",
+    "href": "lectures/12_Regression_pt2.html#mean-square-error-mse",
+    "title": "Regression: The Empire Strikes Back",
+    "section": "Mean square error (MSE)",
+    "text": "Mean square error (MSE)\n\nAKAmean square residual and mean square within\nunbiased estimate of error variance\n\nmeasure of discrepancy between the data and the model\n\nthe MSE is the variance around the fitted regression line\nNote: it is a transformation of the standard error of the estimate (and residual standard error)!\n\n\nanova(fit.1)\n\nAnalysis of Variance Table\n\nResponse: Sleep_Hours_Non_Schoolnight\n           Df Sum Sq Mean Sq F value  Pr(&gt;F)  \nAgeyears    1  17.57 17.5728  3.6187 0.05854 .\nResiduals 204 990.64  4.8561                  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\nWhat does it mean to be “unbiased”?\n\nVariance estimates are biased because they are more likely to underestimate the true pop variance than overestimate."
   }
 ]
