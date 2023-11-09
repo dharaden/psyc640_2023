@@ -2,4 +2,4 @@
 
 Site to host materials from Dustin Haraden in a way to organize or confuse students 
 
-https://dharaden.github.io/psy640/ 
+https://dharaden.github.io/psyc640/ 
