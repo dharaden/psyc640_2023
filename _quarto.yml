@@ -8,32 +8,8 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: "Lectures"
-        menu: 
-          - text: "Week 5 - Pre-Lab"
-            href: "lectures/05_Pre-Lab-speaker.html"
-          - text: "Week 5 - Hypotheses & Power"
-            href: "lectures/05_Hypothesis-Power-speaker.html"
-          - text: "Week 6 - Categorical Data"
-            href: "lectures/06_OneSample-speaker.html"
-          - text: "Week 6 - Categorical Data pt.2"
-            href: "lectures/06_OneSample2.html"
-          - text: "Week 7 - Comparing Means: t-test"
-            href: "lectures/07_ComparingMeans-speaker.html"
-          - text: "Week 8 - Dependent/Paired Samples t-test"
-            href: "lectures/08_ComparingMeans2.html"
-          - text: "Week 8 - Visualization (ggplot2)"
-            href: "lectures/08_Visualizations.html"
-          - text: "Week 9 - One-Way ANOVA"
-            href: "lectures/09_ANOVA-speaker.html"
-          - text: "Week 9 - ANOVA pt. 2"
-            href: "lectures/9_ANOVA2-speaker.html"
-          - text: "Week 10 - Correlation"
-            href: "lectures/10_Correlation-speaker.html"
-          - text: "Week 11 - Regression"
-            href: "lectures/11_Regression-speaker.html"
-          - text: "Week 11 - Regression pt. 2"
-            href: "lectures/12_Regression_pt2-speaker.html"
+      - href: lecture_slides.qmd
+        text: "Lecture Slides"
       - href: lecture_code.qmd
         text: "Lecture Code"
 format:

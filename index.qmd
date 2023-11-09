@@ -1,7 +1,39 @@
 ---
-title: "PSYC 640"
+title: "PSYC 640: Intro to Grad Stats"
+subtitle: "Department of Psychology, Rochester Institute of Technology"
+author: "Fall 2023. Instructor: Dustin Haraden"
+output: 
+  html_document:
+    toc: TRUE
+    toc_depth: 2
+    toc_float: TRUE
+    theme: cosmo
 ---
 
-This is a website for PSYC 640 - Introduction to Graduate Statistics at Rochester Institute of Technology.
+# Overview
 
-Dr. Haraden is trying to put materials up here to share with everyone.
+This course is the introduction to statistics for graduate students. The goal of the course is to provide a grounding in statistical concepts, methods and application to research. I aim to increase student's confidence in using these techniques and introducing them to R. Topics will range from including mathematical conceptualizations to practical application with various techniques ranging from descriptive statistics to ending with regression.
+
+## Meeting time and location
+
+**Lecture:** Mondays & Wednesdays, 3:00 - 3:15pm, Liberal Arts 3233
+
+## Instructor
+
+**Dustin Haraden** -- [dxhgsh\@rit.edu](mailto:dxhgsh@rit.edu)
+
+-   Office: EAS 3378
+
+-   Office Hours: 12:30 - 2:00pm
+
+# Materials
+
+## Textbook
+
+We will primarily be referring to chapters in [*Learning Statistics with R*](https://learningstatisticswithr-bookdown.netlify.com/index.html) by Danielle Navarro. This textbook is available for free online. You may choose to purchase a paper copy if you wish, but it is not required.
+
+## R and RStudio
+
+Students must have the latest version of R as well as the RStudio GUI. Both applications are free and can be found [here](https://posit.co/download/rstudio-desktop/#download).
+
+#### Special thanks to Sara Weston and their courses (PSY 611 & PSY 612) which greatly influenced the materials of this course.
