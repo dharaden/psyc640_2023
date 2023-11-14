@@ -1,6 +1,28 @@
 ---
 title: "Lecture Slides"
+output: 
+  html_document:
+    toc: TRUE
+    toc_depth: 4
+    toc_float: TRUE
+    theme: cosmo
 ---
+
+## Week 1
+
+-   [R-Studio Intro](lectures/01_RStudio.pdf){target="_blank"}
+
+## Week 2
+
+-   [Open Science Overview](lectures/02_OpenScience.pdf){target="_blank"}
+
+## Week 3
+
+-   [Research Design & Data](lectures/03_ResearchDesign-Data.pdf){target="_blank"}
+
+## Week 4
+
+-   [Probability & Inferences](lectures/04_Probability-Inferencespdf){target="_blank"}
 
 ## Week 5
 
