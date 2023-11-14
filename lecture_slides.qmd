@@ -22,7 +22,7 @@ title: "Lecture Slides"
 
 -   [Dependent/Paired Samples t-test](lectures/08_ComparingMeans2.html){target="_blank"}
 
--   [Visualization (ggplot2)](lectures/08_Visualizations.html.html){target="_blank"}
+-   [Visualization (ggplot2)](lectures/08_Visualizations-speaker.html){target="_blank"}
 
 ## Week 9
 
