@@ -52,5 +52,8 @@
   },
   "lecture_slides.qmd": {
     "lecture_slides.html": "492ed2fc"
+  },
+  "lectures/13_MultiRegression.qmd": {
+    "13_MultiRegression.html": "6e10af48"
   }
 }

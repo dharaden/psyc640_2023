@@ -5,10 +5,12 @@ author: "Dustin Haraden, PhD"
 format: 
   revealjs:
     multiplex: true
+    scrollable: true
     slide-number: true
     incremental: false
     touch: true
     code-overflow: wrap
+    highlightLines: true
     theme: dark
 execute: 
   echo: true
@@ -19,6 +21,36 @@ editor_options:
 
 ```{r, include = F}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+```{r, echo = F, results='hide',warning=FALSE,message=FALSE}
+options(scipen = 999)
+
+library(knitr)
+# function to display only part of the output
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+  lines <- options$output.lines
+  if (is.null(lines)) {
+    return(hook_output(x, options))  # pass to default hook
+  }
+  x <- unlist(strsplit(x, "\n"))
+  more <- "..."
+  if (length(lines)==1) {        # first n lines
+    if (length(x) > lines) {
+      # truncate the output, but add ....
+      x <- c(head(x, lines), more)
+    }
+  } else {
+    x <- c(more, x[lines], more)
+  }
+  # paste these lines together
+  x <- paste(c(x, ""), collapse = "\n")
+  hook_output(x, options)
+})
+
+knitr::opts_chunk$set(message = FALSE, 
+                      warning = FALSE) # suppress messages
 ```
 
 ## Last Time
@@ -38,7 +70,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 -   Multiple Regression? Comparing Models?
 
--   Lab 5!!! The Final!
+-   Probably some Group work
 
 ```{r, results = 'hide', message = F, warning = F}
 options(scipen=999)
@@ -47,6 +79,8 @@ library(rio)
 library(broom)
 library(psych)
 library(easystats)
+library(sjPlot)
+library(car)
 ```
 
 ------------------------------------------------------------------------
@@ -55,83 +89,12 @@ library(easystats)
 
 ```{r}
 school <- read_csv("https://raw.githubusercontent.com/dharaden/dharaden.github.io/main/data/example2-chisq.csv") %>% 
-  mutate(Sleep_Hours_Non_Schoolnight = as.numeric(Sleep_Hours_Non_Schoolnight)) %>% 
+  mutate(Sleep_Hours_Non_Schoolnight = as.numeric(Sleep_Hours_Non_Schoolnight), 
+         text_messages_yesterday = as.numeric(Text_Messages_Sent_Yesterday), 
+         video_game_hrs = as.numeric(Video_Games_Hours),
+         social_med_hrs = as.numeric(Social_Websites_Hours)) %>% 
   filter(Sleep_Hours_Non_Schoolnight < 24) #removing impossible values
 ```
-
-------------------------------------------------------------------------
-
-## Statistical Inference
-
--   The way the world is = our model + error
-
--   How good is our model? Does it "fit" the data well?
-
-. . .
-
-To assess how well our model fits the data, we will examine the proportion of variance in our outcome variable that can be "explained" by our model.
-
-To do so, we need to partition the variance into different categories. For now, we will partition it into two categories: the variability that is captured by (explained by) our model, and variability that is not.
-
-------------------------------------------------------------------------
-
-## Partitioning variation
-
-Let's start with the formula defining the relationship between observed $Y$ and fitted $\hat{Y}$:
-
-$$Y_i = \hat{Y}_i + e_i$$
-
-. . .
-
-One of the properties that we love about variance is that variances are additive when two variables are independent. In other words, if we create some variable, C, by adding together two other variables, A and B, then the variance of C is equal to the sum of the variances of A and B.
-
-. . .
-
-Why can we use that rule in this case?
-
-::: notes
-Students must recognize that Y-hat and e are uncorrelated, they must be the way that we've built the OLS function.
-:::
-
-------------------------------------------------------------------------
-
-## Partitioning variation
-
-::: columns
-::: {.column width="50%"}
-[$\hat{Y}_i$ and $e_i$ must be independent from each other. Thus, the variance of $Y$ is equal to the sum of the variance of $\hat{Y}$ and $e$.]{style="font-size:80%"}
-
-$$\large s^2_Y = s^2_{\hat{Y}} + s^2_{e}$$
-:::
-
-::: {.column width="50%"}
-[Recall that variances are sums of squares divided by N-1. Thus, all variances have the same sample size, so we can also note the following:]{style="font-size:80%"}
-
-$$\large SS_Y = SS_{\hat{Y}} + SS_{\text{e}}$$
-:::
-:::
-
-------------------------------------------------------------------------
-
-[A quick note about terminology: I demonstrated these calculations using $Y$, $\hat{Y}$ and $e$. However, you may also see the same terms written differently, to more clearly indicate the source of the variance...]{style="font-size:80%"}
-
-$$ SS_Y = SS_{\hat{Y}} + SS_{\text{e}}$$ $$ SS_Y = SS_{\text{Model}} + SS_{\text{Residual}}$$
-
-[The relative magnitudes of sums of squares provides a way of identifying particularly large and important sources of variability.]{style="font-size:80%"}
-
-------------------------------------------------------------------------
-
-## Coefficient of Determination
-
-$$\Large \frac{SS_{Model}}{SS_{Y}} = \frac{s_{Model}^2}{s_{y}^2} = R^2$$
-
-$R^2$ represents the proportion of variance in Y that is explained by the model.
-
-. . .
-
-$\sqrt{R^2} = R$ is the correlation between the predicted values of Y from the model and the actual values of Y
-
-$$\large \sqrt{R^2} = r_{Y\hat{Y}}$$
 
 ------------------------------------------------------------------------
 
@@ -143,9 +106,8 @@ $$\large \sqrt{R^2} = r_{Y\hat{Y}}$$
 fit.1 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears, 
            data = school)
 summary(fit.1) 
-model_info <- augment(fit.1)
 summary(fit.1)$r.squared
-
+r2(fit.1)
 ```
 
 ------------------------------------------------------------------------
@@ -160,84 +122,22 @@ school %>%
 
 ------------------------------------------------------------------------
 
-### Example
-
-The correlation between X and Y is:
+### Example - `easystats`
 
 ```{r}
-cor(school$Sleep_Hours_Non_Schoolnight, school$Ageyears, use = "pairwise")
+predicted_f1 <- estimate_expectation(fit.1, data = "grid")
+plot(predicted_f1)
+
 ```
 
-. . .
+------------------------------------------------------------------------
 
-If we square the correlation, we get:
+### Example - `easystats` Check_model
 
 ```{r}
-cor(school$Sleep_Hours_Non_Schoolnight, school$Ageyears, use = "pairwise")^2
+check_model(fit.1)
+model_performance(fit.1)
 ```
-
-. . .
-
-Ta da!
-
-```{r}
-summary(fit.1)$r.squared
-```
-
-------------------------------------------------------------------------
-
-## Coefficient of Alienation
-
-$1-R^2$ is sometimes referred to as the [coefficient of alienation]{style="color:purple"}. It represents the proportion of variance in Y that is unexplained by our model, or left over after accounting for X (and other predictors).
-
-------------------------------------------------------------------------
-
-Residuals carry information about where and how the model fails to fit the data. However, it's important to note that residuals (like all other aspects of our data) are estimates.\
-\
-
-In fact, residuals are *latent variables* as we do not directly observe them in our data collection but infer their presence and value from other data.\
-\
-
-We can use residuals to estimate true score error.
-
-------------------------------------------------------------------------
-
-## Standard Error of the Estimate
-
--   aka [residual standard error]{style="color:purple"}
-
-$$s_{Y|X} = \sqrt{\frac{SS_{\text{Residual}}}{df_{\text{Residual}}}} =  \sqrt{\frac{\Sigma(Y_i -\hat{Y_i})^2}{N-2}}$$
-
--   interpreted in original units (unlike $R^2$)
-
--   We interpret the standard error of the estimate to represent the spread of observed data around the regression line.
-
-------------------------------------------------------------------------
-
-### Standard Error of the Estimate
-
-```{r, echo=FALSE, highlight.output = 16}
-summary(fit.1)
-```
-
-------------------------------------------------------------------------
-
-### Standard Error of the Estimate
-
-```{r}
-summary(fit.1)$sigma 
-sd(model_info$.resid)
-```
-
-Note: these are not the same!
-
-------------------------------------------------------------------------
-
-## $1-R^2$ and standard error of the estimate
-
--   two sides of same coin
-
--   one in original units (standard error of the estimate), the other standardized $(1-R^2)$
 
 ------------------------------------------------------------------------
 
@@ -333,19 +233,264 @@ summary(fit.1)
 
 -   [Note: it is a transformation of the standard error of the estimate (and residual standard error)!]{style="font-size:80%"}
 
-```{r,highlight.output=6}
-anova(fit.1)
-```
-
 ::: notes
 What does it mean to be "unbiased"?
 
 -   Variance estimates are biased because they are more likely to underestimate the true pop variance than overestimate.
 :::
 
+# Multiple Regression
+
+## Regression Equation
+
+Going from this:
+
+$$
+\hat{Y} = b_0 + b_1X1
+$$
+
+. . .
+
+To this
+
+$$
+\hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k
+$$
+
+. . .
+
+Regression coefficient values are now "partial" - Represents the contribution to all of outcome ($\hat{Y}$) from *unique* aspects of each $X$
+
+------------------------------------------------------------------------
+
+## Interpreting Coefficients
+
+$$
+\hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k
+$$
+
+-   Focus on a specific predictor (e.g., $X_1$)
+
+-   For every 1 unit change in $X_1$, there is a $b_1$ unit change in $Y$, [**holding all other predictors constant**]{style="color:red"}
+
+**Note**: Properties of OLS still hold true
+
+-   The sum of residuals will be 0
+
+-   Each predictor ($X$) will be uncorrelated with the residuals
+
+------------------------------------------------------------------------
+
+### Example - Multiple Predictors
+
+Let's include another variable into our model to predict sleep
+
+```{r}
+fit.2 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + video_game_hrs + social_med_hrs, 
+           data = school)
+summary(fit.2)
+```
+
+------------------------------------------------------------------------
+
+### Example - Coefficient interpretation
+
+[sjPlot](https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html)
+
+```{r}
+sjPlot::tab_model(fit.2)
+```
+
+------------------------------------------------------------------------
+
+### Example - Visualizing
+
+How do we visualize this?
+
+------------------------------------------------------------------------
+
+### Example - Visualizing
+
+How do we visualize this?
+
+```{r}
+car::avPlots(fit.2)
+```
+
+------------------------------------------------------------------------
+
+## Holding Constant??? Wut
+
+```{r, output.lines = 10:15}
+summary(fit.2)
+```
+
+-   The average amount of sleep decreases by 0.08 hours for every 1 year older the youth his **holding the number of hours playing video games and the number of hours on social media constant.**
+
+-   The average amount of sleep decreases by 0.004 hours for every 1 hour of social media use **holding age and hours of video game usage constant.**
+
+What does this mean?? Also can be called "controlling for" or "taking into account" the other variables
+
+Language comes from experimental research in which they can keep one condition unchanged while manipulating the other
+
+------------------------------------------------------------------------
+
+## Holding Constant - "Controlling for"
+
+![](/images/control.gif){fig-align="center"}
+
+Taken from [\@nickchk](https://twitter.com/nickchk)
+
+------------------------------------------------------------------------
+
+## Creating the Model
+
+There can be many different ways in which we create and compare models with multiple predictors
+
+::: incremental
+-   **Simultaneous**: Enter all variables in the model at once
+    -   Usually the most conservative and defensible approach (unless there is theory to support a hierarchical approach)
+-   **Hierarchically**: Building a sequence of models where a single variable is included/excluded at each step
+    -   This is **hierarchical/stepwise regression.** Different from HLM (Hierarchical Linear Modeling)
+:::
+
+------------------------------------------------------------------------
+
+## Model Selection ([LSR 15.10](https://learningstatisticswithr.com/book/regression.html#modelselreg))
+
+How can we tell if one model is "better" than the other (it explains more variance in outcome)?
+
+-   Each predictor (or set of predictors) is investigated as to what it adds to the model when it is entered
+-   The order of the variables depends on an *a priori* hypothesis
+
+The concept is to ask how much variance is unexplained by our model. The leftovers can be compared to an alternate model to see if the new variable adds anything or if we should focus on **parsimony**
+
+------------------------------------------------------------------------
+
+### Model Comparison Example
+
+```{r, , output.lines = 1:7}
+m.2 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + video_game_hrs, 
+           data = school)
+m.3 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + video_game_hrs + social_med_hrs, 
+           data = school)
+anova(m.2, m.3)
+```
+
+```{r}
+r2(m.2)
+r2(m.3)
+```
+
+------------------------------------------------------------------------
+
+### Model Comparison - sjPlot
+
+```{r}
+tab_model(m.2, m.3)
+```
+
+# Model Diagnostics
+
+------------------------------------------------------------------------
+
+## Checking the model ([LSR 15.9](https://learningstatisticswithr.com/book/regression.html#regressiondiagnostics))
+
+Whenever we are looking at the regression model diagnostics, we are often considering the residual values. The types of residuals we can look at are:
+
+::: incremental
+-   Ordinary Residuals - Raw
+
+-   Standardized Residuals
+
+-   Studentized Residuals - Takes into account what the SD *would* have been with the removal of the $i$th observation
+:::
+
+------------------------------------------------------------------------
+
+### Model Checks - Outlier
+
+We tend to look for various things that may impact our results through the lens of residuals
+
+**1) Outliers** - variables with high Studentized Residuals
+
+![](/images/outlier.PNG){fig-align="center"}
+
+------------------------------------------------------------------------
+
+### Model Checks - Leverage
+
+We tend to look for various things that may impact our results through the lens of residuals
+
+**2) Leverage** - variable is different in all ways from others (not just residuals)
+
+![](/images/leverage.PNG){fig-align="center"}
+
+------------------------------------------------------------------------
+
+### Model Checks - Influence
+
+We tend to look for various things that may impact our results through the lens of residuals
+
+**3) Influence** - outlier with high leverage (*Cook's Distance*)
+
+![](/images/influence.PNG){fig-align="center"}
+
+------------------------------------------------------------------------
+
+### Model Checks - Plots
+
+```{r}
+#Cook's Distance
+plot(m.3, which = 4)
+```
+
+------------------------------------------------------------------------
+
+### Model Checks - Plots
+
+```{r}
+#Leverage
+plot(m.3, which = 5)
+```
+
+------------------------------------------------------------------------
+
+## Checking Collinearity
+
+We need to check to see if our predictor variables are too highly correlated with each other
+
+To do so we use ***variance inflation factors (VIF)***
+
+-   There will be a VIF that is associated with each predictor in the model
+-   Interpreting VIF ([link](https://www.statisticshowto.com/variance-inflation-factor/)) - Starts at 1 and goes up
+    -   1 = Not Correlated
+    -   1-5 = Moderately Correlated
+    -   5+ = Highly Correlated
+
+```{r}
+car::vif(m.3)
+```
+
+------------------------------------------------------------------------
+
+## `easystats` making stats easy
+
+Can check the model with a simple function
+
+```{r}
+check_model(m.3)
+```
+
+# Rounding up Multiple Regression
+
+It is a powerful and complex tool
+
 # Next time...
 
--   More Regression!
--   Group Work!
+-   More R fun
+-   Group work
 
-# LAB TIME
+# Stop...Group Time
+
+![](/images/mchammer.gif){fig-align="center"}

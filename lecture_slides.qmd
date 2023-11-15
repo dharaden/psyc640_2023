@@ -62,6 +62,10 @@ output:
 
 -   [Regression part 2](lectures/12_Regression_pt2-speaker.html){target="_blank"}
 
+## Week 12
+
+-   [Multiple Regression](lectures/13_MultiRegression-speaker.html){target="_blank"}
+
 ## Next Week
 
 -   [ ](lectures/.html){target="_blank"}
