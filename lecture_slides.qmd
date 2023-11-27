@@ -66,6 +66,14 @@ output:
 
 -   [Multiple Regression](lectures/13_MultiRegression-speaker.html){target="_blank"}
 
+## Week 13
+
+-   We did group work...and there was T-Giving break
+
+## Week 14
+
+-   [Regression and Markdown](lectures/14_IntroRMarkdown-speaker.html){target="_blank"}
+
 ## Next Week
 
 -   [ ](lectures/.html){target="_blank"}

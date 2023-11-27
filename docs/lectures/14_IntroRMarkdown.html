@@ -8,10 +8,10 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Dustin Haraden, PhD">
-  <title>PSYC 640 - Grad Stats - Intro to RMarkdown</title>
+  <title>PSYC 640 - Grad Stats - Intro to RMarkdown (and some regression stuff)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -391,7 +391,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Intro to RMarkdown</h1>
+  <h1 class="title">Intro to RMarkdown (and some regression stuff)</h1>
   <p class="subtitle">PSYC 640 - Fall 2023</p>
 
 <div class="quarto-title-authors">
@@ -403,11 +403,20 @@ Dustin Haraden, PhD
 </div>
 
 </section>
+<section>
+<section id="overview" class="title-slide slide level1 center">
+<h1>Overview</h1>
+<p>Next couple of classes will be split between group work and R Markdown fancifulness</p>
+<p>Presentations will start on Wednesday 12/6</p>
+<p>Peer Review of Data analytic plan will be assigned tomorrow (how quickly can this be done?)</p>
+<p>What are other things we can do? Or questions you have?</p>
+</section>
 <section id="last-time" class="slide level2">
 <h2>Last Time</h2>
 <div>
 <ul>
 <li>Multiple Regression</li>
+<li>Group work stuff</li>
 </ul>
 </div>
 </section>
@@ -424,12 +433,10 @@ Dustin Haraden, PhD
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(car) <span class="co">#recode conflict with tidyverse</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(rio)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(psych)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(easystats)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(sjPlot)</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -439,10 +446,26 @@ Dustin Haraden, PhD
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>student_perf <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/dharaden/psyc640/main/data/Multiple_reg/Student_Performance.csv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>This data is taken from <a href="https://www.kaggle.com/datasets/nikhil7280/student-performance-multiple-linear-regression">Kaggle</a> and is simulated data to explore multiple linear regression. Variables include:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>Scores from previous test</p></li>
+<li><p>Average sleep hours</p></li>
+<li><p>Average hours studied</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p>Participating in Extracurriculars</p></li>
+<li><p># of Practice Questions used</p></li>
+<li><p>Performance Index (<strong>Outcome</strong>)</p></li>
+</ul>
+</div>
+</div>
 </section>
 <section class="slide level2">
 
-</section>
+</section></section>
 <section>
 <section id="multiple-regression" class="title-slide slide level1 center">
 <h1>Multiple Regression</h1>
@@ -464,11 +487,158 @@ Dustin Haraden, PhD
 <p>Regression coefficient values are now “partial” - Represents the contribution to all of outcome (<span class="math inline">\(\hat{Y}\)</span>) from <em>unique</em> aspects of each <span class="math inline">\(X\)</span></p>
 </div>
 </section>
+<section id="section" class="slide level2">
+<h2></h2>
+<h3 id="example---single-predictor-tab_model">Example - Single Predictor (<a href="https://strengejacke.github.io/sjPlot/reference/tab_model.html"><code>tab_model()</code></a>)</h3>
+<p>Can customize the tables which we will focus more on in the next section</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(performance_index <span class="sc">~</span> hours_studied, </span>
+<span id="cb3-2"><a href="#cb3-2"></a>           <span class="at">data =</span> student_perf)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">summary</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = performance_index ~ hours_studied, data = student_perf)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-33.667 -14.093   0.226  15.205  33.226 
+
+Coefficients:
+              Estimate Std. Error t value             Pr(&gt;|t|)    
+(Intercept)     39.646      2.659  14.912 &lt; 0.0000000000000002 ***
+hours_studied    3.128      0.464   6.741       0.000000000157 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 17.67 on 205 degrees of freedom
+Multiple R-squared:  0.1814,    Adjusted R-squared:  0.1774 
+F-statistic: 45.43 on 1 and 205 DF,  p-value: 0.0000000001569</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_model</span>(fit1, <span class="at">show.std =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-2"><a href="#cb5-2"></a>                  <span class="at">title =</span> <span class="st">"Figure 1"</span>, </span>
+<span id="cb5-3"><a href="#cb5-3"></a>                  <span class="at">pred.labels =</span> <span class="fu">c</span>(<span class="st">"Int."</span>, <span class="st">"Hours Studied"</span>), </span>
+<span id="cb5-4"><a href="#cb5-4"></a>                  <span class="at">dv.labels =</span> <span class="st">"Performance Index"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" style="border-collapse:collapse; border:none;">
+<caption>Figure 1</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="5" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">Performance Index</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">std. Beta</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">standardized CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Int.</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">39.65</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">34.40&nbsp;–&nbsp;44.89</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.12&nbsp;–&nbsp;0.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Hours Studied</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.21&nbsp;–&nbsp;4.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.30&nbsp;–&nbsp;0.55</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="5" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">207</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="5" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.181 / 0.177</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="single-predictor---visualizing">Single Predictor - Visualizing</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>student_perf <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> hours_studied, </span>
+<span id="cb6-3"><a href="#cb6-3"></a>             <span class="at">y =</span> performance_index)) <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="14_IntroRMarkdown_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<h3 id="single-predictor--reporting">Single Predictor- Reporting</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">report</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>We fitted a linear model (estimated using OLS) to predict performance_index
+with hours_studied (formula: performance_index ~ hours_studied). The model
+explains a statistically significant and moderate proportion of variance (R2 =
+0.18, F(1, 205) = 45.43, p &lt; .001, adj. R2 = 0.18). The model's intercept,
+corresponding to hours_studied = 0, is at 39.65 (95% CI [34.40, 44.89], t(205)
+= 14.91, p &lt; .001). Within this model:
+
+  - The effect of hours studied is statistically significant and positive (beta =
+3.13, 95% CI [2.21, 4.04], t(205) = 6.74, p &lt; .001; Std. beta = 0.43, 95% CI
+[0.30, 0.55])
+
+Standardized parameters were obtained by fitting the model on a standardized
+version of the dataset. 95% Confidence Intervals (CIs) and p-values were
+computed using a Wald t-distribution approximation.</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="multiple-predictors---example">Multiple Predictors - Example</h3>
+<p>Now let’s add in some other variables that we think may contribute to a student’s “Performance Index”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(performance_index <span class="sc">~</span> hours_studied <span class="sc">+</span> sleep_hours <span class="sc">+</span> previous_scores, </span>
+<span id="cb9-2"><a href="#cb9-2"></a>           <span class="at">data =</span> student_perf)</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">summary</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = performance_index ~ hours_studied + sleep_hours + 
+    previous_scores, data = student_perf)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.3665 -1.3541 -0.0376  1.3853  4.5946 
+
+Coefficients:
+                  Estimate Std. Error t value             Pr(&gt;|t|)    
+(Intercept)     -33.159893   0.805496 -41.167 &lt; 0.0000000000000002 ***
+hours_studied     2.853131   0.052487  54.359 &lt; 0.0000000000000002 ***
+sleep_hours       0.436876   0.077699   5.623         0.0000000617 ***
+previous_scores   1.022061   0.008128 125.749 &lt; 0.0000000000000002 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.995 on 203 degrees of freedom
+Multiple R-squared:  0.9897,    Adjusted R-squared:  0.9895 
+F-statistic:  6480 on 3 and 203 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+</div>
+</div>
+</section>
 <section id="interpreting-coefficients" class="slide level2">
 <h2>Interpreting Coefficients</h2>
-<p><span class="math display">\[
-\hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k
-\]</span></p>
+<p><span class="math display">\[ \hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k \]</span></p>
 <ul>
 <li><p>Focus on a specific predictor (e.g., <span class="math inline">\(X_1\)</span>)</p></li>
 <li><p>For every 1 unit change in <span class="math inline">\(X_1\)</span>, there is a <span class="math inline">\(b_1\)</span> unit change in <span class="math inline">\(Y\)</span>, <span style="color:red"><strong>holding all other predictors constant</strong></span></p></li>
@@ -479,20 +649,10 @@ Dustin Haraden, PhD
 <li><p>Each predictor (<span class="math inline">\(X\)</span>) will be uncorrelated with the residuals</p></li>
 </ul>
 </section>
-<section class="slide level2">
-
-<h3 id="example---single-predictor">Example - Single Predictor</h3>
+<section id="holding-constant-wut" class="slide level2">
+<h2>Holding Constant??? Wut</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(performance_index <span class="sc">~</span> hours_studied, </span>
-<span id="cb3-2"><a href="#cb3-2"></a>           <span class="at">data =</span> student_perf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="example---coefficient-interpretation">Example - Coefficient interpretation</h3>
-<p><a href="https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html">sjPlot</a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_model</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">tab_model</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" style="border-collapse:collapse; border:none;">
 <tbody>
@@ -508,14 +668,26 @@ Dustin Haraden, PhD
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">39.65</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">34.40&nbsp;–&nbsp;44.89</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-33.16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-34.75&nbsp;–&nbsp;-31.57</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">hours studied</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.13</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.21&nbsp;–&nbsp;4.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.85</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.75&nbsp;–&nbsp;2.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">sleep hours</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.28&nbsp;–&nbsp;0.59</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">previous scores</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.01&nbsp;–&nbsp;1.04</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="odd">
@@ -524,7 +696,7 @@ Dustin Haraden, PhD
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.181 / 0.177</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.990 / 0.990</td>
 </tr>
 </tbody>
 </table>
@@ -533,46 +705,35 @@ Dustin Haraden, PhD
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<h3 id="example---visualizing">Example - Visualizing</h3>
-<p>How do we visualize this?</p>
-</section>
-<section class="slide level2">
-
-<h3 id="example---visualizing-1">Example - Visualizing</h3>
-<p>How do we visualize this?</p>
+<section id="reporting-the-results" class="slide level2">
+<h2>Reporting the results</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>car<span class="sc">::</span><span class="fu">avPlots</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="14_IntroRMarkdown_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
-<section id="holding-constant-wut" class="slide level2">
-<h2>Holding Constant??? Wut</h2>
-<div class="cell" data-output.lines="[10,11,12,13,14,15]">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">summary</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">report</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>...
-              Estimate Std. Error t value             Pr(&gt;|t|)    
-(Intercept)     39.646      2.659  14.912 &lt; 0.0000000000000002 ***
-hours_studied    3.128      0.464   6.741       0.000000000157 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+<pre><code>We fitted a linear model (estimated using OLS) to predict performance_index
+with hours_studied, sleep_hours and previous_scores (formula: performance_index
+~ hours_studied + sleep_hours + previous_scores). The model explains a
+statistically significant and substantial proportion of variance (R2 = 0.99,
+F(3, 203) = 6479.94, p &lt; .001, adj. R2 = 0.99). The model's intercept,
+corresponding to hours_studied = 0, sleep_hours = 0 and previous_scores = 0, is
+at -33.16 (95% CI [-34.75, -31.57], t(203) = -41.17, p &lt; .001). Within this
+model:
 
-...</code></pre>
+  - The effect of hours studied is statistically significant and positive (beta =
+2.85, 95% CI [2.75, 2.96], t(203) = 54.36, p &lt; .001; Std. beta = 0.39, 95% CI
+[0.37, 0.40])
+  - The effect of sleep hours is statistically significant and positive (beta =
+0.44, 95% CI [0.28, 0.59], t(203) = 5.62, p &lt; .001; Std. beta = 0.04, 95% CI
+[0.03, 0.05])
+  - The effect of previous scores is statistically significant and positive (beta
+= 1.02, 95% CI [1.01, 1.04], t(203) = 125.75, p &lt; .001; Std. beta = 0.90, 95%
+CI [0.88, 0.91])
+
+Standardized parameters were obtained by fitting the model on a standardized
+version of the dataset. 95% Confidence Intervals (CIs) and p-values were
+computed using a Wald t-distribution approximation.</code></pre>
 </div>
 </div>
-<ul>
-<li><p>The average amount of sleep decreases by 0.08 hours for every 1 year older the youth his <strong>holding the number of hours playing video games and the number of hours on social media constant.</strong></p></li>
-<li><p>The average amount of sleep decreases by 0.004 hours for every 1 hour of social media use <strong>holding age and hours of video game usage constant.</strong></p></li>
-</ul>
-<p>What does this mean?? Also can be called “controlling for” or “taking into account” the other variables</p>
-<p>Language comes from experimental research in which they can keep one condition unchanged while manipulating the other</p>
-</section>
-<section id="holding-constant---controlling-for" class="slide level2">
-<h2>Holding Constant - “Controlling for”</h2>
-
-<img data-src="..\images/control.gif" class="r-stretch quarto-figure-center"><p>Taken from <a href="https://twitter.com/nickchk">@nickchk</a></p>
 </section>
 <section id="creating-the-model" class="slide level2">
 <h2>Creating the Model</h2>
@@ -598,28 +759,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <li>The order of the variables depends on an <em>a priori</em> hypothesis</li>
 </ul>
 <p>The concept is to ask how much variance is unexplained by our model. The leftovers can be compared to an alternate model to see if the new variable adds anything or if we should focus on <strong>parsimony</strong></p>
-</section>
-<section class="slide level2">
-
-<h3 id="model-comparison-example">Model Comparison Example</h3>
-<div class="cell" data-output.lines="[1,2,3,4,5,6,7]">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#m.2 &lt;- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + #video_game_hrs, </span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#           data = school)</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#m.3 &lt;- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + #video_game_hrs + social_med_hrs, </span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#           data = school)</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#anova(m.2, m.3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#r2(m.2)</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#r2(m.3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="model-comparison---sjplot">Model Comparison - sjPlot</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">#tab_model(m.2, m.3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section></section>
 <section>
 <section id="model-diagnostics" class="title-slide slide level1 center">
@@ -662,18 +801,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 <h3 id="model-checks---plots">Model Checks - Plots</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">#Cook's Distance</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#plot(m.3, which = 4)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section class="slide level2">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">#Cook's Distance</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">plot</span>(fit2, <span class="at">which =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-<h3 id="model-checks---plots-1">Model Checks - Plots</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#Leverage</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#plot(m.3, which = 5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
+<img data-src="14_IntroRMarkdown_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
 <section id="checking-collinearity" class="slide level2">
 <h2>Checking Collinearity</h2>
 <p>We need to check to see if our predictor variables are too highly correlated with each other</p>
@@ -688,37 +820,44 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">#car::vif(m.3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  hours_studied     sleep_hours previous_scores 
+       1.003645        1.002031        1.002236 </code></pre>
 </div>
-</section>
-<section id="easystats-making-stats-easy" class="slide level2">
-<h2><code>easystats</code> making stats easy</h2>
-<p>Can check the model with a simple function</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">#check_model(m.3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
-<section id="rounding-up-multiple-regression" class="title-slide slide level1 center">
-<h1>Rounding up Multiple Regression</h1>
-<p>It is a powerful and complex tool</p>
-</section>
+<section>
+<section id="rmarkdown" class="title-slide slide level1 center">
+<h1>RMarkdown</h1>
 
-<section id="next-time" class="title-slide slide level1 center">
-<h1>Next time…</h1>
+</section>
+<section id="rmarkdown-1" class="slide level2">
+<h2>RMarkdown</h2>
+<p>This is something that we have been using this whole time!</p>
+<p>The script that we use allows us to embed both regular text and code all into a single document. This is what we use for the labs with various levels of success when it comes to <code>knitting</code> the document</p>
+<p>We’ll be spending more time exploring all the cool things that RMarkdown can do</p>
+</section>
+<section id="some-useful-resources" class="slide level2">
+<h2>Some Useful Resources</h2>
+<p><a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a></p>
+<p><a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown-2.0.pdf">R Markdown Cheatsheet</a></p>
+<p><a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown Cookbook</a></p>
+<p><a href="https://posit.co/blog/r-markdown-custom-formats/">Custom Formats for R Markdown</a></p>
+</section>
+<section id="ideas-for-topics-to-highlight" class="slide level2">
+<h2>Ideas for topics to Highlight</h2>
 <ul>
-<li>More R fun</li>
-<li>Group work</li>
+<li><p>Making sure we can have things knit</p></li>
+<li><p><a href="https://github.com/juba/rmdformats">HTML Templates</a></p></li>
+<li><p>Code Chunk Options (<a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown-2.0.pdf">Cheatsheet</a>)</p></li>
+<li><p><a href="https://bookdown.org/yihui/rmarkdown/html-document.html">Fun things to do with HTML Output</a></p></li>
 </ul>
-</section>
 
-<section id="stopgroup-time" class="title-slide slide level1 center">
-<h1>Stop…Group Time</h1>
-
-
-<img data-src="..\images/mchammer.gif" class="r-stretch quarto-figure-center"><div class="footer footer-default">
+<div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
     </div>
   </div>
 

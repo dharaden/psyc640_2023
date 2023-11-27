@@ -1,5 +1,5 @@
 ---
-title: "Intro to RMarkdown"
+title: "Intro to RMarkdown (and some regression stuff)"
 subtitle: "PSYC 640 - Fall 2023"
 author: "Dustin Haraden, PhD"
 format: 
@@ -23,40 +23,21 @@ editor_options:
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
-```{r, echo = F, results='hide',warning=FALSE,message=FALSE}
-options(scipen = 999)
+# Overview
 
-library(knitr)
-# function to display only part of the output
-hook_output <- knit_hooks$get("output")
-knit_hooks$set(output = function(x, options) {
-  lines <- options$output.lines
-  if (is.null(lines)) {
-    return(hook_output(x, options))  # pass to default hook
-  }
-  x <- unlist(strsplit(x, "\n"))
-  more <- "..."
-  if (length(lines)==1) {        # first n lines
-    if (length(x) > lines) {
-      # truncate the output, but add ....
-      x <- c(head(x, lines), more)
-    }
-  } else {
-    x <- c(more, x[lines], more)
-  }
-  # paste these lines together
-  x <- paste(c(x, ""), collapse = "\n")
-  hook_output(x, options)
-})
+Next couple of classes will be split between group work and R Markdown fancifulness
 
-knitr::opts_chunk$set(message = FALSE, 
-                      warning = FALSE) # suppress messages
-```
+Presentations will start on Wednesday 12/6
+
+Peer Review of Data analytic plan will be assigned tomorrow (how quickly can this be done?)
+
+What are other things we can do? Or questions you have?
 
 ## Last Time
 
 ::: nonincremental
 -   Multiple Regression
+-   Group work stuff
 :::
 
 ------------------------------------------------------------------------
@@ -73,8 +54,6 @@ knitr::opts_chunk$set(message = FALSE,
 options(scipen=999)
 library(car) #recode conflict with tidyverse
 library(tidyverse)
-library(rio)
-library(broom)
 library(psych)
 library(easystats)
 library(sjPlot)
@@ -90,6 +69,26 @@ library(janitor)
 student_perf <- read_csv("https://raw.githubusercontent.com/dharaden/psyc640/main/data/Multiple_reg/Student_Performance.csv") %>% 
   clean_names()
 ```
+
+This data is taken from [Kaggle](https://www.kaggle.com/datasets/nikhil7280/student-performance-multiple-linear-regression) and is simulated data to explore multiple linear regression. Variables include:
+
+::: columns
+::: {.column width="50%"}
+-   Scores from previous test
+
+-   Average sleep hours
+
+-   Average hours studied
+:::
+
+::: {.column width="50%"}
+-   Participating in Extracurriculars
+
+-   \# of Practice Questions used
+
+-   Performance Index (**Outcome**)
+:::
+:::
 
 ------------------------------------------------------------------------
 
@@ -117,11 +116,61 @@ Regression coefficient values are now "partial" - Represents the contribution to
 
 ------------------------------------------------------------------------
 
+## 
+
+### Example - Single Predictor ([`tab_model()`](https://strengejacke.github.io/sjPlot/reference/tab_model.html))
+
+Can customize the tables which we will focus more on in the next section
+
+```{r}
+fit1 <- lm(performance_index ~ hours_studied, 
+           data = student_perf)
+
+summary(fit1)
+sjPlot::tab_model(fit1, show.std = TRUE, 
+                  title = "Figure 1", 
+                  pred.labels = c("Int.", "Hours Studied"), 
+                  dv.labels = "Performance Index")
+```
+
+------------------------------------------------------------------------
+
+### Single Predictor - Visualizing
+
+```{r}
+student_perf %>% 
+  ggplot(aes(x = hours_studied, 
+             y = performance_index)) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+------------------------------------------------------------------------
+
+### Single Predictor- Reporting
+
+```{r}
+report(fit1)
+```
+
+------------------------------------------------------------------------
+
+### Multiple Predictors - Example
+
+Now let's add in some other variables that we think may contribute to a student's "Performance Index"
+
+```{r}
+fit2 <- lm(performance_index ~ hours_studied + sleep_hours + previous_scores, 
+           data = student_perf)
+
+summary(fit2)
+```
+
+------------------------------------------------------------------------
+
 ## Interpreting Coefficients
 
-$$
-\hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k
-$$
+$$ \hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k $$
 
 -   Focus on a specific predictor (e.g., $X_1$)
 
@@ -135,64 +184,19 @@ $$
 
 ------------------------------------------------------------------------
 
-### Example - Single Predictor
-
-```{r}
-fit1 <- lm(performance_index ~ hours_studied, 
-           data = student_perf)
-```
-
-------------------------------------------------------------------------
-
-### Example - Coefficient interpretation
-
-[sjPlot](https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html)
-
-```{r}
-sjPlot::tab_model(fit1)
-```
-
-------------------------------------------------------------------------
-
-### Example - Visualizing
-
-How do we visualize this?
-
-------------------------------------------------------------------------
-
-### Example - Visualizing
-
-How do we visualize this?
-
-```{r}
-car::avPlots(fit1)
-```
-
-------------------------------------------------------------------------
-
 ## Holding Constant??? Wut
 
-```{r, output.lines = 10:15}
-summary(fit1)
+```{r}
+tab_model(fit2)
 ```
 
--   The average amount of sleep decreases by 0.08 hours for every 1 year older the youth his **holding the number of hours playing video games and the number of hours on social media constant.**
-
--   The average amount of sleep decreases by 0.004 hours for every 1 hour of social media use **holding age and hours of video game usage constant.**
-
-What does this mean?? Also can be called "controlling for" or "taking into account" the other variables
-
-Language comes from experimental research in which they can keep one condition unchanged while manipulating the other
-
 ------------------------------------------------------------------------
 
-## Holding Constant - "Controlling for"
+## Reporting the results
 
-![](/images/control.gif){fig-align="center"}
-
-Taken from [\@nickchk](https://twitter.com/nickchk)
-
-------------------------------------------------------------------------
+```{r}
+report(fit2)
+```
 
 ## Creating the Model
 
@@ -215,31 +219,6 @@ How can we tell if one model is "better" than the other (it explains more varian
 -   The order of the variables depends on an *a priori* hypothesis
 
 The concept is to ask how much variance is unexplained by our model. The leftovers can be compared to an alternate model to see if the new variable adds anything or if we should focus on **parsimony**
-
-------------------------------------------------------------------------
-
-### Model Comparison Example
-
-```{r, , output.lines = 1:7}
-#m.2 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + #video_game_hrs, 
-#           data = school)
-#m.3 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + #video_game_hrs + social_med_hrs, 
-#           data = school)
-#anova(m.2, m.3)
-```
-
-```{r}
-#r2(m.2)
-#r2(m.3)
-```
-
-------------------------------------------------------------------------
-
-### Model Comparison - sjPlot
-
-```{r}
-#tab_model(m.2, m.3)
-```
 
 # Model Diagnostics
 
@@ -293,16 +272,7 @@ We tend to look for various things that may impact our results through the lens 
 
 ```{r}
 #Cook's Distance
-#plot(m.3, which = 4)
-```
-
-------------------------------------------------------------------------
-
-### Model Checks - Plots
-
-```{r}
-#Leverage
-#plot(m.3, which = 5)
+plot(fit2, which = 4)
 ```
 
 ------------------------------------------------------------------------
@@ -320,28 +290,41 @@ To do so we use ***variance inflation factors (VIF)***
     -   5+ = Highly Correlated
 
 ```{r}
-#car::vif(m.3)
+car::vif(fit2)
 ```
+
+# RMarkdown
 
 ------------------------------------------------------------------------
 
-## `easystats` making stats easy
+## RMarkdown
 
-Can check the model with a simple function
+This is something that we have been using this whole time!
 
-```{r}
-#check_model(m.3)
-```
+The script that we use allows us to embed both regular text and code all into a single document. This is what we use for the labs with various levels of success when it comes to `knitting` the document
 
-# Rounding up Multiple Regression
+We'll be spending more time exploring all the cool things that RMarkdown can do
 
-It is a powerful and complex tool
+------------------------------------------------------------------------
 
-# Next time...
+## Some Useful Resources
 
--   More R fun
--   Group work
+[R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
 
-# Stop...Group Time
+[R Markdown Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown-2.0.pdf)
 
-![](/images/mchammer.gif){fig-align="center"}
+[R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+
+[Custom Formats for R Markdown](https://posit.co/blog/r-markdown-custom-formats/)
+
+------------------------------------------------------------------------
+
+## Ideas for topics to Highlight
+
+-   Making sure we can have things knit
+
+-   [HTML Templates](https://github.com/juba/rmdformats)
+
+-   Code Chunk Options ([Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown-2.0.pdf))
+
+-   [Fun things to do with HTML Output](https://bookdown.org/yihui/rmarkdown/html-document.html)
