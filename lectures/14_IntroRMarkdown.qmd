@@ -86,7 +86,7 @@ library(sjPlot)
 
 ```{r}
 
-
+student_perf <- read_csv("https://github.com/dharaden/psyc640/blob/main/data/Multiple_reg/Student_Performance.csv")
 ```
 
 ------------------------------------------------------------------------
