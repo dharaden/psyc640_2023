@@ -78,6 +78,7 @@ library(broom)
 library(psych)
 library(easystats)
 library(sjPlot)
+library(janitor)
 ```
 
 ------------------------------------------------------------------------
@@ -86,7 +87,8 @@ library(sjPlot)
 
 ```{r}
 
-student_perf <- read_csv("https://github.com/dharaden/psyc640/blob/main/data/Multiple_reg/Student_Performance.csv")
+student_perf <- read_csv("https://raw.githubusercontent.com/dharaden/psyc640/main/data/Multiple_reg/Student_Performance.csv") %>% 
+  clean_names()
 ```
 
 ------------------------------------------------------------------------
@@ -133,14 +135,11 @@ $$
 
 ------------------------------------------------------------------------
 
-### Example - Multiple Predictors
-
-Let's include another variable into our model to predict sleep
+### Example - Single Predictor
 
 ```{r}
-fit.2 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + video_game_hrs + social_med_hrs, 
-           data = school)
-summary(fit.2)
+fit1 <- lm(performance_index ~ hours_studied, 
+           data = student_perf)
 ```
 
 ------------------------------------------------------------------------
@@ -150,7 +149,7 @@ summary(fit.2)
 [sjPlot](https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html)
 
 ```{r}
-sjPlot::tab_model(fit.2)
+sjPlot::tab_model(fit1)
 ```
 
 ------------------------------------------------------------------------
@@ -166,7 +165,7 @@ How do we visualize this?
 How do we visualize this?
 
 ```{r}
-car::avPlots(fit.2)
+car::avPlots(fit1)
 ```
 
 ------------------------------------------------------------------------
@@ -174,7 +173,7 @@ car::avPlots(fit.2)
 ## Holding Constant??? Wut
 
 ```{r, output.lines = 10:15}
-summary(fit.2)
+summary(fit1)
 ```
 
 -   The average amount of sleep decreases by 0.08 hours for every 1 year older the youth his **holding the number of hours playing video games and the number of hours on social media constant.**
@@ -222,16 +221,16 @@ The concept is to ask how much variance is unexplained by our model. The leftove
 ### Model Comparison Example
 
 ```{r, , output.lines = 1:7}
-m.2 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + video_game_hrs, 
-           data = school)
-m.3 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + video_game_hrs + social_med_hrs, 
-           data = school)
-anova(m.2, m.3)
+#m.2 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + #video_game_hrs, 
+#           data = school)
+#m.3 <- lm(Sleep_Hours_Non_Schoolnight ~ Ageyears + #video_game_hrs + social_med_hrs, 
+#           data = school)
+#anova(m.2, m.3)
 ```
 
 ```{r}
-r2(m.2)
-r2(m.3)
+#r2(m.2)
+#r2(m.3)
 ```
 
 ------------------------------------------------------------------------
@@ -239,7 +238,7 @@ r2(m.3)
 ### Model Comparison - sjPlot
 
 ```{r}
-tab_model(m.2, m.3)
+#tab_model(m.2, m.3)
 ```
 
 # Model Diagnostics
@@ -294,7 +293,7 @@ We tend to look for various things that may impact our results through the lens 
 
 ```{r}
 #Cook's Distance
-plot(m.3, which = 4)
+#plot(m.3, which = 4)
 ```
 
 ------------------------------------------------------------------------
@@ -303,7 +302,7 @@ plot(m.3, which = 4)
 
 ```{r}
 #Leverage
-plot(m.3, which = 5)
+#plot(m.3, which = 5)
 ```
 
 ------------------------------------------------------------------------
@@ -321,7 +320,7 @@ To do so we use ***variance inflation factors (VIF)***
     -   5+ = Highly Correlated
 
 ```{r}
-car::vif(m.3)
+#car::vif(m.3)
 ```
 
 ------------------------------------------------------------------------
@@ -331,7 +330,7 @@ car::vif(m.3)
 Can check the model with a simple function
 
 ```{r}
-check_model(m.3)
+#check_model(m.3)
 ```
 
 # Rounding up Multiple Regression

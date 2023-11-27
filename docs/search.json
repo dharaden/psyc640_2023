@@ -1692,5 +1692,82 @@
     "title": "Lecture Code",
     "section": "",
     "text": "Here will be a link to the raw code used in class to generate the slides.\nNote: The code is in a .qmd file which you can open in R-Studio. It is a file called “Quarto” that is very similar to R-Markdown and R-Notebooks. Dr. Haraden is just trying to be fancy\nPre-Lab\nHypothesis & Power\nCategorical Data\nCategorical Data Part 2\nComparing Means"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#last-time",
+    "href": "lectures/14_IntroRMarkdown.html#last-time",
+    "title": "Intro to RMarkdown",
+    "section": "Last Time",
+    "text": "Last Time\n\n\nMultiple Regression"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#today",
+    "href": "lectures/14_IntroRMarkdown.html#today",
+    "title": "Intro to RMarkdown",
+    "section": "Today…",
+    "text": "Today…\n\nReview the regression stuff\nRMarkdown!\n\nEven though we’ve been doing it this whole time\n\n\n\noptions(scipen=999)\nlibrary(car) #recode conflict with tidyverse\nlibrary(tidyverse)\nlibrary(rio)\nlibrary(broom)\nlibrary(psych)\nlibrary(easystats)\nlibrary(sjPlot)\nlibrary(janitor)"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#regression-equation",
+    "href": "lectures/14_IntroRMarkdown.html#regression-equation",
+    "title": "Intro to RMarkdown",
+    "section": "Regression Equation",
+    "text": "Regression Equation\nGoing from this:\n\\[\n\\hat{Y} = b_0 + b_1X1\n\\]\n\nTo this\n\\[\n\\hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k\n\\]\n\n\nRegression coefficient values are now “partial” - Represents the contribution to all of outcome (\\(\\hat{Y}\\)) from unique aspects of each \\(X\\)"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#interpreting-coefficients",
+    "href": "lectures/14_IntroRMarkdown.html#interpreting-coefficients",
+    "title": "Intro to RMarkdown",
+    "section": "Interpreting Coefficients",
+    "text": "Interpreting Coefficients\n\\[\n\\hat{Y} = b_0 + b_1X_1 + b_2X_2 + ... + b_kX_k\n\\]\n\nFocus on a specific predictor (e.g., \\(X_1\\))\nFor every 1 unit change in \\(X_1\\), there is a \\(b_1\\) unit change in \\(Y\\), holding all other predictors constant\n\nNote: Properties of OLS still hold true\n\nThe sum of residuals will be 0\nEach predictor (\\(X\\)) will be uncorrelated with the residuals"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#holding-constant-wut",
+    "href": "lectures/14_IntroRMarkdown.html#holding-constant-wut",
+    "title": "Intro to RMarkdown",
+    "section": "Holding Constant??? Wut",
+    "text": "Holding Constant??? Wut\n\nsummary(fit1)\n\n...\n              Estimate Std. Error t value             Pr(&gt;|t|)    \n(Intercept)     39.646      2.659  14.912 &lt; 0.0000000000000002 ***\nhours_studied    3.128      0.464   6.741       0.000000000157 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n...\n\n\n\nThe average amount of sleep decreases by 0.08 hours for every 1 year older the youth his holding the number of hours playing video games and the number of hours on social media constant.\nThe average amount of sleep decreases by 0.004 hours for every 1 hour of social media use holding age and hours of video game usage constant.\n\nWhat does this mean?? Also can be called “controlling for” or “taking into account” the other variables\nLanguage comes from experimental research in which they can keep one condition unchanged while manipulating the other"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#holding-constant---controlling-for",
+    "href": "lectures/14_IntroRMarkdown.html#holding-constant---controlling-for",
+    "title": "Intro to RMarkdown",
+    "section": "Holding Constant - “Controlling for”",
+    "text": "Holding Constant - “Controlling for”\n\nTaken from @nickchk"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#creating-the-model",
+    "href": "lectures/14_IntroRMarkdown.html#creating-the-model",
+    "title": "Intro to RMarkdown",
+    "section": "Creating the Model",
+    "text": "Creating the Model\nThere can be many different ways in which we create and compare models with multiple predictors\n\n\nSimultaneous: Enter all variables in the model at once\n\nUsually the most conservative and defensible approach (unless there is theory to support a hierarchical approach)\n\nHierarchically: Building a sequence of models where a single variable is included/excluded at each step\n\nThis is hierarchical/stepwise regression. Different from HLM (Hierarchical Linear Modeling)"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#model-selection-lsr-15.10",
+    "href": "lectures/14_IntroRMarkdown.html#model-selection-lsr-15.10",
+    "title": "Intro to RMarkdown",
+    "section": "Model Selection (LSR 15.10)",
+    "text": "Model Selection (LSR 15.10)\nHow can we tell if one model is “better” than the other (it explains more variance in outcome)?\n\nEach predictor (or set of predictors) is investigated as to what it adds to the model when it is entered\nThe order of the variables depends on an a priori hypothesis\n\nThe concept is to ask how much variance is unexplained by our model. The leftovers can be compared to an alternate model to see if the new variable adds anything or if we should focus on parsimony"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#checking-the-model-lsr-15.9",
+    "href": "lectures/14_IntroRMarkdown.html#checking-the-model-lsr-15.9",
+    "title": "Intro to RMarkdown",
+    "section": "Checking the model (LSR 15.9)",
+    "text": "Checking the model (LSR 15.9)\nWhenever we are looking at the regression model diagnostics, we are often considering the residual values. The types of residuals we can look at are:\n\n\nOrdinary Residuals - Raw\nStandardized Residuals\nStudentized Residuals - Takes into account what the SD would have been with the removal of the \\(i\\)th observation"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#checking-collinearity",
+    "href": "lectures/14_IntroRMarkdown.html#checking-collinearity",
+    "title": "Intro to RMarkdown",
+    "section": "Checking Collinearity",
+    "text": "Checking Collinearity\nWe need to check to see if our predictor variables are too highly correlated with each other\nTo do so we use variance inflation factors (VIF)\n\nThere will be a VIF that is associated with each predictor in the model\nInterpreting VIF (link) - Starts at 1 and goes up\n\n1 = Not Correlated\n1-5 = Moderately Correlated\n5+ = Highly Correlated\n\n\n\n#car::vif(m.3)"
+  },
+  {
+    "objectID": "lectures/14_IntroRMarkdown.html#easystats-making-stats-easy",
+    "href": "lectures/14_IntroRMarkdown.html#easystats-making-stats-easy",
+    "title": "Intro to RMarkdown",
+    "section": "easystats making stats easy",
+    "text": "easystats making stats easy\nCan check the model with a simple function\n\n#check_model(m.3)"
   }
 ]

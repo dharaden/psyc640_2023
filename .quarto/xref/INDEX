@@ -55,5 +55,8 @@
   },
   "lectures/13_MultiRegression.qmd": {
     "13_MultiRegression.html": "6e10af48"
+  },
+  "lectures/14_IntroRMarkdown.qmd": {
+    "14_IntroRMarkdown.html": "36ae030c"
   }
 }
