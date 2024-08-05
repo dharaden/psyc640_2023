@@ -13,13 +13,14 @@ website:
       - href: lecture_code.qmd
         text: "Lecture Code"
         
-  right:
-    - text: Previous Years
-      menu:
-      - text: 2023
-        href: "https://dharaden.github.io/psyc640_2023"
-    - icon: fa-github
-      href: https://dharaden.github.io/psyc640
+    right:
+      - text: Previous Years
+       menu:
+        - text: 2023
+          href: "https://dharaden.github.io/psyc640_2023"
+      - icon: fa-github
+        href: https://dharaden.github.io/psyc640
+
 format:
   html:
     theme: cosmo
