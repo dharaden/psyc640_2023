@@ -271,7 +271,7 @@ The difference between the *group mean* and *grand mean*
 $$ SS_{between} = \sum^G_{k=1}N_k(\bar{Y_k} - \bar{Y})^2 $$
 
 | Group  | Group Mean $\bar{Y_k}$ | Grand Mean $\bar{Y}$ | Sq. Dev. |  N  | Weighted Sq. Dev. |
-|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
+|:------:|:----------------------:|:--------------------:|:--------:|:---:|:-----------------:|
 |  Cool  |           32           |         41.8         |  96.04   |  3  |      288.12       |
 | Uncool |          56.5          |         41.8         |  216.09  |  2  |      432.18       |
 
